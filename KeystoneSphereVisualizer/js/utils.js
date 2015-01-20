@@ -115,25 +115,17 @@ Array.prototype.contains = function(obj) {
 };
 
 //3=o
-THREE.Object3D.prototype.removeChild = function ( child ) {
-	var scene = this;
-	var childIndex = this.children.indexOf( child );
-	if ( childIndex !== - 1 ) {
-		child.parent = undefined;
-		this.children.splice( childIndex, 1 );
-		// remove from scene
-		while ( scene.parent !== undefined ) {
-			scene = scene.parent;
-		}
-		if ( scene !== undefined && scene instanceof THREE.Scene ) {
-			scene.removeChildRecurse( child );
-		}
-	}
+THREE.Object3D.prototype.removeChild = function(child) {
+    var scene = this;
+    child.parent.remove(child);
+
 };
+/*
 
 THREE.Object3D.prototype.removeChildRecurse = function(child){
 	this.removeChild(child);
 };
+*/
 //<
 
 function rotateAroundWorldAxis(object, axis, radians) {

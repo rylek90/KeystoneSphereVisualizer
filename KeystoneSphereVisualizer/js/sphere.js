@@ -116,14 +116,6 @@ var Sphere = function(position){
 				var io = this.center_obj;
 				vector.setFromMatrixPosition( io.matrixWorld );
 				
-				/*console.log("sphere rot, io pos, io rot , io pos world, vector");
-				console.log(spheres_object3d.rotation);
-				console.log(io.position);
-				//console.log(this.positionToAngles(io.position.x, io.position.y, io.position.z));
-				//console.log(io.matrixWorld);
-				console.log(vector);
-				*/
-				//console.log("Vector x:");
 				var absx = Math.abs(vector.x);
 				var absy = Math.abs(vector.y);
 				if(absx > 0.005){
@@ -149,68 +141,8 @@ var Sphere = function(position){
 				
 				break;
 		}
-		
-		/*
-		//update - position change
-		//JUST TEST
-		
-		var rotx = 0;
-		var roty = 0;
-		var rotz = 0;
-		
-		switch(this.position){
-			case SPHERE.CENTER:
-				this.object3d.rotation.y += 0.1*deltaTime;
-				this.object3d.rotation.x += 0.1*deltaTime;
-				break;
-			case SPHERE.INNER:
-				rotx = 0.001;
-				roty = 0.001;
-				break;
-			case SPHERE.OUTER:
-				rotx = -0.002;
-				break;
-			case SPHERE.SURFACE:
-				//rotx = 0.001;
-				roty = 0.001;
-				//rotz = 0.001;
-				break;							
-		}
-		
-		//rotate the sphere
-		var transform_sphere = new THREE.Matrix4();
-		transform_sphere.multiply( new THREE.Matrix4().makeRotationX(rotx*deltaTime) );
-		transform_sphere.multiply( new THREE.Matrix4().makeRotationY(roty*deltaTime) );
-		transform_sphere.multiply( new THREE.Matrix4().makeRotationZ(rotz*deltaTime) );
-		this.object3d.applyMatrix(transform_sphere);
-		
-		//transform each object to face the camera
-		
-		var mpi = Math.PI/180;
-		$.each(this.objects, function(i, o){
-			var ob3d = o.object3d;
-			var transform = new THREE.Matrix4();
-			var x = ob3d.position.x;
-			var y = ob3d.position.y;
-			var z = ob3d.position.z;
-			transform.makeTranslation(-x,-y,-z);
-			ob3d.applyMatrix(transform);
-			transform = new THREE.Matrix4();
-			
-			transform.multiply( new THREE.Matrix4().makeRotationX(-rotx*deltaTime) );
-			transform.multiply( new THREE.Matrix4().makeRotationY(-roty*deltaTime) );
-			transform.multiply( new THREE.Matrix4().makeRotationZ(-rotz*deltaTime) );
-			
-			ob3d.applyMatrix(transform);
-			
-			transform = new THREE.Matrix4();
-			transform.makeTranslation(x,y,z);
-			ob3d.applyMatrix(transform);
-			
-		});
-	*/
-	
 	};
+
 	this.randSphereSurface = function(r)// r: radius
 	{
 		var TWOPI=2.0*Math.PI;
@@ -302,7 +234,8 @@ var Sphere = function(position){
 		$.each(this.objects, function(i,o){
 			//console.log("Removing:");
 			//console.log(o.object3d);
-			this.object3d.removeChild(o.object3d);
+
+		    this.object3d.removeChild(o.object3d);
 		});
 		this.nr_of_objects = 0;
 		this.objects = [];
