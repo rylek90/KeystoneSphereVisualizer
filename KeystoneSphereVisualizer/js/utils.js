@@ -110,13 +110,8 @@ function makeTextSprite( message, parameters ){
 };
 
 Array.prototype.contains = function(obj) {
-    var i = this.length;
-    while (i--) {
-        if (this[i] === obj) {
-            return true;
-        }
-    }
-    return false;
+    var index = this.indexOf(obj);
+    return (index >= 0);
 };
 
 //3=o
@@ -142,7 +137,7 @@ THREE.Object3D.prototype.removeChildRecurse = function(child){
 //<
 
 function rotateAroundWorldAxis(object, axis, radians) {
-    rotWorldMatrix = new THREE.Matrix4();
+    var rotWorldMatrix = new THREE.Matrix4();
     rotWorldMatrix.makeRotationAxis(axis.normalize(), radians);
 	rotWorldMatrix.multiply(object.matrix);                
 	object.matrix = rotWorldMatrix;

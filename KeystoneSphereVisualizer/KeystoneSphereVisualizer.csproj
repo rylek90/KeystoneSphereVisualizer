@@ -381,6 +381,7 @@
     <Content Include="index.html" />
     <Content Include="js\datamanager.js" />
     <Content Include="js\edge.js" />
+    <Content Include="js\init.js" />
     <Content Include="js\lib\jquery.xml2json.js" />
     <Content Include="js\lib\three.min.js" />
     <Content Include="js\sphere.js" />
