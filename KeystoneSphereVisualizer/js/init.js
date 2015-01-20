@@ -326,7 +326,7 @@ function onDocumentMove(event) {
         //if moved more than 13 px, turn of centering animation
         var moved = Math.abs(startMouseMoving.x - nowMouse.x) + Math.abs(startMouseMoving.y - nowMouse.y);
         //console.log(moved);
-        if (moved > 8) {
+        if (moved > 1) {
             $.each(spheres, function(i, sphere) {
                 sphere.setAnimation(ANIMATION.NONE);
             });
