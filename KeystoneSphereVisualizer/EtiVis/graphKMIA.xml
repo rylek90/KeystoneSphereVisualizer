@@ -1,0 +1,446 @@
+<graph>
+<nodes>
+<node>
+<id>0</id>
+<label>Bogdan Janiczak</label>
+<attributes>
+<attribute name="name" value="Bogdan" />
+<attribute name="surename" value="Janiczak" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Bogdan.Janiczak</action></actions>
+</node>
+<node>
+<id>1</id>
+<label>Marek Kitliński</label>
+<attributes>
+<attribute name="name" value="Marek" />
+<attribute name="surename" value="Kitliński" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Marek.Kitlinski</action></actions>
+</node>
+<node>
+<id>2</id>
+<label>Piotr Kowalczyk</label>
+<attributes>
+<attribute name="name" value="Piotr" />
+<attribute name="surename" value="Kowalczyk" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Piotr.Kowalczyk</action></actions>
+</node>
+<node>
+<id>3</id>
+<label>Łukasz Kulas</label>
+<attributes>
+<attribute name="name" value="Łukasz" />
+<attribute name="surename" value="Kulas" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Lukasz.Kulas</action></actions>
+</node>
+<node>
+<id>4</id>
+<label>Rafał Lech</label>
+<image>img/KMIA5.jpg</image>
+<attributes>
+<attribute name="name" value="Rafał" />
+<attribute name="surename" value="Lech" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Rafal.Lech</action></actions>
+</node>
+<node>
+<id>5</id>
+<label>Jerzy Mazur</label>
+<image>img/KMIA6.jpg</image>
+<attributes>
+<attribute name="name" value="Jerzy" />
+<attribute name="surename" value="Mazur" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Jerzy.Mazur</action></actions>
+</node>
+<node>
+<id>6</id>
+<label>Michał Mrozowski</label>
+<image>img/KMIA7.jpg</image>
+<attributes>
+<attribute name="name" value="Michał" />
+<attribute name="surename" value="Mrozowski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Michal.Mrozowski</action></actions>
+</node>
+<node>
+<id>7</id>
+<label>Krzysztof Nyka</label>
+<attributes>
+<attribute name="name" value="Krzysztof" />
+<attribute name="surename" value="Nyka" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Krzysztof.Nyka</action></actions>
+</node>
+<node>
+<id>8</id>
+<label>Włodzimierz Zieniutycz</label>
+<attributes>
+<attribute name="name" value="Włodzimierz" />
+<attribute name="surename" value="Zieniutycz" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Wlodzimierz.Zieniutycz</action></actions>
+</node>
+<node>
+<id>9</id>
+<label>Piotr Kurgan</label>
+<attributes>
+<attribute name="name" value="Piotr" />
+<attribute name="surename" value="Kurgan" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Piotr.Kurgan</action></actions>
+</node>
+<node>
+<id>10</id>
+<label>Adam Kusiek</label>
+<image>img/KMIA11.jpg</image>
+<attributes>
+<attribute name="name" value="Adam" />
+<attribute name="surename" value="Kusiek" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Adam.Kusiek</action></actions>
+</node>
+<node>
+<id>11</id>
+<label>Wojciech Marynowski</label>
+<image>img/KMIA12.jpg</image>
+<attributes>
+<attribute name="name" value="Wojciech" />
+<attribute name="surename" value="Marynowski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Wojciech.Marynowski</action></actions>
+</node>
+<node>
+<id>12</id>
+<label>Mariusz Pergoł</label>
+<attributes>
+<attribute name="name" value="Mariusz" />
+<attribute name="surename" value="Pergoł" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Mariusz.Pergol</action></actions>
+</node>
+<node>
+<id>13</id>
+<label>Jakub Podwalski</label>
+<attributes>
+<attribute name="name" value="Jakub" />
+<attribute name="surename" value="Podwalski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Jakub.Podwalski</action></actions>
+</node>
+<node>
+<id>14</id>
+<label>Piotr Sypek</label>
+<attributes>
+<attribute name="name" value="Piotr" />
+<attribute name="surename" value="Sypek" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Piotr.Sypek</action></actions>
+</node>
+<node>
+<id>15</id>
+<label>Łukasz Szydłowski</label>
+<attributes>
+<attribute name="name" value="Łukasz" />
+<attribute name="surename" value="Szydłowski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Lukasz.Szydlowski</action></actions>
+</node>
+<node>
+<id>16</id>
+<label>Adam Lamęcki</label>
+<image>img/KMIA17.jpg</image>
+<attributes>
+<attribute name="name" value="Adam" />
+<attribute name="surename" value="Lamęcki" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Adam.Lamecki</action></actions>
+</node>
+<node>
+<id>17</id>
+<label>Alfons Stefaniak</label>
+<attributes>
+<attribute name="name" value="Alfons" />
+<attribute name="surename" value="Stefaniak" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Alfons.Stefaniak</action></actions>
+</node>
+<node>
+<id>18</id>
+<label>Barbara Walewska</label>
+<attributes>
+<attribute name="name" value="Barbara" />
+<attribute name="surename" value="Walewska" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Barbara.Walewska</action></actions>
+</node>
+<node>
+<id>19</id>
+<label>Małgorzata Bogdanowicz</label>
+<attributes>
+<attribute name="name" value="Małgorzata" />
+<attribute name="surename" value="Bogdanowicz" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Malgorzata.Bogdanowicz</action></actions>
+</node>
+<node>
+<id>20</id>
+<label>Magdalena Pawlun</label>
+<attributes>
+<attribute name="name" value="Magdalena" />
+<attribute name="surename" value="Pawlun" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Magdalena.Pawlun</action></actions>
+</node>
+<node>
+<id>21</id>
+<label>Władysław Adamski</label>
+<attributes>
+<attribute name="name" value="Władysław" />
+<attribute name="surename" value="Adamski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Wladyslaw.Adamski</action></actions>
+</node>
+<node>
+<id>22</id>
+<label>Jerzy Chramiec</label>
+<attributes>
+<attribute name="name" value="Jerzy" />
+<attribute name="surename" value="Chramiec" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Jerzy.Chramiec</action></actions>
+</node>
+<node>
+<id>23</id>
+<label>Krzysztof Grabowski</label>
+<attributes>
+<attribute name="name" value="Krzysztof" />
+<attribute name="surename" value="Grabowski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kimia/pracownicy/Krzysztof.Grabowski</action></actions>
+</node>
+<node category="degree">
+<id>deg2</id>
+<label>prof. dr hab. inż.</label>
+<attributes>
+<attribute value="prof. dr hab. inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg1</id>
+<label>doc. dr hab. inż.</label>
+<attributes>
+<attribute value="doc. dr hab. inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg4</id>
+<label>mgr inż.</label>
+<attributes>
+<attribute value="mgr inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg5</id>
+<label>mgr</label>
+<attributes>
+<attribute value="mgr" />
+</attributes>
+</node>
+<node category="degree">
+<id>deg0</id>
+<label>dr inż.</label>
+<attributes>
+<attribute value="dr inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg3</id>
+<label>dr hab. inż.</label>
+<attributes>
+<attribute value="dr hab. inż." />
+</attributes>
+</node>
+<node category="faculty" persistent="true">
+<id>fac0</id>
+<label>KMIA</label>
+<attributes>
+<attribute value="KMIA" />
+</attributes>
+<actions>
+<action>file://departments.xml</action>
+</actions>
+</node>
+<node category="position">
+<id>pos8</id>
+<label>referent</label>
+<attributes>
+<attribute value="referent" />
+</attributes>
+</node>
+<node category="position">
+<id>pos9</id>
+<label>współpracujący</label>
+<attributes>
+<attribute value="współpracujący" />
+</attributes>
+</node>
+<node category="position">
+<id>pos4</id>
+<label>informatyk</label>
+<attributes>
+<attribute value="informatyk" />
+</attributes>
+</node>
+<node category="position">
+<id>pos5</id>
+<label>specjalista nauk.-tech.</label>
+<attributes>
+<attribute value="specjalista nauk.-tech." />
+</attributes>
+</node>
+<node category="position">
+<id>pos1</id>
+<label>adiunkt docent z hab.</label>
+<attributes>
+<attribute value="adiunkt docent z hab." />
+</attributes>
+</node>
+<node category="position">
+<id>pos6</id>
+<label>gł. specjalista</label>
+<attributes>
+<attribute value="gł. specjalista" />
+</attributes>
+</node>
+<node category="position">
+<id>pos7</id>
+<label>specjalista</label>
+<attributes>
+<attribute value="specjalista" />
+</attributes>
+</node>
+<node category="position">
+<id>pos3</id>
+<label>doktorant</label>
+<attributes>
+<attribute value="doktorant" />
+</attributes>
+</node>
+<node category="position">
+<id>pos2</id>
+<label>prof. zw.</label>
+<attributes>
+<attribute value="prof. zw." />
+</attributes>
+</node>
+<node category="position">
+<id>pos0</id>
+<label>adiunkt</label>
+<attributes>
+<attribute value="adiunkt" />
+</attributes>
+</node>
+</nodes>
+<edges>
+<edge source="0" target="deg0" />
+<edge source="0" target="fac0" />
+<edge source="0" target="pos0" />
+<edge source="1" target="deg1" />
+<edge source="1" target="fac0" />
+<edge source="1" target="pos1" />
+<edge source="2" target="deg0" />
+<edge source="2" target="fac0" />
+<edge source="2" target="pos0" />
+<edge source="3" target="deg0" />
+<edge source="3" target="fac0" />
+<edge source="3" target="pos0" />
+<edge source="4" target="deg0" />
+<edge source="4" target="fac0" />
+<edge source="4" target="pos0" />
+<edge source="5" target="deg2" />
+<edge source="5" target="fac0" />
+<edge source="5" target="pos2" />
+<edge source="6" target="deg2" />
+<edge source="6" target="fac0" />
+<edge source="6" target="pos2" />
+<edge source="7" target="deg0" />
+<edge source="7" target="fac0" />
+<edge source="7" target="pos0" />
+<edge source="8" target="deg3" />
+<edge source="8" target="fac0" />
+<edge source="8" target="pos0" />
+<edge source="9" target="deg4" />
+<edge source="9" target="fac0" />
+<edge source="9" target="pos3" />
+<edge source="10" target="deg4" />
+<edge source="10" target="fac0" />
+<edge source="10" target="pos3" />
+<edge source="11" target="deg4" />
+<edge source="11" target="fac0" />
+<edge source="11" target="pos3" />
+<edge source="12" target="deg4" />
+<edge source="12" target="fac0" />
+<edge source="12" target="pos3" />
+<edge source="13" target="deg4" />
+<edge source="13" target="fac0" />
+<edge source="13" target="pos3" />
+<edge source="14" target="deg4" />
+<edge source="14" target="fac0" />
+<edge source="14" target="pos3" />
+<edge source="15" target="deg4" />
+<edge source="15" target="fac0" />
+<edge source="15" target="pos3" />
+<edge source="16" target="deg0" />
+<edge source="16" target="fac0" />
+<edge source="16" target="pos4" />
+<edge source="17" target="deg4" />
+<edge source="17" target="fac0" />
+<edge source="17" target="pos5" />
+<edge source="18" target="deg4" />
+<edge source="18" target="fac0" />
+<edge source="18" target="pos6" />
+<edge source="19" target="deg5" />
+<edge source="19" target="fac0" />
+<edge source="19" target="pos7" />
+<edge source="20" target="deg5" />
+<edge source="20" target="fac0" />
+<edge source="20" target="pos8" />
+<edge source="21" target="deg0" />
+<edge source="21" target="fac0" />
+<edge source="21" target="pos9" />
+<edge source="22" target="deg3" />
+<edge source="22" target="fac0" />
+<edge source="22" target="pos9" />
+<edge source="23" target="deg2" />
+<edge source="23" target="fac0" />
+<edge source="23" target="pos9" />
+</edges>
+</graph>

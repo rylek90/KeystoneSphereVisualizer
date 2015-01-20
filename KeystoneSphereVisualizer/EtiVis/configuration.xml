@@ -1,0 +1,24 @@
+<configuration>
+	<componentLayout>
+		<leftPanel>enabled</leftPanel>
+		<rightPanel>enabled</rightPanel>
+		<bottomPanel>enabled</bottomPanel>
+		<topPanel>
+			<zoomButtons>enabled</zoomButtons>
+			<gridButton>enabled</gridButton>
+			<graphSwitcher>enabled</graphSwitcher>
+		</topPanel>
+	</componentLayout>
+	<data>
+		<loadAtStart>
+			<graph>file://pg.xml</graph>
+		</loadAtStart>
+		<switcherList>
+			<graph>file://pg.xml</graph>
+			<graph>file://departments.xml</graph>
+			<graph>file://graphKASK.xml</graph>
+			<graph>file://graphKAMS.xml</graph>		
+			<graph>file://cloud.xml</graph>	
+		</switcherList>
+	</data>
+</configuration>

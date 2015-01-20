@@ -1,0 +1,436 @@
+<graph>
+<nodes>
+<node>
+<id>0</id>
+<label>Piotr Borowiecki</label>
+<attributes>
+<attribute name="name" value="Piotr" />
+<attribute name="surename" value="Borowiecki" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Piotr.Borowiecki</action></actions>
+</node>
+<node>
+<id>1</id>
+<label>Dariusz Dereniowski</label>
+<attributes>
+<attribute name="name" value="Dariusz" />
+<attribute name="surename" value="Dereniowski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Dariusz.Dereniowski</action></actions>
+</node>
+<node>
+<id>2</id>
+<label>Tomasz Dobrowolski</label>
+<attributes>
+<attribute name="name" value="Tomasz" />
+<attribute name="surename" value="Dobrowolski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Tomasz.Dobrowolski</action></actions>
+</node>
+<node>
+<id>3</id>
+<label>Krzysztof Giaro</label>
+<attributes>
+<attribute name="name" value="Krzysztof" />
+<attribute name="surename" value="Giaro" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Krzysztof.Giaro</action></actions>
+</node>
+<node>
+<id>4</id>
+<label>Robert Janczewski</label>
+<attributes>
+<attribute name="name" value="Robert" />
+<attribute name="surename" value="Janczewski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Robert.Janczewski</action></actions>
+</node>
+<node>
+<id>5</id>
+<label>Andrzej Jastrzębski</label>
+<attributes>
+<attribute name="name" value="Andrzej" />
+<attribute name="surename" value="Jastrzębski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Andrzej.Jastrzebski</action></actions>
+</node>
+<node>
+<id>6</id>
+<label>Adrian Kosowski</label>
+<attributes>
+<attribute name="name" value="Adrian" />
+<attribute name="surename" value="Kosowski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Adrian.Kosowski</action></actions>
+</node>
+<node>
+<id>7</id>
+<label>Marek Kubale</label>
+<image>img/KAMS8.jpg</image>
+<attributes>
+<attribute name="name" value="Marek" />
+<attribute name="surename" value="Kubale" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Marek.Kubale</action></actions>
+</node>
+<node>
+<id>8</id>
+<label>Łukasz Kuszner</label>
+<attributes>
+<attribute name="name" value="Łukasz" />
+<attribute name="surename" value="Kuszner" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Lukasz.Kuszner</action></actions>
+</node>
+<node>
+<id>9</id>
+<label>Krzysztof Manuszewski</label>
+<attributes>
+<attribute name="name" value="Krzysztof" />
+<attribute name="surename" value="Manuszewski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Krzysztof.Manuszewski</action></actions>
+</node>
+<node>
+<id>10</id>
+<label>Anna Małafiejska</label>
+<attributes>
+<attribute name="name" value="Anna" />
+<attribute name="surename" value="Małafiejska" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Anna.Malafiejska</action></actions>
+</node>
+<node>
+<id>11</id>
+<label>Michał Małafiejski</label>
+<image>img/KAMS12.jpg</image>
+<attributes>
+<attribute name="name" value="Michał" />
+<attribute name="surename" value="Małafiejski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Michal.Malafiejski</action></actions>
+</node>
+<node>
+<id>12</id>
+<label>Paweł Obszarski</label>
+<image>img/KAMS13.jpg</image>
+<attributes>
+<attribute name="name" value="Paweł" />
+<attribute name="surename" value="Obszarski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Pawel.Obszarski</action></actions>
+</node>
+<node>
+<id>13</id>
+<label>Krzysztof Ocetkiewicz</label>
+<attributes>
+<attribute name="name" value="Krzysztof" />
+<attribute name="surename" value="Ocetkiewicz" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Krzysztof.Ocetkiewicz</action></actions>
+</node>
+<node>
+<id>14</id>
+<label>Konrad Piwakowski</label>
+<attributes>
+<attribute name="name" value="Konrad" />
+<attribute name="surename" value="Piwakowski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Konrad.Piwakowski</action></actions>
+</node>
+<node>
+<id>15</id>
+<label>Damian Bogdanowicz</label>
+<attributes>
+<attribute name="name" value="Damian" />
+<attribute name="surename" value="Bogdanowicz" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Damian.Bogdanowicz</action></actions>
+</node>
+<node>
+<id>16</id>
+<label>Joachim Erdei</label>
+<attributes>
+<attribute name="name" value="Joachim" />
+<attribute name="surename" value="Erdei" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Joachim.Erdei</action></actions>
+</node>
+<node>
+<id>17</id>
+<label>Mariusz Gniazdowski</label>
+<attributes>
+<attribute name="name" value="Mariusz" />
+<attribute name="surename" value="Gniazdowski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Mariusz.Gniazdowski</action></actions>
+</node>
+<node>
+<id>18</id>
+<label>Tomasz Goluch</label>
+<image>img/KAMS19.jpg</image>
+<attributes>
+<attribute name="name" value="Tomasz" />
+<attribute name="surename" value="Goluch" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Tomasz.Goluch</action></actions>
+</node>
+<node>
+<id>19</id>
+<label>Marcin Jurkiewicz</label>
+<attributes>
+<attribute name="name" value="Marcin" />
+<attribute name="surename" value="Jurkiewicz" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Marcin.Jurkiewicz</action></actions>
+</node>
+<node>
+<id>20</id>
+<label>Martyna Koreń</label>
+<attributes>
+<attribute name="name" value="Martyna" />
+<attribute name="surename" value="Koreń" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Martyna.Koren</action></actions>
+</node>
+<node>
+<id>21</id>
+<label>Paweł Noga</label>
+<attributes>
+<attribute name="name" value="Paweł" />
+<attribute name="surename" value="Noga" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Pawel.Noga</action></actions>
+</node>
+<node>
+<id>22</id>
+<label>Łukasz Wrona</label>
+<attributes>
+<attribute name="name" value="Łukasz" />
+<attribute name="surename" value="Wrona" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Lukasz.Wrona</action></actions>
+</node>
+<node>
+<id>23</id>
+<label>Krystyna Sobolewska</label>
+<attributes>
+<attribute name="name" value="Krystyna" />
+<attribute name="surename" value="Sobolewska" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Krystyna.Sobolewska</action></actions>
+</node>
+<node>
+<id>24</id>
+<label>Jan Wojtkiewicz</label>
+<attributes>
+<attribute name="name" value="Jan" />
+<attribute name="surename" value="Wojtkiewicz" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kams/pracownicy/Jan.Wojtkiewicz</action></actions>
+</node>
+<node category="degree">
+<id>deg3</id>
+<label>prof. dr hab. inż.</label>
+<attributes>
+<attribute value="prof. dr hab. inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg6</id>
+<label>inż.</label>
+<attributes>
+<attribute value="inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg1</id>
+<label>mgr inż.</label>
+<attributes>
+<attribute value="mgr inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg5</id>
+<label>mgr</label>
+<attributes>
+<attribute value="mgr" />
+</attributes>
+</node>
+<node category="degree">
+<id>deg0</id>
+<label>dr inż.</label>
+<attributes>
+<attribute value="dr inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg4</id>
+<label>dr</label>
+<attributes>
+<attribute value="dr" />
+</attributes>
+</node>
+<node category="degree">
+<id>deg2</id>
+<label>dr hab. inż.</label>
+<attributes>
+<attribute value="dr hab. inż." />
+</attributes>
+</node>
+<node category="faculty" persistent="true">
+<id>fac0</id>
+<label>KAMS</label>
+<attributes>
+<attribute value="KAMS" />
+</attributes>
+<actions>
+<action>file://departments.xml</action>
+</actions>
+</node>
+<node category="position">
+<id>pos5</id>
+<label>gł. specjalista</label>
+<attributes>
+<attribute value="gł. specjalista" />
+</attributes>
+</node>
+<node category="position">
+<id>pos1</id>
+<label>asystent</label>
+<attributes>
+<attribute value="asystent" />
+</attributes>
+</node>
+<node category="position">
+<id>pos2</id>
+<label>prof. nadzw. PG</label>
+<attributes>
+<attribute value="prof. nadzw. PG" />
+</attributes>
+</node>
+<node category="position">
+<id>pos4</id>
+<label>doktorant</label>
+<attributes>
+<attribute value="doktorant" />
+</attributes>
+</node>
+<node category="position">
+<id>pos3</id>
+<label>prof. zw.</label>
+<attributes>
+<attribute value="prof. zw." />
+</attributes>
+</node>
+<node category="position">
+<id>pos0</id>
+<label>adiunkt</label>
+<attributes>
+<attribute value="adiunkt" />
+</attributes>
+</node>
+</nodes>
+<edges>
+<edge source="0" target="deg0" />
+<edge source="0" target="fac0" />
+<edge source="0" target="pos0" />
+<edge source="1" target="deg0" />
+<edge source="1" target="fac0" />
+<edge source="1" target="pos0" />
+<edge source="2" target="deg1" />
+<edge source="2" target="fac0" />
+<edge source="2" target="pos1" />
+<edge source="3" target="deg2" />
+<edge source="3" target="fac0" />
+<edge source="3" target="pos2" />
+<edge source="4" target="deg0" />
+<edge source="4" target="fac0" />
+<edge source="4" target="pos0" />
+<edge source="5" target="deg1" />
+<edge source="5" target="fac0" />
+<edge source="5" target="pos1" />
+<edge source="6" target="deg0" />
+<edge source="6" target="fac0" />
+<edge source="6" target="pos0" />
+<edge source="7" target="deg3" />
+<edge source="7" target="fac0" />
+<edge source="7" target="pos3" />
+<edge source="8" target="deg0" />
+<edge source="8" target="fac0" />
+<edge source="8" target="pos0" />
+<edge source="9" target="deg0" />
+<edge source="9" target="fac0" />
+<edge source="9" target="pos0" />
+<edge source="10" target="deg1" />
+<edge source="10" target="fac0" />
+<edge source="10" target="pos1" />
+<edge source="11" target="deg0" />
+<edge source="11" target="fac0" />
+<edge source="11" target="pos0" />
+<edge source="12" target="deg4" />
+<edge source="12" target="fac0" />
+<edge source="12" target="pos1" />
+<edge source="13" target="deg1" />
+<edge source="13" target="fac0" />
+<edge source="13" target="pos1" />
+<edge source="14" target="deg0" />
+<edge source="14" target="fac0" />
+<edge source="14" target="pos0" />
+<edge source="15" target="deg1" />
+<edge source="15" target="fac0" />
+<edge source="15" target="pos4" />
+<edge source="16" target="deg1" />
+<edge source="16" target="fac0" />
+<edge source="16" target="pos4" />
+<edge source="17" target="deg1" />
+<edge source="17" target="fac0" />
+<edge source="17" target="pos4" />
+<edge source="18" target="deg1" />
+<edge source="18" target="fac0" />
+<edge source="18" target="pos4" />
+<edge source="19" target="deg5" />
+<edge source="19" target="fac0" />
+<edge source="19" target="pos4" />
+<edge source="20" target="deg1" />
+<edge source="20" target="fac0" />
+<edge source="20" target="pos4" />
+<edge source="21" target="deg5" />
+<edge source="21" target="fac0" />
+<edge source="21" target="pos4" />
+<edge source="22" target="deg1" />
+<edge source="22" target="fac0" />
+<edge source="22" target="pos4" />
+<edge source="23" target="deg6" />
+<edge source="23" target="fac0" />
+<edge source="23" target="pos5" />
+<edge source="24" target="deg1" />
+<edge source="24" target="fac0" />
+<edge source="24" target="pos5" />
+</edges>
+</graph>

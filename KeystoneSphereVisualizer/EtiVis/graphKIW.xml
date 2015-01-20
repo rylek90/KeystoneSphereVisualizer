@@ -1,0 +1,359 @@
+<graph>
+<nodes>
+<node>
+<id>0</id>
+<label>Jan Daciuk</label>
+<image>img/KIW1.jpg</image>
+<attributes>
+<attribute name="name" value="Jan" />
+<attribute name="surename" value="Daciuk" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Jan.Daciuk</action></actions>
+</node>
+<node>
+<id>1</id>
+<label>Jerzy Dembski</label>
+<image>img/KIW2.jpg</image>
+<attributes>
+<attribute name="name" value="Jerzy" />
+<attribute name="surename" value="Dembski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Jerzy.Dembski</action></actions>
+</node>
+<node>
+<id>2</id>
+<label>Adam Kaczmarek</label>
+<image>img/KIW3.jpg</image>
+<attributes>
+<attribute name="name" value="Adam" />
+<attribute name="surename" value="Kaczmarek" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Adam.Kaczmarek</action></actions>
+</node>
+<node>
+<id>3</id>
+<label>Agata Kołakowska</label>
+<image>img/KIW4.jpg</image>
+<attributes>
+<attribute name="name" value="Agata" />
+<attribute name="surename" value="Kołakowska" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Agata.Kolakowska</action></actions>
+</node>
+<node>
+<id>4</id>
+<label>Jacek Lebiedź</label>
+<image>img/KIW5.jpg</image>
+<attributes>
+<attribute name="name" value="Jacek" />
+<attribute name="surename" value="Lebiedź" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Jacek.Lebiedz</action></actions>
+</node>
+<node>
+<id>5</id>
+<label>Witold Malina</label>
+<image>img/KIW6.jpg</image>
+<attributes>
+<attribute name="name" value="Witold" />
+<attribute name="surename" value="Malina" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Witold.Malina</action></actions>
+</node>
+<node>
+<id>6</id>
+<label>Maciej Smiatacz</label>
+<image>img/KIW7.jpg</image>
+<attributes>
+<attribute name="name" value="Maciej" />
+<attribute name="surename" value="Smiatacz" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Maciej.Smiatacz</action></actions>
+</node>
+<node>
+<id>7</id>
+<label>Mariusz Szwoch</label>
+<image>img/KIW8.jpg</image>
+<attributes>
+<attribute name="name" value="Mariusz" />
+<attribute name="surename" value="Szwoch" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Mariusz.Szwoch</action></actions>
+</node>
+<node>
+<id>8</id>
+<label>Wioleta Szwoch</label>
+<image>img/KIW9.jpg</image>
+<attributes>
+<attribute name="name" value="Wioleta" />
+<attribute name="surename" value="Szwoch" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Wioleta.Szwoch</action></actions>
+</node>
+<node>
+<id>9</id>
+<label>Bogdan Wiszniewski</label>
+<image>img/KIW10.jpg</image>
+<attributes>
+<attribute name="name" value="Bogdan" />
+<attribute name="surename" value="Wiszniewski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Bogdan.Wiszniewski</action></actions>
+</node>
+<node>
+<id>10</id>
+<label>Anna Domagalska</label>
+<attributes>
+<attribute name="name" value="Anna" />
+<attribute name="surename" value="Domagalska" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Anna.Domagalska</action></actions>
+</node>
+<node>
+<id>11</id>
+<label>Magdalena Godlewska</label>
+<attributes>
+<attribute name="name" value="Magdalena" />
+<attribute name="surename" value="Godlewska" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Magdalena.Godlewska</action></actions>
+</node>
+<node>
+<id>12</id>
+<label>Jerzy Kaczorek</label>
+<attributes>
+<attribute name="name" value="Jerzy" />
+<attribute name="surename" value="Kaczorek" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Jerzy.Kaczorek</action></actions>
+</node>
+<node>
+<id>13</id>
+<label>Krzysztof Kluczek</label>
+<attributes>
+<attribute name="name" value="Krzysztof" />
+<attribute name="surename" value="Kluczek" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Krzysztof.Kluczek</action></actions>
+</node>
+<node>
+<id>14</id>
+<label>Krzysztof Mieloszyk</label>
+<attributes>
+<attribute name="name" value="Krzysztof" />
+<attribute name="surename" value="Mieloszyk" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Krzysztof.Mieloszyk</action></actions>
+</node>
+<node>
+<id>15</id>
+<label>Tomasz Rogacewicz</label>
+<attributes>
+<attribute name="name" value="Tomasz" />
+<attribute name="surename" value="Rogacewicz" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Tomasz.Rogacewicz</action></actions>
+</node>
+<node>
+<id>16</id>
+<label>Adam Ryszewski</label>
+<attributes>
+<attribute name="name" value="Adam" />
+<attribute name="surename" value="Ryszewski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Adam.Ryszewski</action></actions>
+</node>
+<node>
+<id>17</id>
+<label>Elżbieta Czarnecka</label>
+<image>img/KIW18.jpg</image>
+<attributes>
+<attribute name="name" value="Elżbieta" />
+<attribute name="surename" value="Czarnecka" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Elzbieta.Czarnecka</action></actions>
+</node>
+<node>
+<id>18</id>
+<label>Adam Sobociński</label>
+<image>img/KIW19.jpg</image>
+<attributes>
+<attribute name="name" value="Adam" />
+<attribute name="surename" value="Sobociński" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Adam.Sobocinski</action></actions>
+</node>
+<node category="degree">
+<id>deg2</id>
+<label>prof. dr hab. inż.</label>
+<attributes>
+<attribute value="prof. dr hab. inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg4</id>
+<label>inż.</label>
+<attributes>
+<attribute value="inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg1</id>
+<label>mgr inż.</label>
+<attributes>
+<attribute value="mgr inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg3</id>
+<label>mgr</label>
+<attributes>
+<attribute value="mgr" />
+</attributes>
+</node>
+<node category="degree">
+<id>deg0</id>
+<label>dr inż.</label>
+<attributes>
+<attribute value="dr inż." />
+</attributes>
+</node>
+<node category="faculty" persistent="true">
+<id>fac0</id>
+<label>KIW</label>
+<attributes>
+<attribute value="KIW" />
+</attributes>
+<actions>
+<action>file://departments.xml</action>
+</actions>
+</node>
+<node category="position">
+<id>pos6</id>
+<label>informatyk</label>
+<attributes>
+<attribute value="informatyk" />
+</attributes>
+</node>
+<node category="position">
+<id>pos5</id>
+<label>gł. specjalista</label>
+<attributes>
+<attribute value="gł. specjalista" />
+</attributes>
+</node>
+<node category="position">
+<id>pos2</id>
+<label>asystent</label>
+<attributes>
+<attribute value="asystent" />
+</attributes>
+</node>
+<node category="position">
+<id>pos1</id>
+<label>wykładowca</label>
+<attributes>
+<attribute value="wykładowca" />
+</attributes>
+</node>
+<node category="position">
+<id>pos3</id>
+<label>prof. nadzw. PG</label>
+<attributes>
+<attribute value="prof. nadzw. PG" />
+</attributes>
+</node>
+<node category="position">
+<id>pos4</id>
+<label>doktorant</label>
+<attributes>
+<attribute value="doktorant" />
+</attributes>
+</node>
+<node category="position">
+<id>pos0</id>
+<label>adiunkt</label>
+<attributes>
+<attribute value="adiunkt" />
+</attributes>
+</node>
+</nodes>
+<edges>
+<edge source="0" target="deg0" />
+<edge source="0" target="fac0" />
+<edge source="0" target="pos0" />
+<edge source="1" target="deg0" />
+<edge source="1" target="fac0" />
+<edge source="1" target="pos1" />
+<edge source="2" target="deg1" />
+<edge source="2" target="fac0" />
+<edge source="2" target="pos2" />
+<edge source="3" target="deg0" />
+<edge source="3" target="fac0" />
+<edge source="3" target="pos0" />
+<edge source="4" target="deg0" />
+<edge source="4" target="fac0" />
+<edge source="4" target="pos0" />
+<edge source="5" target="deg2" />
+<edge source="5" target="fac0" />
+<edge source="5" target="pos3" />
+<edge source="6" target="deg0" />
+<edge source="6" target="fac0" />
+<edge source="6" target="pos0" />
+<edge source="7" target="deg0" />
+<edge source="7" target="fac0" />
+<edge source="7" target="pos0" />
+<edge source="8" target="deg0" />
+<edge source="8" target="fac0" />
+<edge source="8" target="pos0" />
+<edge source="9" target="deg2" />
+<edge source="9" target="fac0" />
+<edge source="9" target="pos3" />
+<edge source="10" target="deg3" />
+<edge source="10" target="fac0" />
+<edge source="10" target="pos4" />
+<edge source="11" target="deg3" />
+<edge source="11" target="fac0" />
+<edge source="11" target="pos4" />
+<edge source="12" target="deg1" />
+<edge source="12" target="fac0" />
+<edge source="12" target="pos4" />
+<edge source="13" target="deg1" />
+<edge source="13" target="fac0" />
+<edge source="13" target="pos4" />
+<edge source="14" target="deg1" />
+<edge source="14" target="fac0" />
+<edge source="14" target="pos4" />
+<edge source="15" target="deg1" />
+<edge source="15" target="fac0" />
+<edge source="15" target="pos4" />
+<edge source="16" target="deg1" />
+<edge source="16" target="fac0" />
+<edge source="16" target="pos4" />
+<edge source="17" target="deg4" />
+<edge source="17" target="fac0" />
+<edge source="17" target="pos5" />
+<edge source="18" target="deg1" />
+<edge source="18" target="fac0" />
+<edge source="18" target="pos6" />
+</edges>
+</graph>

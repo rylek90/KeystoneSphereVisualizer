@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FBCD6226-6306-4ECF-A12D-A395E8426FB7}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KeystoneSphereVisualizer</RootNamespace>
+    <AssemblyName>KeystoneSphereVisualizer</AssemblyName>
+    <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="crate.png" />
+    <Content Include="departments.xml" />
+    <Content Include="EtiVis\cloud.xml" />
+    <Content Include="EtiVis\configuration.xml" />
+    <Content Include="EtiVis\departments.xml" />
+    <Content Include="EtiVis\graphKAMS.xml" />
+    <Content Include="EtiVis\graphKASK.xml" />
+    <Content Include="EtiVis\graphKIB.xml" />
+    <Content Include="EtiVis\graphKIO.xml" />
+    <Content Include="EtiVis\graphKIW.xml" />
+    <Content Include="EtiVis\graphKMIA.xml" />
+    <Content Include="EtiVis\graphKOSE.xml" />
+    <Content Include="EtiVis\graphKSA.xml" />
+    <Content Include="EtiVis\graphKSD.xml" />
+    <Content Include="EtiVis\graphKSEM.xml" />
+    <Content Include="EtiVis\graphKSG.xml" />
+    <Content Include="EtiVis\graphKSM.xml" />
+    <Content Include="EtiVis\graphKSSR.xml" />
+    <Content Include="EtiVis\graphKST.xml" />
+    <Content Include="EtiVis\graphKT.xml" />
+    <Content Include="EtiVis\Graphoo.swf" />
+    <Content Include="EtiVis\img\1.jpg" />
+    <Content Include="EtiVis\img\10.jpg" />
+    <Content Include="EtiVis\img\11.jpg" />
+    <Content Include="EtiVis\img\12.jpg" />
+    <Content Include="EtiVis\img\13.jpg" />
+    <Content Include="EtiVis\img\14.jpg" />
+    <Content Include="EtiVis\img\15.jpg" />
+    <Content Include="EtiVis\img\16.jpg" />
+    <Content Include="EtiVis\img\17.jpg" />
+    <Content Include="EtiVis\img\18.jpg" />
+    <Content Include="EtiVis\img\19.jpg" />
+    <Content Include="EtiVis\img\2.jpg" />
+    <Content Include="EtiVis\img\20.jpg" />
+    <Content Include="EtiVis\img\21.jpg" />
+    <Content Include="EtiVis\img\22.jpg" />
+    <Content Include="EtiVis\img\23.jpg" />
+    <Content Include="EtiVis\img\24.jpg" />
+    <Content Include="EtiVis\img\25.jpg" />
+    <Content Include="EtiVis\img\26.jpg" />
+    <Content Include="EtiVis\img\27.jpg" />
+    <Content Include="EtiVis\img\28.jpg" />
+    <Content Include="EtiVis\img\29.jpg" />
+    <Content Include="EtiVis\img\3.jpg" />
+    <Content Include="EtiVis\img\31.jpg" />
+    <Content Include="EtiVis\img\32.jpg" />
+    <Content Include="EtiVis\img\4.jpg" />
+    <Content Include="EtiVis\img\5.jpg" />
+    <Content Include="EtiVis\img\6.jpg" />
+    <Content Include="EtiVis\img\7.jpg" />
+    <Content Include="EtiVis\img\8.jpg" />
+    <Content Include="EtiVis\img\9.jpg" />
+    <Content Include="EtiVis\img\KAMS12.jpg" />
+    <Content Include="EtiVis\img\KAMS13.jpg" />
+    <Content Include="EtiVis\img\KAMS19.jpg" />
+    <Content Include="EtiVis\img\KAMS8.jpg" />
+    <Content Include="EtiVis\img\KASK10.jpg" />
+    <Content Include="EtiVis\img\KASK11.jpg" />
+    <Content Include="EtiVis\img\KASK13.jpg" />
+    <Content Include="EtiVis\img\KASK14.jpg" />
+    <Content Include="EtiVis\img\KASK15.jpg" />
+    <Content Include="EtiVis\img\KASK16.jpg" />
+    <Content Include="EtiVis\img\KASK19.jpg" />
+    <Content Include="EtiVis\img\KASK2.jpg" />
+    <Content Include="EtiVis\img\KASK20.jpg" />
+    <Content Include="EtiVis\img\KASK21.jpg" />
+    <Content Include="EtiVis\img\KASK22.jpg" />
+    <Content Include="EtiVis\img\KASK23.jpg" />
+    <Content Include="EtiVis\img\KASK24.jpg" />
+    <Content Include="EtiVis\img\KASK25.jpg" />
+    <Content Include="EtiVis\img\KASK26.jpg" />
+    <Content Include="EtiVis\img\KASK29.jpg" />
+    <Content Include="EtiVis\img\KASK3.jpg" />
+    <Content Include="EtiVis\img\KASK4.jpg" />
+    <Content Include="EtiVis\img\KASK5.jpg" />
+    <Content Include="EtiVis\img\KASK7.jpg" />
+    <Content Include="EtiVis\img\KASK9.jpg" />
+    <Content Include="EtiVis\img\KIB1.jpg" />
+    <Content Include="EtiVis\img\KIB10.jpg" />
+    <Content Include="EtiVis\img\KIB11.jpg" />
+    <Content Include="EtiVis\img\KIB19.jpg" />
+    <Content Include="EtiVis\img\KIB2.jpg" />
+    <Content Include="EtiVis\img\KIB21.jpg" />
+    <Content Include="EtiVis\img\KIB4.jpg" />
+    <Content Include="EtiVis\img\KIB5.jpg" />
+    <Content Include="EtiVis\img\KIB6.jpg" />
+    <Content Include="EtiVis\img\KIB7.jpg" />
+    <Content Include="EtiVis\img\KIB9.jpg" />
+    <Content Include="EtiVis\img\KIO13.jpg" />
+    <Content Include="EtiVis\img\KIO2.jpg" />
+    <Content Include="EtiVis\img\KIO28.jpg" />
+    <Content Include="EtiVis\img\KIO7.jpg" />
+    <Content Include="EtiVis\img\KIO9.jpg" />
+    <Content Include="EtiVis\img\KIW1.jpg" />
+    <Content Include="EtiVis\img\KIW10.jpg" />
+    <Content Include="EtiVis\img\KIW18.jpg" />
+    <Content Include="EtiVis\img\KIW19.jpg" />
+    <Content Include="EtiVis\img\KIW2.jpg" />
+    <Content Include="EtiVis\img\KIW3.jpg" />
+    <Content Include="EtiVis\img\KIW4.jpg" />
+    <Content Include="EtiVis\img\KIW5.jpg" />
+    <Content Include="EtiVis\img\KIW6.jpg" />
+    <Content Include="EtiVis\img\KIW7.jpg" />
+    <Content Include="EtiVis\img\KIW8.jpg" />
+    <Content Include="EtiVis\img\KIW9.jpg" />
+    <Content Include="EtiVis\img\KMIA11.jpg" />
+    <Content Include="EtiVis\img\KMIA12.jpg" />
+    <Content Include="EtiVis\img\KMIA17.jpg" />
+    <Content Include="EtiVis\img\KMIA5.jpg" />
+    <Content Include="EtiVis\img\KMIA6.jpg" />
+    <Content Include="EtiVis\img\KMIA7.jpg" />
+    <Content Include="EtiVis\img\KOSE1.jpg" />
+    <Content Include="EtiVis\img\KOSE10.jpg" />
+    <Content Include="EtiVis\img\KOSE11.jpg" />
+    <Content Include="EtiVis\img\KOSE12.jpg" />
+    <Content Include="EtiVis\img\KOSE13.jpg" />
+    <Content Include="EtiVis\img\KOSE14.jpg" />
+    <Content Include="EtiVis\img\KOSE15.jpg" />
+    <Content Include="EtiVis\img\KOSE2.jpg" />
+    <Content Include="EtiVis\img\KOSE20.jpg" />
+    <Content Include="EtiVis\img\KOSE22.jpg" />
+    <Content Include="EtiVis\img\KOSE23.jpg" />
+    <Content Include="EtiVis\img\KOSE24.jpg" />
+    <Content Include="EtiVis\img\KOSE25.jpg" />
+    <Content Include="EtiVis\img\KOSE27.jpg" />
+    <Content Include="EtiVis\img\KOSE3.jpg" />
+    <Content Include="EtiVis\img\KOSE31.jpg" />
+    <Content Include="EtiVis\img\KOSE32.jpg" />
+    <Content Include="EtiVis\img\KOSE8.jpg" />
+    <Content Include="EtiVis\img\KOSE9.jpg" />
+    <Content Include="EtiVis\img\KSA11.jpg" />
+    <Content Include="EtiVis\img\KSA12.jpg" />
+    <Content Include="EtiVis\img\KSA14.jpg" />
+    <Content Include="EtiVis\img\KSA2.jpg" />
+    <Content Include="EtiVis\img\KSA4.jpg" />
+    <Content Include="EtiVis\img\KSA5.jpg" />
+    <Content Include="EtiVis\img\KSA6.jpg" />
+    <Content Include="EtiVis\img\KSA8.jpg" />
+    <Content Include="EtiVis\img\KSD1.jpg" />
+    <Content Include="EtiVis\img\KSD2.jpg" />
+    <Content Include="EtiVis\img\KSD5.jpg" />
+    <Content Include="EtiVis\img\KSD7.jpg" />
+    <Content Include="EtiVis\img\KSG1.jpg" />
+    <Content Include="EtiVis\img\KSG10.jpg" />
+    <Content Include="EtiVis\img\KSG11.jpg" />
+    <Content Include="EtiVis\img\KSG12.jpg" />
+    <Content Include="EtiVis\img\KSG14.jpg" />
+    <Content Include="EtiVis\img\KSG2.jpg" />
+    <Content Include="EtiVis\img\KSG3.jpg" />
+    <Content Include="EtiVis\img\KSG5.jpg" />
+    <Content Include="EtiVis\img\KSG9.jpg" />
+    <Content Include="EtiVis\img\KSSR1.jpg" />
+    <Content Include="EtiVis\img\KSSR10.jpg" />
+    <Content Include="EtiVis\img\KSSR16.jpg" />
+    <Content Include="EtiVis\img\KSSR17.jpg" />
+    <Content Include="EtiVis\img\KSSR2.jpg" />
+    <Content Include="EtiVis\img\KSSR3.jpg" />
+    <Content Include="EtiVis\img\KSSR4.jpg" />
+    <Content Include="EtiVis\img\KSSR7.jpg" />
+    <Content Include="EtiVis\img\KSSR8.jpg" />
+    <Content Include="EtiVis\img\KST1.jpg" />
+    <Content Include="EtiVis\img\KST14.jpg" />
+    <Content Include="EtiVis\img\KST9.jpg" />
+    <Content Include="EtiVis\img\KT1.jpg" />
+    <Content Include="EtiVis\img\KT2.jpg" />
+    <Content Include="EtiVis\img\KT3.jpg" />
+    <Content Include="EtiVis\img\KT8.jpg" />
+    <Content Include="EtiVis\img\logo_eti.png" />
+    <Content Include="EtiVis\img\logo_pg.png" />
+    <Content Include="EtiVis\index.html" />
+    <Content Include="EtiVis\pg.xml" />
+    <Content Include="graphKAMS.xml" />
+    <Content Include="graphKASK.xml" />
+    <Content Include="img\1.jpg" />
+    <Content Include="img\10.jpg" />
+    <Content Include="img\11.jpg" />
+    <Content Include="img\12.jpg" />
+    <Content Include="img\13.jpg" />
+    <Content Include="img\14.jpg" />
+    <Content Include="img\15.jpg" />
+    <Content Include="img\16.jpg" />
+    <Content Include="img\17.jpg" />
+    <Content Include="img\18.jpg" />
+    <Content Include="img\19.jpg" />
+    <Content Include="img\2.jpg" />
+    <Content Include="img\20.jpg" />
+    <Content Include="img\21.jpg" />
+    <Content Include="img\22.jpg" />
+    <Content Include="img\23.jpg" />
+    <Content Include="img\24.jpg" />
+    <Content Include="img\25.jpg" />
+    <Content Include="img\26.jpg" />
+    <Content Include="img\27.jpg" />
+    <Content Include="img\28.jpg" />
+    <Content Include="img\29.jpg" />
+    <Content Include="img\3.jpg" />
+    <Content Include="img\31.jpg" />
+    <Content Include="img\32.jpg" />
+    <Content Include="img\4.jpg" />
+    <Content Include="img\5.jpg" />
+    <Content Include="img\6.jpg" />
+    <Content Include="img\7.jpg" />
+    <Content Include="img\8.jpg" />
+    <Content Include="img\9.jpg" />
+    <Content Include="img\KAMS12.jpg" />
+    <Content Include="img\KAMS13.jpg" />
+    <Content Include="img\KAMS19.jpg" />
+    <Content Include="img\KAMS8.jpg" />
+    <Content Include="img\KASK10.jpg" />
+    <Content Include="img\KASK11.jpg" />
+    <Content Include="img\KASK13.jpg" />
+    <Content Include="img\KASK14.jpg" />
+    <Content Include="img\KASK15.jpg" />
+    <Content Include="img\KASK16.jpg" />
+    <Content Include="img\KASK19.jpg" />
+    <Content Include="img\KASK2.jpg" />
+    <Content Include="img\KASK20.jpg" />
+    <Content Include="img\KASK21.jpg" />
+    <Content Include="img\KASK22.jpg" />
+    <Content Include="img\KASK23.jpg" />
+    <Content Include="img\KASK24.jpg" />
+    <Content Include="img\KASK25.jpg" />
+    <Content Include="img\KASK26.jpg" />
+    <Content Include="img\KASK29.jpg" />
+    <Content Include="img\KASK3.jpg" />
+    <Content Include="img\KASK4.jpg" />
+    <Content Include="img\KASK5.jpg" />
+    <Content Include="img\KASK7.jpg" />
+    <Content Include="img\KASK9.jpg" />
+    <Content Include="img\KIB1.jpg" />
+    <Content Include="img\KIB10.jpg" />
+    <Content Include="img\KIB11.jpg" />
+    <Content Include="img\KIB19.jpg" />
+    <Content Include="img\KIB2.jpg" />
+    <Content Include="img\KIB21.jpg" />
+    <Content Include="img\KIB4.jpg" />
+    <Content Include="img\KIB5.jpg" />
+    <Content Include="img\KIB6.jpg" />
+    <Content Include="img\KIB7.jpg" />
+    <Content Include="img\KIB9.jpg" />
+    <Content Include="img\KIO13.jpg" />
+    <Content Include="img\KIO2.jpg" />
+    <Content Include="img\KIO28.jpg" />
+    <Content Include="img\KIO7.jpg" />
+    <Content Include="img\KIO9.jpg" />
+    <Content Include="img\KIW1.jpg" />
+    <Content Include="img\KIW10.jpg" />
+    <Content Include="img\KIW18.jpg" />
+    <Content Include="img\KIW19.jpg" />
+    <Content Include="img\KIW2.jpg" />
+    <Content Include="img\KIW3.jpg" />
+    <Content Include="img\KIW4.jpg" />
+    <Content Include="img\KIW5.jpg" />
+    <Content Include="img\KIW6.jpg" />
+    <Content Include="img\KIW7.jpg" />
+    <Content Include="img\KIW8.jpg" />
+    <Content Include="img\KIW9.jpg" />
+    <Content Include="img\KMIA11.jpg" />
+    <Content Include="img\KMIA12.jpg" />
+    <Content Include="img\KMIA17.jpg" />
+    <Content Include="img\KMIA5.jpg" />
+    <Content Include="img\KMIA6.jpg" />
+    <Content Include="img\KMIA7.jpg" />
+    <Content Include="img\KOSE1.jpg" />
+    <Content Include="img\KOSE10.jpg" />
+    <Content Include="img\KOSE11.jpg" />
+    <Content Include="img\KOSE12.jpg" />
+    <Content Include="img\KOSE13.jpg" />
+    <Content Include="img\KOSE14.jpg" />
+    <Content Include="img\KOSE15.jpg" />
+    <Content Include="img\KOSE2.jpg" />
+    <Content Include="img\KOSE20.jpg" />
+    <Content Include="img\KOSE22.jpg" />
+    <Content Include="img\KOSE23.jpg" />
+    <Content Include="img\KOSE24.jpg" />
+    <Content Include="img\KOSE25.jpg" />
+    <Content Include="img\KOSE27.jpg" />
+    <Content Include="img\KOSE3.jpg" />
+    <Content Include="img\KOSE31.jpg" />
+    <Content Include="img\KOSE32.jpg" />
+    <Content Include="img\KOSE8.jpg" />
+    <Content Include="img\KOSE9.jpg" />
+    <Content Include="img\KSA11.jpg" />
+    <Content Include="img\KSA12.jpg" />
+    <Content Include="img\KSA14.jpg" />
+    <Content Include="img\KSA2.jpg" />
+    <Content Include="img\KSA4.jpg" />
+    <Content Include="img\KSA5.jpg" />
+    <Content Include="img\KSA6.jpg" />
+    <Content Include="img\KSA8.jpg" />
+    <Content Include="img\KSD1.jpg" />
+    <Content Include="img\KSD2.jpg" />
+    <Content Include="img\KSD5.jpg" />
+    <Content Include="img\KSD7.jpg" />
+    <Content Include="img\KSG1.jpg" />
+    <Content Include="img\KSG10.jpg" />
+    <Content Include="img\KSG11.jpg" />
+    <Content Include="img\KSG12.jpg" />
+    <Content Include="img\KSG14.jpg" />
+    <Content Include="img\KSG2.jpg" />
+    <Content Include="img\KSG3.jpg" />
+    <Content Include="img\KSG5.jpg" />
+    <Content Include="img\KSG9.jpg" />
+    <Content Include="img\KSSR1.jpg" />
+    <Content Include="img\KSSR10.jpg" />
+    <Content Include="img\KSSR16.jpg" />
+    <Content Include="img\KSSR17.jpg" />
+    <Content Include="img\KSSR2.jpg" />
+    <Content Include="img\KSSR3.jpg" />
+    <Content Include="img\KSSR4.jpg" />
+    <Content Include="img\KSSR7.jpg" />
+    <Content Include="img\KSSR8.jpg" />
+    <Content Include="img\KST1.jpg" />
+    <Content Include="img\KST14.jpg" />
+    <Content Include="img\KST9.jpg" />
+    <Content Include="img\KT1.jpg" />
+    <Content Include="img\KT2.jpg" />
+    <Content Include="img\KT3.jpg" />
+    <Content Include="img\KT8.jpg" />
+    <Content Include="img\logo_eti.png" />
+    <Content Include="img\logo_pg.png" />
+    <Content Include="index.html" />
+    <Content Include="js\datamanager.js" />
+    <Content Include="js\edge.js" />
+    <Content Include="js\lib\jquery.xml2json.js" />
+    <Content Include="js\lib\three.min.js" />
+    <Content Include="js\sphere.js" />
+    <Content Include="js\spherevertex.js" />
+    <Content Include="js\utils.js" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>51099</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:51099/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

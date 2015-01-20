@@ -1,0 +1,467 @@
+<graph>
+<nodes>
+<node>
+<id>0</id>
+<label>Lech Kilian</label>
+<attributes>
+<attribute name="name" value="Lech" />
+<attribute name="surename" value="Kilian" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Lech.Kilian</action></actions>
+</node>
+<node>
+<id>1</id>
+<label>Henryk Lasota</label>
+<attributes>
+<attribute name="name" value="Henryk" />
+<attribute name="surename" value="Lasota" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Henryk.Lasota</action></actions>
+</node>
+<node>
+<id>2</id>
+<label>Waldemar Lis</label>
+<attributes>
+<attribute name="name" value="Waldemar" />
+<attribute name="surename" value="Lis" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Waldemar.Lis</action></actions>
+</node>
+<node>
+<id>3</id>
+<label>Marek Makowski</label>
+<attributes>
+<attribute name="name" value="Marek" />
+<attribute name="surename" value="Makowski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Marek.Makowski</action></actions>
+</node>
+<node>
+<id>4</id>
+<label>Jacek Marszal</label>
+<attributes>
+<attribute name="name" value="Jacek" />
+<attribute name="surename" value="Marszal" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Jacek.Marszal</action></actions>
+</node>
+<node>
+<id>5</id>
+<label>Roman Salamon</label>
+<attributes>
+<attribute name="name" value="Roman" />
+<attribute name="surename" value="Salamon" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Roman.Salamon</action></actions>
+</node>
+<node>
+<id>6</id>
+<label>Czesław Stefański</label>
+<attributes>
+<attribute name="name" value="Czesław" />
+<attribute name="surename" value="Stefański" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Czeslaw.Stefanski</action></actions>
+</node>
+<node>
+<id>7</id>
+<label>Witold Szkudliński</label>
+<attributes>
+<attribute name="name" value="Witold" />
+<attribute name="surename" value="Szkudliński" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Witold.Szkudlinski</action></actions>
+</node>
+<node>
+<id>8</id>
+<label>Krzysztof Zachariasz</label>
+<attributes>
+<attribute name="name" value="Krzysztof" />
+<attribute name="surename" value="Zachariasz" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Krzysztof.Zachariasz</action></actions>
+</node>
+<node>
+<id>9</id>
+<label>Aleksander Schmidt</label>
+<attributes>
+<attribute name="name" value="Aleksander" />
+<attribute name="surename" value="Schmidt" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Aleksander.Schmidt</action></actions>
+</node>
+<node>
+<id>10</id>
+<label>Andrzej Jedel</label>
+<attributes>
+<attribute name="name" value="Andrzej" />
+<attribute name="surename" value="Jedel" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Andrzej.Jedel</action></actions>
+</node>
+<node>
+<id>11</id>
+<label>Wojciech Leśniak</label>
+<attributes>
+<attribute name="name" value="Wojciech" />
+<attribute name="surename" value="Leśniak" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Wojciech.Lesniak</action></actions>
+</node>
+<node>
+<id>12</id>
+<label>Krzysztof Liedtke</label>
+<attributes>
+<attribute name="name" value="Krzysztof" />
+<attribute name="surename" value="Liedtke" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Krzysztof.Liedtke</action></actions>
+</node>
+<node>
+<id>13</id>
+<label>Zawisza Ostrowski</label>
+<attributes>
+<attribute name="name" value="Zawisza" />
+<attribute name="surename" value="Ostrowski" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Zawisza.Ostrowski</action></actions>
+</node>
+<node>
+<id>14</id>
+<label>Aleksandra Raganowicz</label>
+<attributes>
+<attribute name="name" value="Aleksandra" />
+<attribute name="surename" value="Raganowicz" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Aleksandra.Raganowicz</action></actions>
+</node>
+<node>
+<id>15</id>
+<label>Mariusz Rudnicki</label>
+<attributes>
+<attribute name="name" value="Mariusz" />
+<attribute name="surename" value="Rudnicki" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Mariusz.Rudnicki</action></actions>
+</node>
+<node>
+<id>16</id>
+<label>Wojciech Salamon</label>
+<attributes>
+<attribute name="name" value="Wojciech" />
+<attribute name="surename" value="Salamon" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Wojciech.Salamon</action></actions>
+</node>
+<node>
+<id>17</id>
+<label>Alicja Salomon</label>
+<attributes>
+<attribute name="name" value="Alicja" />
+<attribute name="surename" value="Salomon" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Alicja.Salomon</action></actions>
+</node>
+<node>
+<id>18</id>
+<label>Jan Schmidt</label>
+<attributes>
+<attribute name="name" value="Jan" />
+<attribute name="surename" value="Schmidt" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Jan.Schmidt</action></actions>
+</node>
+<node>
+<id>19</id>
+<label>Tomasz Sidorko</label>
+<attributes>
+<attribute name="name" value="Tomasz" />
+<attribute name="surename" value="Sidorko" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Tomasz.Sidorko</action></actions>
+</node>
+<node>
+<id>20</id>
+<label>Stefan Szulc</label>
+<attributes>
+<attribute name="name" value="Stefan" />
+<attribute name="surename" value="Szulc" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Stefan.Szulc</action></actions>
+</node>
+<node>
+<id>21</id>
+<label>Zbigniew Wojan</label>
+<attributes>
+<attribute name="name" value="Zbigniew" />
+<attribute name="surename" value="Wojan" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Zbigniew.Wojan</action></actions>
+</node>
+<node>
+<id>22</id>
+<label>Ryszard Żółtek</label>
+<attributes>
+<attribute name="name" value="Ryszard" />
+<attribute name="surename" value="Żółtek" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Ryszard.Zoltek</action></actions>
+</node>
+<node>
+<id>23</id>
+<label>Dorota Czechowska-Kalkowska</label>
+<attributes>
+<attribute name="name" value="Dorota" />
+<attribute name="surename" value="Czechowska-Kalkowska" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Dorota.Czechowska-Kalkowska</action></actions>
+</node>
+<node>
+<id>24</id>
+<label>Zofia Szulc</label>
+<attributes>
+<attribute name="name" value="Zofia" />
+<attribute name="surename" value="Szulc" />
+</attributes>
+<actions>
+<action type="html" target="new_page">http://www.eti.pg.gda.pl/katedry/ksem/pracownicy/Zofia.Szulc</action></actions>
+</node>
+<node category="degree">
+<id>deg4</id>
+<label></label>
+<attributes>
+<attribute value="" />
+</attributes>
+</node>
+<node category="degree">
+<id>deg2</id>
+<label>prof. dr hab. inż.</label>
+<attributes>
+<attribute value="prof. dr hab. inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg1</id>
+<label>doc. dr hab. inż.</label>
+<attributes>
+<attribute value="doc. dr hab. inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg3</id>
+<label>mgr inż.</label>
+<attributes>
+<attribute value="mgr inż." />
+</attributes>
+</node>
+<node category="degree">
+<id>deg5</id>
+<label>mgr</label>
+<attributes>
+<attribute value="mgr" />
+</attributes>
+</node>
+<node category="degree">
+<id>deg0</id>
+<label>dr inż.</label>
+<attributes>
+<attribute value="dr inż." />
+</attributes>
+</node>
+<node category="faculty" persistent="true">
+<id>fac0</id>
+<label>KSEM</label>
+<attributes>
+<attribute value="KSEM" />
+</attributes>
+<actions>
+<action>file://departments.xml</action>
+</actions>
+</node>
+<node category="position">
+<id>pos7</id>
+<label>konstruktor</label>
+<attributes>
+<attribute value="konstruktor" />
+</attributes>
+</node>
+<node category="position">
+<id>pos11</id>
+<label>sam. referent</label>
+<attributes>
+<attribute value="sam. referent" />
+</attributes>
+</node>
+<node category="position">
+<id>pos1</id>
+<label>adiunkt docent z hab.</label>
+<attributes>
+<attribute value="adiunkt docent z hab." />
+</attributes>
+</node>
+<node category="position">
+<id>pos8</id>
+<label>st. technik</label>
+<attributes>
+<attribute value="st. technik" />
+</attributes>
+</node>
+<node category="position">
+<id>pos10</id>
+<label>st. referent</label>
+<attributes>
+<attribute value="st. referent" />
+</attributes>
+</node>
+<node category="position">
+<id>pos0</id>
+<label>st. wykładowca</label>
+<attributes>
+<attribute value="st. wykładowca" />
+</attributes>
+</node>
+<node category="position">
+<id>pos6</id>
+<label>specjalista</label>
+<attributes>
+<attribute value="specjalista" />
+</attributes>
+</node>
+<node category="position">
+<id>pos4</id>
+<label>st. wykładowca z dr</label>
+<attributes>
+<attribute value="st. wykładowca z dr" />
+</attributes>
+</node>
+<node category="position">
+<id>pos5</id>
+<label>doktorant</label>
+<attributes>
+<attribute value="doktorant" />
+</attributes>
+</node>
+<node category="position">
+<id>pos2</id>
+<label>adiunkt</label>
+<attributes>
+<attribute value="adiunkt" />
+</attributes>
+</node>
+<node category="position">
+<id>pos9</id>
+<label>mistrz</label>
+<attributes>
+<attribute value="mistrz" />
+</attributes>
+</node>
+<node category="position">
+<id>pos3</id>
+<label>prof. nadzw. tytularny</label>
+<attributes>
+<attribute value="prof. nadzw. tytularny" />
+</attributes>
+</node>
+</nodes>
+<edges>
+<edge source="0" target="deg0" />
+<edge source="0" target="fac0" />
+<edge source="0" target="pos0" />
+<edge source="1" target="deg1" />
+<edge source="1" target="fac0" />
+<edge source="1" target="pos1" />
+<edge source="2" target="deg0" />
+<edge source="2" target="fac0" />
+<edge source="2" target="pos2" />
+<edge source="3" target="deg0" />
+<edge source="3" target="fac0" />
+<edge source="3" target="pos2" />
+<edge source="4" target="deg0" />
+<edge source="4" target="fac0" />
+<edge source="4" target="pos0" />
+<edge source="5" target="deg2" />
+<edge source="5" target="fac0" />
+<edge source="5" target="pos3" />
+<edge source="6" target="deg0" />
+<edge source="6" target="fac0" />
+<edge source="6" target="pos4" />
+<edge source="7" target="deg0" />
+<edge source="7" target="fac0" />
+<edge source="7" target="pos2" />
+<edge source="8" target="deg0" />
+<edge source="8" target="fac0" />
+<edge source="8" target="pos2" />
+<edge source="9" target="deg3" />
+<edge source="9" target="fac0" />
+<edge source="9" target="pos5" />
+<edge source="10" target="deg3" />
+<edge source="10" target="fac0" />
+<edge source="10" target="pos6" />
+<edge source="11" target="deg3" />
+<edge source="11" target="fac0" />
+<edge source="11" target="pos7" />
+<edge source="12" target="deg4" />
+<edge source="12" target="fac0" />
+<edge source="12" target="pos8" />
+<edge source="13" target="deg3" />
+<edge source="13" target="fac0" />
+<edge source="13" target="pos6" />
+<edge source="14" target="deg3" />
+<edge source="14" target="fac0" />
+<edge source="14" target="pos6" />
+<edge source="15" target="deg3" />
+<edge source="15" target="fac0" />
+<edge source="15" target="pos6" />
+<edge source="16" target="deg4" />
+<edge source="16" target="fac0" />
+<edge source="16" target="pos8" />
+<edge source="17" target="deg3" />
+<edge source="17" target="fac0" />
+<edge source="17" target="pos7" />
+<edge source="18" target="deg3" />
+<edge source="18" target="fac0" />
+<edge source="18" target="pos7" />
+<edge source="19" target="deg3" />
+<edge source="19" target="fac0" />
+<edge source="19" target="pos7" />
+<edge source="20" target="deg4" />
+<edge source="20" target="fac0" />
+<edge source="20" target="pos8" />
+<edge source="21" target="deg3" />
+<edge source="21" target="fac0" />
+<edge source="21" target="pos6" />
+<edge source="22" target="deg4" />
+<edge source="22" target="fac0" />
+<edge source="22" target="pos9" />
+<edge source="23" target="deg5" />
+<edge source="23" target="fac0" />
+<edge source="23" target="pos10" />
+<edge source="24" target="deg4" />
+<edge source="24" target="fac0" />
+<edge source="24" target="pos11" />
+</edges>
+</graph>

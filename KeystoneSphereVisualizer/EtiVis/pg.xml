@@ -1,0 +1,50 @@
+﻿<graph>
+<nodes>
+<node>
+	<id>PG</id>
+	<label>Politechnika Gdańska</label>
+	<image>img/logo_pg.png</image>
+	<position>center</position>
+</node>
+<node>
+	<id>ETI</id>
+	<label>ETI</label>
+	<image>img/logo_eti.png</image>
+	<actions>
+	<action>file://departments.xml</action>
+	</actions>
+</node>
+<node>
+	<id>ARCH</id>
+	<label>Architektury</label>
+</node>
+<node>
+	<id>CHEM</id>
+	<label>Chemiczny</label>
+</node>
+<node>
+	<id>EIA</id>
+	<label>EIA</label>
+</node>
+<node>
+	<id>FTIMS</id>
+	<label>FTIMS</label>
+</node>
+<node>
+	<id>WLIS</id>
+	<label>ILiS</label>
+</node>
+<node>
+	<id>MECH</id>
+	<label>Mechaniczny</label>
+</node>
+<node>
+	<id>OIO</id>
+	<label>OiO</label>
+</node>
+<node>
+	<id>ZIE</id>
+	<label>ZiE</label>
+</node>
+</nodes>
+</graph>
