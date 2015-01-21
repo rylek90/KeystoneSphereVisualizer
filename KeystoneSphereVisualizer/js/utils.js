@@ -3,56 +3,56 @@ var ANIMATION = {
 	NONE : 0,
 	GROWING : 1,
 	HIDING : 2,
-	CENTER : 3
+	CENTER: 3
 };
 
 function buildAxis( src, dst, colorHex, dashed ) {
-        var geom = new THREE.Geometry(),
-            mat; 
+		var geom = new THREE.Geometry(),
+			mat; 
 
-        if(dashed) {
-                mat = new THREE.LineDashedMaterial({ linewidth: 3, color: colorHex, dashSize: 3, gapSize: 3 });
-        } else {
-                mat = new THREE.LineBasicMaterial({ linewidth: 3, color: colorHex });
-        }
+		if(dashed) {
+				mat = new THREE.LineDashedMaterial({ linewidth: 3, color: colorHex, dashSize: 3, gapSize: 3 });
+		} else {
+				mat = new THREE.LineBasicMaterial({ linewidth: 3, color: colorHex });
+		}
 
-        geom.vertices.push( src.clone() );
-        geom.vertices.push( dst.clone() );
-        geom.computeLineDistances(); // This one is SUPER important, otherwise dashed lines will appear as simple plain lines
+		geom.vertices.push( src.clone() );
+		geom.vertices.push( dst.clone() );
+		geom.computeLineDistances(); // This one is SUPER important, otherwise dashed lines will appear as simple plain lines
 
-        var axis = new THREE.Line( geom, mat, THREE.LinePieces );
+		var axis = new THREE.Line( geom, mat, THREE.LinePieces );
 
-        return axis;
+		return axis;
 
 };
 
 function buildAxes( length ) {
-        var axes = new THREE.Object3D();
+		var axes = new THREE.Object3D();
 
-        axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( length, 0, 0 ), 0xFF0000, false ) ); // +X
-        axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( -length, 0, 0 ), 0xFF0000, true) ); // -X
-        axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, length, 0 ), 0x00FF00, false ) ); // +Y
-        axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, -length, 0 ), 0x00FF00, true ) ); // -Y
-        axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, length ), 0x0000FF, false ) ); // +Z
-        axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, -length ), 0x0000FF, true ) ); // -Z
+		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( length, 0, 0 ), 0xFF0000, false ) ); // +X
+		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( -length, 0, 0 ), 0xFF0000, true) ); // -X
+		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, length, 0 ), 0x00FF00, false ) ); // +Y
+		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, -length, 0 ), 0x00FF00, true ) ); // -Y
+		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, length ), 0x0000FF, false ) ); // +Z
+		axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, -length ), 0x0000FF, true ) ); // -Z
 
-        return axes;
+		return axes;
 };
 
 function roundRect(ctx, x, y, w, h, r) 
 {
-    ctx.beginPath();
-    ctx.moveTo(x+r, y);
-    ctx.lineTo(x+w-r, y);
-    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-    ctx.lineTo(x+w, y+h-r);
-    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-    ctx.lineTo(x+r, y+h);
-    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-    ctx.lineTo(x, y+r);
-    ctx.quadraticCurveTo(x, y, x+r, y);
-    ctx.closePath();
-    ctx.fill();
+	ctx.beginPath();
+	ctx.moveTo(x+r, y);
+	ctx.lineTo(x+w-r, y);
+	ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+	ctx.lineTo(x+w, y+h-r);
+	ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+	ctx.lineTo(x+r, y+h);
+	ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+	ctx.lineTo(x, y+r);
+	ctx.quadraticCurveTo(x, y, x+r, y);
+	ctx.closePath();
+	ctx.fill();
 	ctx.stroke();   
 };
 
@@ -110,14 +110,15 @@ function makeTextSprite( message, parameters ){
 };
 
 Array.prototype.contains = function(obj) {
-    var index = this.indexOf(obj);
-    return (index >= 0);
+	var index = this.indexOf(obj);
+	return (index >= 0);
 };
 
 //3=o
 THREE.Object3D.prototype.removeChild = function(child) {
-    var scene = this;
-    child.parent.remove(child);
+	var scene = this;
+//    child.visible = false;
+	child.parent.remove(child);
 
 };
 /*
@@ -129,8 +130,8 @@ THREE.Object3D.prototype.removeChildRecurse = function(child){
 //<
 
 function rotateAroundWorldAxis(object, axis, radians) {
-    var rotWorldMatrix = new THREE.Matrix4();
-    rotWorldMatrix.makeRotationAxis(axis.normalize(), radians);
+	var rotWorldMatrix = new THREE.Matrix4();
+	rotWorldMatrix.makeRotationAxis(axis.normalize(), radians);
 	rotWorldMatrix.multiply(object.matrix);                
 	object.matrix = rotWorldMatrix;
 	object.rotation.setFromRotationMatrix(object.matrix);

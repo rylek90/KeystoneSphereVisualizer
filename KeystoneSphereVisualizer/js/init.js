@@ -97,14 +97,25 @@ var render = function() {
 };
 render();
 
-var OnDataLoaded = function(nodes) {
-    if (SPHERE.SURFACE.sphere.animation == ANIMATION.HIDING) {
-        window.setTimeout(function() {
+var OnDataLoaded = function (nodes) {
+
+    var isAnyHiding = false;
+
+    $.each(spheres, function(i, sphere) {
+        if (/*SPHERE.SURFACE.*/sphere.animation == ANIMATION.HIDING) {
+            isAnyHiding = true;
+        }
+    });
+
+    if (isAnyHiding) {
+        window.setTimeout(function () {
             console.log("On Data Loaded....");
             OnDataLoaded(nodes);
         }, 100);
         return;
     }
+
+    
     //console.log(nodes);
     $.each(nodes, function(i, iterNode) {
             //console.log('Id: ' + iterNode.id);
@@ -159,8 +170,8 @@ var OnDataLoaded = function(nodes) {
                 new SphereVertex(
                     new THREE.SpriteMaterial(
                         {
-                            map: tex,
-                            color: color
+                            map: tex
+//                            color: color
                         }
                     )
                 )
@@ -258,7 +269,10 @@ var oldMouse = { "x": 0, "y": 0 };
 
 function onDocumentUp(event) {
     event.preventDefault();
-    movingStarted = false;
+
+    if (movingStarted) {
+        movingStarted = false;
+    }
     //console.log("Moving stopped");
 }
 
@@ -278,7 +292,7 @@ function onDocumentDown(event) {
     var PI2 = Math.PI * 2;
 
     var particleMaterial = new THREE.MeshBasicMaterial(
-        { color: 0xFF0050, side: THREE.DoubleSide }
+        { color: 0xFFFFFF, side: THREE.DoubleSide }
     );
     //sphere obj?
     var all_objs = [];
@@ -326,9 +340,12 @@ function onDocumentMove(event) {
         //if moved more than 13 px, turn of centering animation
         var moved = Math.abs(startMouseMoving.x - nowMouse.x) + Math.abs(startMouseMoving.y - nowMouse.y);
         //console.log(moved);
-        if (moved > 1) {
-            $.each(spheres, function(i, sphere) {
-                sphere.setAnimation(ANIMATION.NONE);
+        if (moved > 30) {
+            $.each(spheres, function (i, sphere) {
+                if (sphere.animation !== ANIMATION.HIDING && sphere.animation !== ANIMATION.GROWING) {
+                    sphere.setAnimation(ANIMATION.NONE, null, true);
+                    console.log("kakalaczek");
+                }
             });
         }
     }
@@ -337,7 +354,7 @@ function onDocumentMove(event) {
 //main update loop
 var ONE_FRAME_TIME = 1000 / 20;
 
-var mainloop = function() {
+var mainloop = function () {
     $.each(spheres, function(i, sphere) {
         sphere.update(ONE_FRAME_TIME, spheres_object3d);
     });
