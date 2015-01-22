@@ -57,6 +57,8 @@
       </workgroups>
       <expertises />
     </person>
+    
+    <person category="faculty" />
     <person country="" href="http://www.keystone-cost.eu/keystone/author/a-nurnberger/" img_src="/img/AndreasNrnberger.png" name="Andreas N&#252;rnberger">
       <workgroups>
         <workgroup id="2" />
