@@ -129,7 +129,7 @@ var Sphere = function(position) {
             var absx = Math.abs(vector.x);
             var absy = Math.abs(vector.y);
             if (absx > 0.005) {
-                var sign = vector.x < 0 ? -1 : 1;
+                var sign = vector.x > 0 ? -1 : 1;
                 spheres_object3d.updateMatrixWorld();
                 vector = new THREE.Vector3();
                 vector.setFromMatrixPosition(io.matrixWorld);

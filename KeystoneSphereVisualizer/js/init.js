@@ -127,10 +127,10 @@ var OnDataLoaded = function (nodes) {
             if (iterNode.hasOwnProperty('position')) {
                 //console.log('Position: ' + iterNode.position);
             }
-            if (iterNode.hasOwnProperty('image')) {
+            if (iterNode.hasOwnProperty('img_src')) {
                 //kind of debug....
                 //console.log("DODAJE FOTE");
-                tex = THREE.ImageUtils.loadTexture(iterNode.image);
+                tex = THREE.ImageUtils.loadTexture(iterNode.img_src);
                 //console.log('Image: ' + iterNode.image);
             }
 
@@ -177,7 +177,7 @@ var OnDataLoaded = function (nodes) {
                 )
             );
             sv.id = iterNode.id;
-            sv.caption = iterNode.label;
+            sv.caption = iterNode.name;
             sv.action = action;
             sv.action_url = action_url;
         }
@@ -369,5 +369,6 @@ var mainloop = function () {
 setInterval(mainloop, ONE_FRAME_TIME);
 
 //INITIAL DATA LOAD
-data_manager.loadObjects('graphKASK.xml');
+//data_manager.loadObjects('graphKASK.xml');
+data_manager.loadObjects('keystone.xml')
 //clike between evrythng
