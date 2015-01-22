@@ -97,25 +97,25 @@ var render = function() {
 };
 render();
 
-var OnDataLoaded = function (nodes) {
+var OnDataLoaded = function(nodes) {
 
     var isAnyHiding = false;
 
     $.each(spheres, function(i, sphere) {
-        if (/*SPHERE.SURFACE.*/sphere.animation == ANIMATION.HIDING) {
+        if ( /*SPHERE.SURFACE.*/sphere.animation == ANIMATION.HIDING) {
             isAnyHiding = true;
         }
     });
 
     if (isAnyHiding) {
-        window.setTimeout(function () {
+        window.setTimeout(function() {
             console.log("On Data Loaded....");
             OnDataLoaded(nodes);
         }, 100);
         return;
     }
 
-    
+
     //console.log(nodes);
     $.each(nodes, function(i, iterNode) {
             //console.log('Id: ' + iterNode.id);
@@ -128,10 +128,9 @@ var OnDataLoaded = function (nodes) {
                 //console.log('Position: ' + iterNode.position);
             }
             if (iterNode.hasOwnProperty('img_src')) {
-                //kind of debug....
-                //console.log("DODAJE FOTE");
                 tex = THREE.ImageUtils.loadTexture(iterNode.img_src);
-                //console.log('Image: ' + iterNode.image);
+            } else {
+                tex = THREE.ImageUtils.loadTexture('img/placeholder.png');
             }
 
             if (iterNode.hasOwnProperty('actions')) {
@@ -163,8 +162,6 @@ var OnDataLoaded = function (nodes) {
                     color = 0x009900;
                 }
             }
-            if (tex == null)
-                tex = THREE.ImageUtils.loadTexture('crate.png');
 
             var sv = sphere.addObject(
                 new SphereVertex(
@@ -341,7 +338,7 @@ function onDocumentMove(event) {
         var moved = Math.abs(startMouseMoving.x - nowMouse.x) + Math.abs(startMouseMoving.y - nowMouse.y);
         //console.log(moved);
         if (moved > 30) {
-            $.each(spheres, function (i, sphere) {
+            $.each(spheres, function(i, sphere) {
                 if (sphere.animation !== ANIMATION.HIDING && sphere.animation !== ANIMATION.GROWING) {
                     sphere.setAnimation(ANIMATION.NONE, null, true);
                     console.log("kakalaczek");
@@ -354,7 +351,7 @@ function onDocumentMove(event) {
 //main update loop
 var ONE_FRAME_TIME = 1000 / 20;
 
-var mainloop = function () {
+var mainloop = function() {
     $.each(spheres, function(i, sphere) {
         sphere.update(ONE_FRAME_TIME, spheres_object3d);
     });

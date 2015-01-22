@@ -94,6 +94,7 @@
     <Content Include="img\AndreasNrnberger.png" />
     <Content Include="img\AndreFreitas.png" />
     <Content Include="img\AndreiMogos.png" />
+    <Content Include="img\ANGELLUIS.png" />
     <Content Include="img\AntonioFariaMartnez.png" />
     <Content Include="img\AntonioMoreno.png" />
     <Content Include="img\AntonioSala.png" />
@@ -113,6 +114,7 @@
     <Content Include="img\DariuszBarbucha.png" />
     <Content Include="img\DavidCamacho.png" />
     <Content Include="img\DiegoFernandez.png" />
+    <Content Include="img\DiegoLopez-de-Ipina.png" />
     <Content Include="img\DjoerdHiemstra.png" />
     <Content Include="img\DorianGorgan.png" />
     <Content Include="img\DraganaDudic.png" />
@@ -179,6 +181,7 @@
     <Content Include="img\MarinaIvasic-Kos.png" />
     <Content Include="img\MarjanCeh.png" />
     <Content Include="img\MartinTheobald.png" />
+    <Content Include="img\Mathieud%27Aquin.png" />
     <Content Include="img\MauroDragoni.png" />
     <Content Include="img\MayteLozano.png" />
     <Content Include="img\MehmetGencer.png" />
@@ -194,9 +197,11 @@
     <Content Include="img\PaoloMissier.png" />
     <Content Include="img\PatriceBellot.png" />
     <Content Include="img\PauloRupino.png" />
+    <Content Include="img\PedroFurtado.png" />
     <Content Include="img\PedroLopes.png" />
     <Content Include="img\PeterButka.png" />
     <Content Include="img\PINARYOLUM.png" />
+    <Content Include="img\placeholder.png" />
     <Content Include="img\PrebenHansen.png" />
     <Content Include="img\RadosSumrada.png" />
     <Content Include="img\RalfBiering.png" />
@@ -208,6 +213,7 @@
     <Content Include="img\RiccardoTorlone.png" />
     <Content Include="img\RobertoParedes.png" />
     <Content Include="img\RodicaPotolea.png" />
+    <Content Include="img\SandaMartincic-Ipsic.png" />
     <Content Include="img\SergejZerr.png" />
     <Content Include="img\SERGIOILARRI.png" />
     <Content Include="img\SergioMatos.png" />
