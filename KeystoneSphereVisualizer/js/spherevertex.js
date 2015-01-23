@@ -5,6 +5,7 @@ var SphereVertex = function(material){
 	//new THREE.Mesh( new THREE.PlaneGeometry( 0.5, 0.5 ), material );
 	this.object3d.spherevertex = this;
 	this.id = -1;
+    this.expertises = [];
 	this.action = '';
 	this.action_url = '';
 	this.object3d.position.x = 0;
@@ -44,3 +45,5 @@ var SphereVertex = function(material){
 		this._addCaption(this.caption);
 	};
 };
+
+

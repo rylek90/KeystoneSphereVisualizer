@@ -39,6 +39,15 @@ function buildAxes( length ) {
 		return axes;
 };
 
+// TODO KAKALAK
+function showAllObjects() {
+    $.each(spheres, function(i, sphere) {
+        $.each(sphere.objects, function(i, child) {
+            child.object3d.visible = true;
+        });
+    });
+};
+
 function roundRect(ctx, x, y, w, h, r) 
 {
 	ctx.beginPath();
@@ -99,7 +108,7 @@ function makeTextSprite( message, parameters ){
 	context.fillText( message, borderThickness, fontsize + borderThickness);
 	
 	// canvas contents will be used for a texture
-	var texture = new THREE.Texture(canvas) 
+    var texture = new THREE.Texture(canvas);
 	texture.needsUpdate = true;
 
 	var spriteMaterial = new THREE.SpriteMaterial( 

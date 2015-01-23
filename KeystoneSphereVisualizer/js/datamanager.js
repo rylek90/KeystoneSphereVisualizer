@@ -14,7 +14,7 @@ var DataManager = function(onDataLoaded) {
         console.log(parsedData.nodes);
         console.log(parsedData.nodes.node);
         */
-        this.onDataLoadedCallback(parsedData.people.person);
+        this.onDataLoadedCallback(parsedData);
     }
     this.loadObjects = function(urlToData) {
         this._loadObjects(urlToData, this);

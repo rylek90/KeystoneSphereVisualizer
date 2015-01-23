@@ -39,6 +39,11 @@ var Sphere = function(position) {
         } else if (this.animation == ANIMATION.NONE) {
             this.animation = animation;
             if (animation == ANIMATION.CENTER) {
+
+                if (this.center_obj !== null && this.center_obj.id === animationObj.id) {
+                    showAllObjects();
+                }
+
                 this.center_obj = animationObj;
             }
         } else {
@@ -54,6 +59,8 @@ var Sphere = function(position) {
         }
         return obj3ds;
     };
+
+    
 
     this.update = function(deltaTime, spheres_object3d) {
         var anim_speed = 0.002;
@@ -119,6 +126,8 @@ var Sphere = function(position) {
             if (this.center_obj == null) {
                 return; //let's do it only once.
             }
+
+            
             spheres_object3d.rotation.y %= 2 * Math.PI;
             spheres_object3d.rotation.x %= 2 * Math.PI;
             spheres_object3d.updateMatrixWorld();

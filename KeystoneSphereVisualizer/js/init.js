@@ -117,7 +117,7 @@ var OnDataLoaded = function(nodes) {
 
 
     //console.log(nodes);
-    $.each(nodes, function(i, iterNode) {
+    $.each(nodes.people.person, function(i, iterNode) {
             //console.log('Id: ' + iterNode.id);
             //console.log('Label: ' + iterNode.label);
             var tex = null;
@@ -176,9 +176,33 @@ var OnDataLoaded = function(nodes) {
             sv.id = iterNode.id;
             sv.caption = iterNode.name;
             sv.action = action;
+            sv.expertises = iterNode.expertises;
             sv.action_url = action_url;
         }
     );
+
+
+    $.each(nodes.expertises.expertise, function(i, iterNode) {
+            //console.log('Id: ' + iterNode.id);
+            //console.log('Label: ' + iterNode.label);
+            var action = null;
+            var action_url = null;
+
+            var tex = THREE.ImageUtils.loadTexture('img/placeholder.png');
+
+
+            var sphere = SPHERE.INNER.sphere;
+            var color = 0x000099;
+
+
+            var sv = sphere.addObject(
+                new SphereVertex()
+            );
+            sv.id = iterNode.id;
+            sv.caption = iterNode.text;
+        }
+    );
+
     SPHERE.SURFACE.sphere.rearrangeObjects();
     SPHERE.OUTER.sphere.rearrangeObjects();
     SPHERE.INNER.sphere.rearrangeObjects();
@@ -205,6 +229,57 @@ document.addEventListener('dblclick', onDocumentDblClick, false);
 document.addEventListener('mousedown', onDocumentDown, false);
 document.addEventListener('mouseup', onDocumentUp, false);
 document.addEventListener('mousemove', onDocumentMove, false);
+window.addEventListener('mousewheel', onDocumentScroll, false);
+
+function onDocumentScroll(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    if (evt.wheelDeltaY > 0 && camera.position.z >= 3) {
+        camera.position.z -= 0.1;
+    } else if (evt.wheelDeltaY < 0 && camera.position.z <= 6) {
+        camera.position.z += 0.1;
+    }
+}
+
+function reloadInnerSphereFor(scientistObj) {
+    if (scientistObj.hasOwnProperty('expertises')
+        && scientistObj.expertises.hasOwnProperty('expertise')) {
+        var expertisesIds = [];
+
+        for (var i = 0; i < scientistObj.expertises.expertise.length; i++) {
+            expertisesIds[i] = scientistObj.expertises.expertise[i].id;
+        }
+
+        $.each(SPHERE.INNER.sphere.object3d.children, function(i, child) {
+            if (!expertisesIds.contains(child.spherevertex.id)) {
+                child.visible = false;
+            }
+        });
+    }
+}
+
+function reloadOuterSphereFor(experObject) {
+    var id = experObject.id;
+
+    $.each(SPHERE.SURFACE.sphere.object3d.children, function (i, sphereObj) {
+        var scientistObj = sphereObj.spherevertex;
+        if (scientistObj.hasOwnProperty('expertises')
+            && scientistObj.expertises.hasOwnProperty('expertise')) {
+            var expertisesIds = [];
+
+            for (var i = 0; i < scientistObj.expertises.expertise.length; i++) {
+                expertisesIds[i] = scientistObj.expertises.expertise[i].id;
+            }
+
+            if (!expertisesIds.contains(id)) {
+                scientistObj.object3d.visible = false;
+            }
+        } else {
+            scientistObj.object3d.visible = false;
+        }
+        
+    });
+}
 
 function performAction(obj) {
     if (!obj.hasOwnProperty('spherevertex')) return;
@@ -309,7 +384,16 @@ function onDocumentDown(event) {
         //WHAT DO
         for (var it = 3; it >= 0; it--) {
             if (objects[it].contains(io)) {
-                spheres[it].setAnimation(ANIMATION.CENTER, io);
+
+                if (io.spherevertex.object3d.visible) {
+                    spheres[it].setAnimation(ANIMATION.CENTER, io);
+
+                    if (it == SPHERE.SURFACE.value) {
+                        reloadInnerSphereFor(io.spherevertex);
+                    } else if (it == SPHERE.INNER.value) {
+                        reloadOuterSphereFor(io.spherevertex);
+                    }
+                }
                 return;
             }
         }
@@ -341,7 +425,6 @@ function onDocumentMove(event) {
             $.each(spheres, function(i, sphere) {
                 if (sphere.animation !== ANIMATION.HIDING && sphere.animation !== ANIMATION.GROWING) {
                     sphere.setAnimation(ANIMATION.NONE, null, true);
-                    console.log("kakalaczek");
                 }
             });
         }
