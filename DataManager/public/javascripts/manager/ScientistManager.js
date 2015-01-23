@@ -1,0 +1,3 @@
+﻿var ScientistManager = function(path) {
+    
+}

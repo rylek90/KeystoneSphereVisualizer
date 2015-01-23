@@ -255,8 +255,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="tools\harvester\keystone_dump.bat" />
-    <Content Include="tools\harvester\keystone_dump.py" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
