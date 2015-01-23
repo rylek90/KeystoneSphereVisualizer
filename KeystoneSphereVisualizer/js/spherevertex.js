@@ -16,7 +16,7 @@ var SphereVertex = function(material){
 		//console.log(caption);
 		var tsprite = makeTextSprite( caption, 
 			{
-			    fontsize: 30
+			    fontsize: 15
 
 				//borderColor: {r:255, g:0, b:0, a:1.0}
 				//backgroundColor: {r:255, g:100, b:100, a:0.8} 
