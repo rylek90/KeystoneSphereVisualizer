@@ -3,18 +3,17 @@ var SphereVertex = function (texture) {
     this.aspect = 1.0;
     this.aspectSet = false;
     var this_pointer = this;
+	this.node = null;
     var loadAspect = function (ptr, loaded_tex) {
         //console.log('Texture loaded');
         //console.log(lodaded_tex);
         //console.log(ptr);
         //console.log("H: " + loaded_tex.image.height);
         //console.log("W: " + loaded_tex.image.width);
-        
         ptr.aspect = loaded_tex.image.width / loaded_tex.image.height;
         ptr.aspectSet = true;
         ptr.original_width = loaded_tex.image.width;
         ptr.original_height = loaded_tex.image.height;
-			
 		//console.log(ptr);
 		//console.log(ptr.aspect);
     };
@@ -42,9 +41,7 @@ var SphereVertex = function (texture) {
     this.object3d.spherevertex = this;
     //this.object3d.scale.set(0.5, 0.5, 1);
     this.id = -1;
-    this.expertises = [];
-    this.action = '';
-    this.action_url = '';
+    this.href = '';
     this.object3d.position.x = 0;
     this.object3d.position.y = 0;
     this.object3d.position.z = 0;

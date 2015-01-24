@@ -24,9 +24,6 @@ SPHERE.INNER.sphere = new Sphere(SPHERE.INNER);
 SPHERE.OUTER.sphere = new Sphere(SPHERE.OUTER);
 SPHERE.SURFACE.sphere = new Sphere(SPHERE.SURFACE);
 
-//var axes = buildAxes( 1000 );
-//spheres_object3d.add(axes);
-
 //for iterations
 var spheres = {
     0: SPHERE.CENTER.sphere,
@@ -40,53 +37,213 @@ $.each(spheres, function (i, o) {
     spheres_object3d.add(o.object3d)
 });
 
-//add TEST objs to sphere
-function addTestObjs() {
-    var material = [];
-    material[0] = new THREE.SpriteMaterial(
-        {
-            color: 0x500050,
-            map: THREE.ImageUtils.loadTexture('http://www.html5canvastutorials.com/demos/assets/crate.jpg')
-        }
-    );
-    material[1] = new THREE.SpriteMaterial(
-        {
-            color: 0x000033,
-            map: THREE.ImageUtils.loadTexture('http://www.html5canvastutorials.com/demos/assets/crate.jpg')
-        }
-    );
-    material[2] = new THREE.SpriteMaterial(
-        {
-            color: 0x003300,
-            map: THREE.ImageUtils.loadTexture('http://www.html5canvastutorials.com/demos/assets/crate.jpg')
-        }
-    );
-    material[3] = new THREE.SpriteMaterial(
-        {
-            color: 0x330000,
-            map: THREE.ImageUtils.loadTexture('http://www.html5canvastutorials.com/demos/assets/crate.jpg')
-        }
-    );
-    
-    SPHERE.CENTER.sphere.addObject(new SphereVertex(material[0]));
-    
-    SPHERE.CENTER.sphere.getObjects3d()[0].material = new THREE.SpriteMaterial({
-        map: THREE.ImageUtils.loadTexture('http://www.html5canvastutorials.com/demos/assets/crate.jpg')
-    });
-    
-    for (var i = 0; i < 100; i++) {
-        for (var j = 1; j < 4; j++) {
-            spheres[j].addObject(new SphereVertex(material[j]));
-        }
-    }
-    $.each(spheres, function (i, sphere) {
-        console.log(sphere);
-    });
-    for (var i = 0; i < 4; i++) {
-        //console.log("rearrange " + i);
-        //console.log(spheres[i]);
-        spheres[i].rearrangeObjects();
-    }
+var IntelligentManager = function(spheres_object3d){
+	this.surfaceFeature = null;
+	this.surfaceObject = null;
+	this.outerFeature = null;
+	this.outerObject = null;
+	this.innerFeature = null;
+	this.innerObject = null;
+	this.features = null;
+	this.spheres_object3d = spheres_object3d;
+	this.init = function(features, root){
+	//START, typy ficzerów na najwyższej sferze
+		this.features = features;
+		var ssphere = SPHERE.SURFACE.sphere;
+		$.each(parsed_data, function(i, feature){
+			//initially - only surface sphere & features, and no edges
+			var tex = 'img/placeholder.png';
+			//var color = 0x000099;
+			//console.log(i);
+			//console.log(feature);
+			var sv = ssphere.addObject(
+				new SphereVertex(tex)
+			);
+			sv.caption = i.toLowerCase().capitalize();
+			//save obj as feature
+			sv.feature = i;
+			sv.node = feature;
+			}
+		);
+		ssphere.rearrangeObjects({'grouped':true});
+		$.each(spheres, function (i, sphere) {
+			sphere.setAnimation(ANIMATION.GROWING);
+		});
+	};
+	
+	this.swapSpheres = function(sphere_pos, sphere_pos_2){
+		//swap positions and sphere.positions attr.
+		console.log("SWAP SPHERES");
+		console.log("BEFORE");
+		console.log(sphere_pos);
+		console.log(sphere_pos_2);
+		
+		var temp = sphere_pos.sphere;
+		sphere_pos.sphere = sphere_pos_2.sphere;
+		sphere_pos_2.sphere = temp;
+		console.log("1st part swap");
+		sphere_pos.sphere.position = sphere_pos;
+		sphere_pos_2.sphere.position = sphere_pos_2;
+		
+		console.log("Animations");
+		sphere_pos.sphere.setAnimation(ANIMATION.GROWING);
+		sphere_pos_2.sphere.setAnimation(ANIMATION.GROWING);
+		
+		console.log("AFTER");
+		console.log(sphere_pos);
+		console.log(sphere_pos_2);
+	};
+	
+	this.handle = function(sphere, obj){
+		console.log(SPHERE);
+		console.log(spheres);
+		if(obj == this.root){
+			//reinit?
+		}
+		if(sphere != SPHERE.SURFACE.sphere) return; //nie handluje z klikami na nizsze sfery
+		console.log(sphere);
+		console.log(obj);
+		if(sphere.isCenteredOn(obj)){
+			//MAGIC HAPPENS - klik na wycentrowanym obiekcie, wszystko idzie na 2ga sfere, a na 1sza rzeczy zwiazane z featurem
+			console.log('WAS CENTERED!');
+			var node = obj.node;
+			var feature = obj.feature;
+			/*console.log("OBJ:");
+			console.log(obj);
+			console.log("FEATURE:");
+			console.log(feature);
+			console.log("FEATURE OBJS:");
+			console.log(this.features[feature]);
+			console.log("NODE:");
+			console.log(node);*/
+			//change spheres
+			var working_sphere = SPHERE.OUTER.sphere;
+			var concrete_features = this.features[feature];
+			var elems = concrete_features[0][concrete_features[1]];
+			switch(feature){
+					case "countries":
+						console.log("COUNTRIES!!!");
+						$.each(elems, function(i, country){
+							//console.log(country.id);
+							var tex = null;
+							if(country.text){
+								//console.log(country.text);
+								var sv = working_sphere.addObject(
+									new SphereVertex(tex)
+								);
+								sv.caption = country.text.toLowerCase().capitalize();
+								//save obj as feature
+								sv.feature = i;
+								sv.node = country;
+							}
+						});
+					break;
+					case "people":
+						console.log("PEOPLE!");
+						$.each(elems, function(i, person){
+							var tex = person['img_src'];
+							//console.log(country.text);
+						
+							var sv = working_sphere.addObject(
+								new SphereVertex(tex)
+							);
+							sv.caption = person['name'].toLowerCase().capitalize();
+							//save obj as feature
+							sv.feature = i;
+							sv.node = person;
+							
+						});
+					break;
+			}
+			
+			SPHERE.OUTER.sphere.rearrangeObjects();
+			this.swapSpheres(SPHERE.SURFACE, SPHERE.OUTER);
+			this.makeEdges(SPHERE.SURFACE.sphere.objects, [obj]);
+		}else{
+			console.log("NOT CENTERED - ANIMATION");
+		}
+		if(sphere == SPHERE.SURFACE.sphere){
+			sphere.setAnimation(ANIMATION.CENTER, obj.object3d);
+		}
+		/*if (it == SPHERE.SURFACE.value) {
+		/*if (it == SPHERE.SURFACE.value) {
+		   reloadInnerSphereFor(io.spherevertex);
+		} else if (it == SPHERE.INNER.value) {
+			reloadOuterSphereFor(io.spherevertex);
+		}*/
+	};
+	
+	this.handleDoubleClick = function(obj){
+		if (!obj.hasOwnProperty('spherevertex')) return;
+		console.log("Action");
+		console.log(obj.spherevertex);
+		var url = obj.spherevertex.href;
+		if (url) {
+			console.log("Calling an new page action on url: " + url);
+			window.open(url, '_blank');
+		}else{
+			console.log("No url specified");
+		}
+	};
+	
+	this.makeEdges = function(objects1, objects2){
+		//clear edges...??
+		//add edges
+		$.each(edges, function(i, e){
+			e.remove();
+			this.spheres_object3d.removeChild(e);
+		});
+		edges = [];
+		var surface_obj_nr = objects1.length;
+		var outer_obj_nr = objects2.length;
+		for (var i = 0; i < surface_obj_nr; i++) {
+			for (var j = 0; j < outer_obj_nr; j++) {
+				var edge = new Edge(objects1[i].object3d,
+					objects2[j].object3d,
+					this.spheres_object3d);
+				//console.log(edge);
+				edges.push(edge);
+			}
+		}
+	};
+	this.reloadOuterSphereFor = function (experObject) {
+		var id = experObject.id;
+		
+		$.each(SPHERE.SURFACE.sphere.object3d.children, function (i, sphereObj) {
+			var scientistObj = sphereObj.spherevertex;
+			if (scientistObj.hasOwnProperty('expertises') 
+				&& scientistObj.expertises.hasOwnProperty('expertise')) {
+				var expertisesIds = [];
+				
+				for (var i = 0; i < scientistObj.expertises.expertise.length; i++) {
+					expertisesIds[i] = scientistObj.expertises.expertise[i].id;
+				}
+				
+				if (!expertisesIds.contains(id)) {
+					scientistObj.object3d.visible = false;
+				}
+			} else {
+				scientistObj.object3d.visible = false;
+			}
+			
+		});
+	};
+	this.reloadInnerSphereFor = function(scientistObj) {
+		if (scientistObj.hasOwnProperty('expertises') 
+			&& scientistObj.expertises.hasOwnProperty('expertise')) {
+			var expertisesIds = [];
+			
+			for (var i = 0; i < scientistObj.expertises.expertise.length; i++) {
+				expertisesIds[i] = scientistObj.expertises.expertise[i].id;
+			}
+			
+			$.each(SPHERE.INNER.sphere.object3d.children, function (i, child) {
+				if (!expertisesIds.contains(child.spherevertex.id)) {
+					child.visible = false;
+				}
+			});
+		}
+	};
 };
 
 //render threejs in progress
@@ -97,10 +254,10 @@ var render = function () {
 };
 render();
 
+var intelligentManager = new IntelligentManager(spheres_object3d);
+
 var OnDataLoaded = function (nodes) {
-    
     var isAnyHiding = false;
-    
     $.each(spheres, function (i, sphere) {
         if ( /*SPHERE.SURFACE.*/sphere.animation == ANIMATION.HIDING) {
             isAnyHiding = true;
@@ -109,123 +266,26 @@ var OnDataLoaded = function (nodes) {
     
     if (isAnyHiding) {
         window.setTimeout(function () {
-            console.log("On Data Loaded....");
+           // console.log("On Data Loaded....");
             OnDataLoaded(nodes);
         }, 100);
         return;
     }
     
-    
     //console.log(nodes);
-    $.each(nodes.people.person, function (i, iterNode) {
-        //console.log('Id: ' + iterNode.id);
-        //console.log('Label: ' + iterNode.label);
-        var tex = null;
-        var category = null;
-        var action = null;
-        var action_url = null;
-        if (iterNode.hasOwnProperty('position')) {
-                //console.log('Position: ' + iterNode.position);
-        }
-        if (iterNode.hasOwnProperty('img_src')) {
-            tex = iterNode.img_src;
-				//THREE.ImageUtils.loadTexture(iterNode.img_src);
-        } else {
-            tex = 'img/placeholder.png';
-				//THREE.ImageUtils.loadTexture('img/placeholder.png');
-        }
-        
-        if (iterNode.hasOwnProperty('actions')) {
-            //console.log('Action: ' + iterNode.actions.action);
-            action = iterNode.actions.action.target;
-            action_url = iterNode.actions.action.text;
-            if (action == null) {
-                action_url = iterNode.actions.action;
-            }
-                //console.log("Action saved: " + action, "Action url: " + action_url);
-        }
-        
-        if (iterNode.hasOwnProperty('category')) {
-            //console.log('Category: ' + iterNode.category);
-            category = iterNode.category;
-        }
-        var sphere = SPHERE.SURFACE.sphere;
-        var color = 0x990000;
-        if (category != null) {
-            console.log(category);
-            if (category == 'position') {
-                sphere = SPHERE.INNER.sphere;
-                color = 0x500050;
-            } else if (category == 'faculty') {
-                sphere = SPHERE.CENTER.sphere;
-                color = 0x000099;
-            } else if (category == 'degree') {
-                sphere = SPHERE.OUTER.sphere;
-                color = 0x009900;
-            }
-        }
-        //console.log(tex);
-        var sv = sphere.addObject(new SphereVertex(tex));
-        /*new SphereVertex(
-                    new THREE.SpriteMaterial(
-                        {
-                            map: tex
-//                            color: color
-                        }
-                    )
-                ),
-				tex
-            );*/
-            sv.id = iterNode.id;
-        sv.caption = iterNode.name;
-        sv.action = action;
-        sv.expertises = iterNode.expertises;
-        sv.action_url = action_url;
-    }
-    );
-    
-    
-    $.each(nodes.expertises.expertise, function (i, iterNode) {
-        //console.log('Id: ' + iterNode.id);
-        //console.log('Label: ' + iterNode.label);
-        var action = null;
-        var action_url = null;
-        
-        var tex = THREE.ImageUtils.loadTexture('img/placeholder.png');
-        
-        
-        var sphere = SPHERE.INNER.sphere;
-        var color = 0x000099;
-        
-        
-        var sv = sphere.addObject(
-            new SphereVertex()
-        );
-        sv.id = iterNode.id;
-        sv.caption = iterNode.text;
-    }
-    );
-    
-    SPHERE.SURFACE.sphere.rearrangeObjects();
-    SPHERE.OUTER.sphere.rearrangeObjects();
-    SPHERE.INNER.sphere.rearrangeObjects();
-    edges = [];
-    //add edges
-    var surface_obj_nr = SPHERE.SURFACE.sphere.objects.length;
-    var outer_obj_nr = SPHERE.OUTER.sphere.objects.length;
-    for (var i = 0; i < surface_obj_nr; i++) {
-        for (var j = 0; j < outer_obj_nr; j++) {
-            var edge = new Edge(SPHERE.SURFACE.sphere.objects[i].object3d,
-                SPHERE.OUTER.sphere.objects[j].object3d,
-                spheres_object3d);
-            //console.log(edge);
-            edges.push(edge);
-        }
-    }
-    $.each(spheres, function (i, sphere) {
-        sphere.setAnimation(ANIMATION.GROWING);
-    });
+	parsed_data = {};
+    $.each(nodes.features.feature, 
+		function (i, feature) {
+			//console.log(feature);
+			parsed_data[feature['name']] = [ nodes[feature['name']], feature['single_name']];
+		}
+	);
+	//console.log(parsed_data);
+	intelligentManager.init(parsed_data);
+
 };
+
+
 var data_manager = new DataManager(OnDataLoaded);
 
 document.addEventListener('dblclick', onDocumentDblClick, false);
@@ -234,6 +294,8 @@ document.addEventListener('mouseup', onDocumentUp, false);
 document.addEventListener('mousemove', onDocumentMove, false);
 window.addEventListener('mousewheel', onDocumentScroll, false);
 
+
+
 function onDocumentScroll(evt) {
     evt.preventDefault();
     evt.stopPropagation();
@@ -241,74 +303,6 @@ function onDocumentScroll(evt) {
         camera.position.z -= 0.1;
     } else if (evt.wheelDeltaY < 0 && camera.position.z <= 13) {
         camera.position.z += 0.1;
-    }
-}
-
-function reloadInnerSphereFor(scientistObj) {
-    if (scientistObj.hasOwnProperty('expertises') 
-        && scientistObj.expertises.hasOwnProperty('expertise')) {
-        var expertisesIds = [];
-        
-        for (var i = 0; i < scientistObj.expertises.expertise.length; i++) {
-            expertisesIds[i] = scientistObj.expertises.expertise[i].id;
-        }
-        
-        $.each(SPHERE.INNER.sphere.object3d.children, function (i, child) {
-            if (!expertisesIds.contains(child.spherevertex.id)) {
-                child.visible = false;
-            }
-        });
-    }
-}
-
-function reloadOuterSphereFor(experObject) {
-    var id = experObject.id;
-    
-    $.each(SPHERE.SURFACE.sphere.object3d.children, function (i, sphereObj) {
-        var scientistObj = sphereObj.spherevertex;
-        if (scientistObj.hasOwnProperty('expertises') 
-            && scientistObj.expertises.hasOwnProperty('expertise')) {
-            var expertisesIds = [];
-            
-            for (var i = 0; i < scientistObj.expertises.expertise.length; i++) {
-                expertisesIds[i] = scientistObj.expertises.expertise[i].id;
-            }
-            
-            if (!expertisesIds.contains(id)) {
-                scientistObj.object3d.visible = false;
-            }
-        } else {
-            scientistObj.object3d.visible = false;
-        }
-        
-    });
-}
-
-function performAction(obj) {
-    if (!obj.hasOwnProperty('spherevertex')) return;
-    console.log("Action:");
-    console.log(obj.spherevertex);
-    console.log(obj.spherevertex.action);
-    console.log(obj.spherevertex.action_url);
-    var url = obj.spherevertex.action_url;
-    if (obj.spherevertex.action == 'new_page') {
-        if (url != null) {
-            console.log("Calling an new page action on url: " + url);
-            window.open(url, '_blank');
-        }
-    } else if (obj.spherevertex.action == null) {
-        if (url != null) {
-            var index = url.indexOf("file://");
-            if (index > -1) {
-                console.log("File load action");
-                url = url.substring(index + "file://".length, url.length);
-                console.log("URL: " + url);
-                $.each(spheres, function (i, sphere) {
-                    sphere.setAnimation(ANIMATION.HIDING);
-                });
-                data_manager.loadObjects(url);
-            }
-        }
     }
 }
 
@@ -334,7 +328,7 @@ function onDocumentDblClick(event) {
     if (intersects.length > 0) {
         //console.log("Intersection click!");
         var io = intersects[0].object;
-        performAction(io);
+		intelligentManager.handleDoubleClick(io);
     }
 };
 
@@ -387,15 +381,8 @@ function onDocumentDown(event) {
         //WHAT DO
         for (var it = 3; it >= 0; it--) {
             if (objects[it].contains(io)) {
-                
                 if (io.spherevertex.object3d.visible) {
-                    spheres[it].setAnimation(ANIMATION.CENTER, io);
-                    
-                    if (it == SPHERE.SURFACE.value) {
-                        reloadInnerSphereFor(io.spherevertex);
-                    } else if (it == SPHERE.INNER.value) {
-                        reloadOuterSphereFor(io.spherevertex);
-                    }
+                    intelligentManager.handle(spheres[it], io.spherevertex);
                 }
                 return;
             }
@@ -418,8 +405,6 @@ function onDocumentMove(event) {
         var yAxis = new THREE.Vector3(0, 1, 0);
         rotateAroundWorldAxis(spheres_object3d, yAxis, -0.3 * deltaX * mpi);
         rotateAroundWorldAxis(spheres_object3d, xAxis, -0.3 * deltaY * mpi);
-        //spheres_object3d.rotation.y-=0.3*deltaX*mpi;
-        //spheres_object3d.rotation.x-=0.3*deltaY*mpi;
         
         //if moved more than 13 px, turn of centering animation
         var moved = Math.abs(startMouseMoving.x - nowMouse.x) + Math.abs(startMouseMoving.y - nowMouse.y);
@@ -441,12 +426,8 @@ var mainloop = function () {
     $.each(spheres, function (i, sphere) {
         sphere.update(ONE_FRAME_TIME, spheres_object3d);
     });
-    $.each(edges, function (i, edge) {
-        if ($(document).find('.js-show-edges').is(':checked')) {
-            edge.update();
-        } else {
-            edge.remove();
-        }
+	$.each(edges, function (i, edge) {
+		edge.update();
     });
 };
 setInterval(mainloop, ONE_FRAME_TIME);

@@ -40,9 +40,9 @@ var Sphere = function (position) {
             this.animation = animation;
             if (animation == ANIMATION.CENTER) {
                 
-                if (this.center_obj !== null && this.center_obj.id === animationObj.id) {
+                /*if (this.center_obj !== null && this.center_obj.id === animationObj.id) {
                     showAllObjects();
-                }
+                }*/
                 
                 this.center_obj = animationObj;
             }
@@ -60,6 +60,25 @@ var Sphere = function (position) {
         return obj3ds;
     };
     
+	this.isCenteredOn = function(obj){
+		var obj = obj.object3d;
+		if (this.center_obj == null) {
+            return false;
+		}
+		if(this.center_obj != obj){
+			return false;
+		}
+		var vector = new THREE.Vector3();
+        var io = this.center_obj;
+		vector.setFromMatrixPosition(io.matrixWorld);
+                
+		var absx = Math.abs(vector.x);
+        var absy = Math.abs(vector.y);
+        if (absx <= 0.05 && absy <= 0.05) {
+			return true;
+		}
+		return false;
+	};
     
     
     this.update = function (deltaTime, spheres_object3d) {
@@ -85,21 +104,27 @@ var Sphere = function (position) {
                 obj3d.position.y * obj3d.position.y +
                 obj3d.position.z * obj3d.position.z;
                 //console.log("rkw: " + rkw + " r: " + r);
-                if (rkw < r * r) {
+				var diff = r * r - rkw;
+				var sign = Math.sign(diff);
+				console.log(sign);
+				if(sign<0){
+					console.log(diff);
+					console.log(sign);
+				}
+                if (Math.abs(diff) > 0.01) {
                     $.each(this.objects, function (i, o) {
                         obj3d = o.object3d;
                         var normvec = new THREE.Vector3(obj3d.position.x, obj3d.position.y, obj3d.position.z).normalize();
                         normvec.multiplyScalar(deltaTime * anim_speed);
-                        obj3d.position.x += normvec.x;
-                        obj3d.position.y += normvec.y;
-                        obj3d.position.z += normvec.z;
+                        obj3d.position.x += normvec.x*sign;
+                        obj3d.position.y += normvec.y*sign;
+                        obj3d.position.z += normvec.z*sign;
                         o.update();
                     });
                 //animate!
                 } else {
                     console.log("ANIMATION.GROWING finished");
                     this.animation = ANIMATION.NONE;
-                //finished!
                 }
                 break;
             case ANIMATION.HIDING:
@@ -136,6 +161,7 @@ var Sphere = function (position) {
                 
                 spheres_object3d.rotation.y %= 2 * Math.PI;
                 spheres_object3d.rotation.x %= 2 * Math.PI;
+				spheres_object3d.rotation.z %= 2 * Math.PI;
                 spheres_object3d.updateMatrixWorld();
                 var vector = new THREE.Vector3();
                 var io = this.center_obj;
@@ -181,7 +207,7 @@ var Sphere = function (position) {
         return { "x": aX, "y": aY, "z": aZ };
     }
     
-    this.rearrangeObjects = function () {
+    this.rearrangeObjects = function (params) {
         var radius = this.position.radius;
         var yrotate = true;
         /*
@@ -207,11 +233,17 @@ var Sphere = function (position) {
         }
         
         var mpi = Math.PI / 180;
-        
+        var N = this.nr_of_objects;
+		
+		if(params){
+			if(params['grouped']){
+				N = 10;
+			}
+		}
+		
         for (var i = 0; i < this.nr_of_objects; i++) {
             //var point = this.calculateSpiralCoordinates(i, 0.005);
-            
-            var point = this.sphereCalculate(this.nr_of_objects, i);
+            var point = this.sphereCalculate(N, i);
             var working_obj = this.objects[i];
             var obj3d = working_obj.object3d;
             
@@ -220,7 +252,6 @@ var Sphere = function (position) {
             obj3d.position.z = point.z;
             obj3d.updateMatrixWorld();
             working_obj.rearrange();
-
         }
     };
     
