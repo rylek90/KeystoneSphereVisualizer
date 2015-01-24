@@ -121,7 +121,8 @@ function makeTextSprite(message, parameters) {
     var maxWidth = 300;
     context.lineWidth = borderThickness;
 	context.textAlign = "center";
-    roundRect(context, borderThickness / 2, borderThickness / 2, maxWidth-borderThickness/*textWidth + borderThickness*/, fontsize * 1.4 + borderThickness, 6);
+	lines_count = wrapText(context, message, 150, fontsize+borderThickness, maxWidth, fontsize);
+    roundRect(context, borderThickness / 2, borderThickness / 2, maxWidth-borderThickness/*textWidth + borderThickness*/, lines_count*(fontsize * 1.4) + borderThickness, 6);
     // 1.4 is extra height factor for text below baseline: g,j,p,q.
     
     // text color
