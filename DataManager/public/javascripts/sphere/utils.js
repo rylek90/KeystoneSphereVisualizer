@@ -63,6 +63,29 @@ function roundRect(ctx, x, y, w, h, r) {
     ctx.stroke();
 };
 
+function wrapText(context, text, x, y, maxWidth, lineHeight) {
+	var words = text.split(' ');
+	var line = '';
+	var lines_count = 0;
+	for(var n = 0; n < words.length; n++) {
+	  var testLine = line + words[n] + ' ';
+	  var metrics = context.measureText(testLine);
+	  var testWidth = metrics.width;
+	  if (testWidth > maxWidth && n > 0) {
+		context.fillText(line, x, y);
+		lines_count++;
+		line = words[n] + ' ';
+		y += lineHeight;
+	  }
+	  else {
+		line = testLine;
+	  }
+	}
+	context.fillText(line, x, y);
+	lines_count++;
+	return lines_count;
+}
+
 function makeTextSprite(message, parameters) {
     if (parameters === undefined) parameters = {};
     
@@ -95,24 +118,27 @@ function makeTextSprite(message, parameters) {
     // border color
     context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + "," 
 								  + borderColor.b + "," + borderColor.a + ")";
-    
+    var maxWidth = 300;
     context.lineWidth = borderThickness;
-    roundRect(context, borderThickness / 2, borderThickness / 2, textWidth + borderThickness, fontsize * 1.4 + borderThickness, 6);
+	context.textAlign = "center";
+    roundRect(context, borderThickness / 2, borderThickness / 2, maxWidth-borderThickness/*textWidth + borderThickness*/, fontsize * 1.4 + borderThickness, 6);
     // 1.4 is extra height factor for text below baseline: g,j,p,q.
     
     // text color
     context.fillStyle = "rgba(0, 0, 0, 1.0)";
     
-    context.fillText(message, borderThickness, fontsize + borderThickness);
+	lines_count = wrapText(context, message, 150, fontsize+borderThickness, maxWidth, fontsize);
+    //context.fillText(message, borderThickness, fontsize + borderThickness);
     
     // canvas contents will be used for a texture
     var texture = new THREE.Texture(canvas);
     texture.needsUpdate = true;
     
     var spriteMaterial = new THREE.SpriteMaterial( 
-        { map: texture, useScreenCoordinates: false });
+        { map: texture }
+	);
     var sprite = new THREE.Sprite(spriteMaterial);
-    sprite.scale.set(1, 1, 1.0);
+    //sprite.scale.set(1, 1, 1.0);
     return sprite;
 };
 

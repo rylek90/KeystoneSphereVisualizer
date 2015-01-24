@@ -53,13 +53,13 @@ var SphereVertex = function (texture) {
         //console.log(caption);
         var tsprite = makeTextSprite(caption, 
 			{
-            fontsize: 15
+            fontsize: 20
 
 				//borderColor: {r:255, g:0, b:0, a:1.0}
 				//backgroundColor: {r:255, g:100, b:100, a:0.8} 
         } 
         );
-        var box = new THREE.Box3().setFromObject(this.object3d);
+        //var box = new THREE.Box3().setFromObject(this.object3d);
         tsprite.scale.set(1, 1, 1);
         this.caption = tsprite;
         this.object3d.add(tsprite);
