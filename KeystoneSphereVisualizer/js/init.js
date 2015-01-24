@@ -14,7 +14,7 @@ function initialize() {
         renderer = new THREE.CanvasRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
-    camera.position.z = 5;
+    camera.position.z = 10;
 }
 
 initialize(); //scene, camera, renderer
@@ -128,9 +128,11 @@ var OnDataLoaded = function(nodes) {
                 //console.log('Position: ' + iterNode.position);
             }
             if (iterNode.hasOwnProperty('img_src')) {
-                tex = THREE.ImageUtils.loadTexture(iterNode.img_src);
+                tex = iterNode.img_src;
+				//THREE.ImageUtils.loadTexture(iterNode.img_src);
             } else {
-                tex = THREE.ImageUtils.loadTexture('img/placeholder.png');
+                tex = 'img/placeholder.png';
+				//THREE.ImageUtils.loadTexture('img/placeholder.png');
             }
 
             if (iterNode.hasOwnProperty('actions')) {
@@ -162,17 +164,18 @@ var OnDataLoaded = function(nodes) {
                     color = 0x009900;
                 }
             }
-
-            var sv = sphere.addObject(
-                new SphereVertex(
+			//console.log(tex);
+            var sv = sphere.addObject(new SphereVertex(tex));
+                /*new SphereVertex(
                     new THREE.SpriteMaterial(
                         {
                             map: tex
 //                            color: color
                         }
                     )
-                )
-            );
+                ),
+				tex
+            );*/
             sv.id = iterNode.id;
             sv.caption = iterNode.name;
             sv.action = action;
@@ -236,7 +239,7 @@ function onDocumentScroll(evt) {
     evt.stopPropagation();
     if (evt.wheelDeltaY > 0 && camera.position.z >= 3) {
         camera.position.z -= 0.1;
-    } else if (evt.wheelDeltaY < 0 && camera.position.z <= 6) {
+    } else if (evt.wheelDeltaY < 0 && camera.position.z <= 13) {
         camera.position.z += 0.1;
     }
 }

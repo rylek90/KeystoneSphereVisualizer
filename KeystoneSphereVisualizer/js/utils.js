@@ -1,4 +1,3 @@
-
 var ANIMATION = {
 	NONE : 0,
 	GROWING : 1,
