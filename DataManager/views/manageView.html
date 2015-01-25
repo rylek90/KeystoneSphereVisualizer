@@ -1,5 +1,25 @@
 ﻿<html>
-    <textarea class=>
-        <%= data %>
-    </textarea>
+    <form>
+        <%= person.id %> <br/>
+        <%= country.name %> <br/>
+        <select name="country">
+            <% for (var i = 0; i < country.length; i++) {
+            
+            if (country[i].isSelected) { %>
+                <option selected="selected" value="<%= country[i].id %>"><%= country[i].name %></option>
+            <% } else {
+            %> <option value="<%= country[i].id %>"><%= country[i].name %></option> <%
+            }
+
+            } %>
+        </select>
+        <%= country.name %> <br/>
+        <input type="text" value="<%= person.href %>"/>
+        <input type="text" value="<%= person.img_src %>" />
+        <input type="text" value="<%= person.name %>" />
+    </form>
+    
+    
+     
+     
 </html>
