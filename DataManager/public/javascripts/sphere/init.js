@@ -38,34 +38,77 @@ $.each(spheres, function (i, o) {
 });
 
 var IntelligentManager = function(spheres_object3d){
-	this.surfaceFeature = null;
-	this.surfaceObject = null;
-	this.outerFeature = null;
-	this.outerObject = null;
-	this.innerFeature = null;
-	this.innerObject = null;
-	this.features = null;
+	this.nodes = null;
+	this.edges = null;
 	this.spheres_object3d = spheres_object3d;
-	this.init = function(features, root){
-	//START, typy ficzerów na najwyższej sferze
-		this.features = features;
-		var ssphere = SPHERE.SURFACE.sphere;
-		$.each(parsed_data, function(i, feature){
-			//initially - only surface sphere & features, and no edges
-			var tex = 'img/placeholder.png';
-			//var color = 0x000099;
-			//console.log(i);
-			//console.log(feature);
-			var sv = ssphere.addObject(
-				new SphereVertex(tex)
-			);
-			sv.caption = i.toLowerCase().capitalize();
-			//save obj as feature
-			sv.feature = i;
-			sv.node = feature;
+	this.occupied = {};
+	this._findChildren = function(node){
+		console.log("Find children");
+		node_edges = [];
+		$.each(this.edges, function(i, e){
+			if(e['source'] == node['id']){
+				node_edges.push(e);
 			}
+		});
+		console.log("Node edges:");
+		console.log(node_edges.length);
+		console.log(node_edges);
+		children = [];
+		$.each(this.nodes, function(i, n){
+			$.each(node_edges, function(j, ne){
+				if(ne['target'] == n['id']){
+					children.push(n);
+				}
+			});
+		});
+		return children;
+	};
+	
+	this._findParents = function(node){
+		console.log("Find children");
+		node_edges = [];
+		$.each(this.edges, function(i, e){
+			if(e['target'] == node['id']){
+				node_edges.push(e);
+			}
+		});
+		console.log("Node edges:");
+		console.log(node_edges.length);
+		console.log(node_edges);
+		parents = [];
+		$.each(this.nodes, function(i, n){
+			$.each(node_edges, function(j, ne){
+				if(ne['source'] == n['id']){
+					parents.push(n);
+				}
+			});
+		});
+		return parents;
+	};
+
+	this.init = function(nodes){
+	//START, typy ficzerów na najwyższej sferze
+		console.log("Nodes:");
+		console.log(nodes);
+		this.nodes = nodes.nodes.node;
+		this.edges = nodes.edges.edge;
+		
+		var root_node = null;
+		$.each(this.nodes, function(i,n){
+			if(n['id'] == nodes['root_node_id']){
+				root_node = n;
+			}
+		});
+		console.log("Root node:");
+		console.log(root_node);
+		//add root node to center...
+		var sv = SPHERE.SURFACE.sphere.addObject(
+				new SphereVertex(root_node['img_src'])
 		);
-		ssphere.rearrangeObjects({'grouped':true});
+		sv.caption = root_node['name'];
+		sv.node = root_node;
+		SPHERE.SURFACE.sphere.rearrangeObjects();
+		//ssphere.rearrangeObjects();
 		$.each(spheres, function (i, sphere) {
 			sphere.setAnimation(ANIMATION.GROWING);
 		});
@@ -94,83 +137,124 @@ var IntelligentManager = function(spheres_object3d){
 		console.log(sphere_pos_2);
 	};
 	
+	this.joinNodes = function(nodes1, nodes2, comp){
+		join = [];
+		$.each(nodes1, function(i, node1){
+			$.each(nodes2, function(i, node2){
+				if(comp(node1,node2)){
+					join.push(node1);
+				}
+			});
+		});
+		return join;
+	};
 	this.handle = function(sphere, obj){
-		console.log(SPHERE);
-		console.log(spheres);
+		//console.log(SPHERE);
+		//console.log(spheres);
 		if(obj == this.root){
 			//reinit?
 		}
-		if(sphere != SPHERE.SURFACE.sphere) return; //nie handluje z klikami na nizsze sfery
-		console.log(sphere);
-		console.log(obj);
-		if(sphere.isCenteredOn(obj)){
-			//MAGIC HAPPENS - klik na wycentrowanym obiekcie, wszystko idzie na 2ga sfere, a na 1sza rzeczy zwiazane z featurem
-			console.log('WAS CENTERED!');
-			var node = obj.node;
-			var feature = obj.feature;
-			/*console.log("OBJ:");
-			console.log(obj);
-			console.log("FEATURE:");
-			console.log(feature);
-			console.log("FEATURE OBJS:");
-			console.log(this.features[feature]);
-			console.log("NODE:");
-			console.log(node);*/
-			//change spheres
-			var working_sphere = SPHERE.OUTER.sphere;
-			var concrete_features = this.features[feature];
-			var elems = concrete_features[0][concrete_features[1]];
-			switch(feature){
-					case "countries":
-						console.log("COUNTRIES!!!");
-						$.each(elems, function(i, country){
-							//console.log(country.id);
-							var tex = null;
-							if(country.text){
-								//console.log(country.text);
-								var sv = working_sphere.addObject(
-									new SphereVertex(tex)
-								);
-								sv.caption = country.text.toLowerCase().capitalize();
-								//save obj as feature
-								sv.feature = i;
-								sv.node = country;
+		if(!sphere.isCenteredOn(obj)){
+			console.log("NOT CENTERED -> ANIMATION");
+			sphere.setAnimation(ANIMATION.CENTER, obj.object3d);
+			return;
+		}
+		switch(sphere.position){
+			case SPHERE.CENTER:
+				console.log("Center clicked");
+			break;
+			case SPHERE.INNER:
+				console.log("Inner clicked");
+			break;
+			case SPHERE.OUTER:
+				console.log("Outer clicked");
+				console.log(SPHERE.SURFACE.sphere.objects.length);
+				if(SPHERE.SURFACE.sphere.objects.length>0){
+					SPHERE.SURFACE.sphere.clear();
+					
+					console.log("OBJECT:");
+					console.log(obj);
+					var children = this._findChildren(obj.node);
+					console.log("OBJECT ELEMS:");
+					console.log(children);
+					var working_sphere = SPHERE.SURFACE.sphere;
+					$.each(children, function(i, child){
+						//console.log(country.id);
+						var tex = 'img/placeholder.png';
+						if(child.hasOwnProperty('img_src')){
+							tex = child['img_src'];
+						}
+						var sv = working_sphere.addObject(
+							new SphereVertex(tex)
+						);
+						sv.caption = child['name'].toLowerCase().capitalize();
+						//save obj as feature
+						sv.feature = i;
+						sv.node = child;
+					});
+				
+					SPHERE.SURFACE.sphere.rearrangeObjects();
+					SPHERE.SURFACE.sphere.setAnimation(ANIMATION.GROWING);
+					this.makeEdges(SPHERE.SURFACE.sphere.objects, [obj], true);
+				}
+			break;
+			case SPHERE.SURFACE:
+				console.log("Surface clicked");
+				//MAGIC HAPPENS - klik na wycentrowanym obiekcie, wszystko idzie na 2ga sfere, a na 1sza rzeczy zwiazane z featurem
+				console.log('WAS CENTERED!');
+				//przesuniecie
+				
+				var children = this._findChildren(obj.node);
+				
+				if(children.length>0){ //mozna dalej rozwijac graf - wchodzic w glab
+					this.swapSpheres(SPHERE.CENTER, SPHERE.INNER);
+					this.swapSpheres(SPHERE.INNER, SPHERE.OUTER);
+					this.swapSpheres(SPHERE.SURFACE, SPHERE.OUTER);
+				
+					console.log("OBJECT:");
+					console.log(obj);
+					console.log("OBJECT ELEMS:");
+					console.log(children);
+					var working_sphere = SPHERE.SURFACE.sphere;
+					$.each(children, function(i, child){
+						//console.log(country.id);
+						var tex = 'img/placeholder.png';
+						if(child.hasOwnProperty('img_src')){
+							tex = child['img_src'];
+						}
+						var sv = working_sphere.addObject(
+							new SphereVertex(tex)
+						);
+						sv.caption = child['name'].toLowerCase().capitalize();
+						//save obj as feature
+						sv.feature = i;
+						sv.node = child;
+					});
+					
+					SPHERE.SURFACE.sphere.rearrangeObjects();
+					this.makeEdges(SPHERE.SURFACE.sphere.objects, [obj], true);
+				}else{
+					//trzeba szukac czegos ciekawego na outer zeby polaczyc... ?
+					var parents = this._findParents(obj.node);
+					var parents_objs = [];
+					$.each(parents, function(i, par_node){
+						//console.log("Par_node");
+						//console.log(par_node);
+						$.each(SPHERE.OUTER.sphere.objects, function(i, par_obj){
+							//console.log("par obj");
+							//console.log(par_obj);
+							if(par_node === par_obj.node){
+								console.log("THE SAME!");
+								parents_objs.push(par_obj);
 							}
 						});
-					break;
-					case "people":
-						console.log("PEOPLE!");
-						$.each(elems, function(i, person){
-							var tex = person['img_src'];
-							//console.log(country.text);
-						
-							var sv = working_sphere.addObject(
-								new SphereVertex(tex)
-							);
-							sv.caption = person['name'].toLowerCase().capitalize();
-							//save obj as feature
-							sv.feature = i;
-							sv.node = person;
-							
-						});
-					break;
-			}
-			
-			SPHERE.OUTER.sphere.rearrangeObjects();
-			this.swapSpheres(SPHERE.SURFACE, SPHERE.OUTER);
-			this.makeEdges(SPHERE.SURFACE.sphere.objects, [obj]);
-		}else{
-			console.log("NOT CENTERED - ANIMATION");
+					});
+					SPHERE.SURFACE.sphere.clear([obj]);
+					this.makeEdges(parents_objs, [obj], true);
+				}
+			break;
 		}
-		if(sphere == SPHERE.SURFACE.sphere){
-			sphere.setAnimation(ANIMATION.CENTER, obj.object3d);
-		}
-		/*if (it == SPHERE.SURFACE.value) {
-		/*if (it == SPHERE.SURFACE.value) {
-		   reloadInnerSphereFor(io.spherevertex);
-		} else if (it == SPHERE.INNER.value) {
-			reloadOuterSphereFor(io.spherevertex);
-		}*/
+		
 	};
 	
 	this.handleDoubleClick = function(obj){
@@ -186,13 +270,15 @@ var IntelligentManager = function(spheres_object3d){
 		}
 	};
 	
-	this.makeEdges = function(objects1, objects2){
+	this.makeEdges = function(objects1, objects2, delete_edges){
 		//clear edges...??
 		//add edges
-		$.each(edges, function(i, e){
-			e.remove();
-			this.spheres_object3d.removeChild(e);
-		});
+		if(delete_edges){
+			$.each(edges, function(i, e){
+				e.remove();
+				//this.spheres_object3d.removeChild(e);
+			});
+		}
 		edges = [];
 		var surface_obj_nr = objects1.length;
 		var outer_obj_nr = objects2.length;
@@ -206,6 +292,7 @@ var IntelligentManager = function(spheres_object3d){
 			}
 		}
 	};
+	/*
 	this.reloadOuterSphereFor = function (experObject) {
 		var id = experObject.id;
 		
@@ -244,6 +331,7 @@ var IntelligentManager = function(spheres_object3d){
 			});
 		}
 	};
+	*/
 };
 
 //render threejs in progress
@@ -273,18 +361,17 @@ var OnDataLoaded = function (nodes) {
     }
     
     //console.log(nodes);
-	parsed_data = {};
+	/*parsed_data = {};
     $.each(nodes.features.feature, 
 		function (i, feature) {
 			//console.log(feature);
 			parsed_data[feature['name']] = [ nodes[feature['name']], feature['single_name']];
 		}
-	);
+	);*/
 	//console.log(parsed_data);
-	intelligentManager.init(parsed_data);
+	intelligentManager.init(nodes);
 
 };
-
 
 var data_manager = new DataManager(OnDataLoaded);
 

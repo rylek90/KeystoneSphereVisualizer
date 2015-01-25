@@ -62,6 +62,10 @@ var Sphere = function (position) {
     
 	this.isCenteredOn = function(obj){
 		var obj = obj.object3d;
+		//console.log(this.position);
+		if(this.position == SPHERE.CENTER) {
+			return true;
+		}
 		if (this.center_obj == null) {
             return false;
 		}
@@ -106,10 +110,10 @@ var Sphere = function (position) {
                 //console.log("rkw: " + rkw + " r: " + r);
 				var diff = r * r - rkw;
 				var sign = Math.sign(diff);
-				console.log(sign);
+				//console.log(sign);
 				if(sign<0){
-					console.log(diff);
-					console.log(sign);
+					//console.log(diff);
+					//console.log(sign);
 				}
                 if (Math.abs(diff) > 0.01) {
                     $.each(this.objects, function (i, o) {
@@ -273,16 +277,30 @@ var Sphere = function (position) {
         this.rearrangeObjects();
     };
     
-    this.clear = function () {
-        //zonk NAT £ERKING
+    this.clear = function (no_delete) {
+        console.log("clear()");
         var parent = this;
+		var nr_of_left = 0;
+		var new_array = [];
         $.each(this.objects, function (i, o) {
             //console.log("Removing:");
             //console.log(o.object3d);
-            
-            this.object3d.removeChild(o.object3d);
+			var delete_obj = true;
+			if(no_delete){
+				$.each(no_delete, function(i, nd){
+					if(nd==o){ 
+						delete_obj = false;
+					}
+				});
+			}
+			if(delete_obj){
+				this.object3d.removeChild(o.object3d);
+			}else {
+				nr_of_left++;
+				new_array.push(o);
+			}
         });
-        this.nr_of_objects = 0;
-        this.objects = [];
+        this.nr_of_objects = nr_of_left;
+        this.objects = new_array;
     };
 };
