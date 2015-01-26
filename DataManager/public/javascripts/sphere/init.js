@@ -98,16 +98,16 @@ var IntelligentManager = function(spheres_object3d){
 		}*/
 	};
 	this._findChildren = function(node){
-		console.log("Find children");
+		//console.log("Find children");
 		node_edges = [];
 		$.each(this.edges, function(i, e){
 			if(e['source'] == node['id']){
 				node_edges.push(e);
 			}
 		});
-		console.log("Node edges:");
-		console.log(node_edges.length);
-		console.log(node_edges);
+		//console.log("Node edges:");
+		//console.log(node_edges.length);
+		//console.log(node_edges);
 		children = [];
 		$.each(this.nodes, function(i, n){
 			$.each(node_edges, function(j, ne){
@@ -116,21 +116,21 @@ var IntelligentManager = function(spheres_object3d){
 				}
 			});
 		});
-		console.log(children);
+		//console.log(children);
 		return children;
 	};
 	
 	this._findParents = function(node){
-		console.log("Find parents");
+		//console.log("Find parents");
 		node_edges = [];
 		$.each(this.edges, function(i, e){
 			if(e['target'] == node['id']){
 				node_edges.push(e);
 			}
 		});
-		console.log("Node edges:");
-		console.log(node_edges.length);
-		console.log(node_edges);
+		//console.log("Node edges:");
+		//console.log(node_edges.length);
+		//console.log(node_edges);
 		parents = [];
 		$.each(this.nodes, function(i, n){
 			$.each(node_edges, function(j, ne){
@@ -139,14 +139,14 @@ var IntelligentManager = function(spheres_object3d){
 				}
 			});
 		});
-		console.log(parents);
+		//console.log(parents);
 		return parents;
 	};
 
 	this.init = function(nodes){
 	//START, typy ficzerów na najwyższej sferze
-		console.log("Nodes:");
-		console.log(nodes);
+		//console.log("Nodes:");
+		//console.log(nodes);
 		this.nodes = nodes.nodes.node;
 		this.edges = nodes.edges.edge;
 		
@@ -156,8 +156,8 @@ var IntelligentManager = function(spheres_object3d){
 				root_node = n;
 			}
 		});
-		console.log("Root node:");
-		console.log(root_node);
+		//console.log("Root node:");
+		//console.log(root_node);
 		//add root node to center...
 		var sv = SPHERE.CENTER.sphere.addObject(
 				new SphereVertex(root_node['img_src'])
@@ -174,10 +174,10 @@ var IntelligentManager = function(spheres_object3d){
 	
 	this.swapSpheres = function(sphere_pos, sphere_pos_2){
 		//swap positions and sphere.positions attr.
-		console.log("SWAP SPHERES");
-		console.log("BEFORE");
-		console.log(sphere_pos);
-		console.log(sphere_pos_2);
+		//console.log("SWAP SPHERES");
+		//console.log("BEFORE");
+		//console.log(sphere_pos);
+		//console.log(sphere_pos_2);
 		
 		var temp = sphere_pos.sphere;
 		sphere_pos.sphere = sphere_pos_2.sphere;
@@ -186,13 +186,13 @@ var IntelligentManager = function(spheres_object3d){
 		sphere_pos.sphere.position = sphere_pos;
 		sphere_pos_2.sphere.position = sphere_pos_2;
 		
-		console.log("Animations");
+		//console.log("Animations");
 		sphere_pos.sphere.setAnimation(ANIMATION.GROWING);
 		sphere_pos_2.sphere.setAnimation(ANIMATION.GROWING);
 		
-		console.log("AFTER");
-		console.log(sphere_pos);
-		console.log(sphere_pos_2);
+		//console.log("AFTER");
+		//console.log(sphere_pos);
+		//console.log(sphere_pos_2);
 	};
 	
 	this.joinNodes = function(nodes1, nodes2, comp){
@@ -223,7 +223,7 @@ var IntelligentManager = function(spheres_object3d){
 			break;
 		};
 		if(!sphere.isCenteredOn(obj)){
-			console.log("NOT CENTERED -> ANIMATION");
+			//console.log("NOT CENTERED -> ANIMATION");
 			sphere.setAnimation(ANIMATION.CENTER, obj.object3d);
 			return;
 		}else{
@@ -268,6 +268,10 @@ var IntelligentManager = function(spheres_object3d){
 				});
 				
 				working_sphere.rearrangeObjects();
+				$.each(spheres[this.sphere_max-1].objects, function(i, o){
+						o.object3d.visible = false;
+					});
+				obj.object3d.visible = true;
 				working_sphere.setAnimation(ANIMATION.GROWING);
 				console.log(working_sphere);
 				this.makeEdges(working_sphere.objects, [obj], true);
@@ -280,6 +284,12 @@ var IntelligentManager = function(spheres_object3d){
 				parents_objs = this.joinNodes(parents, spheres[this.sphere_max-1].objects, function(p, o){ //pushes o to array if ===
 					return p === o.node;
 				});
+				$.each(spheres[this.sphere_max-1].objects, function(i, so){
+					so.object3d.visible = false;
+				});
+				$.each(parents_objs, function(i, po){
+					po.object3d.visible = true;
+				});
 				
 				spheres[this.sphere_max].clear([obj]);
 				this.makeEdges(parents_objs, [obj], true);
@@ -291,6 +301,10 @@ var IntelligentManager = function(spheres_object3d){
 					this.commands.push(new Command('handle_outer_click', obj.node, obj));
 					spheres[this.sphere_max].clear();
 					
+					$.each(spheres[this.sphere_max-1].objects, function(i, o){
+						o.object3d.visible = false;
+					});
+					obj.object3d.visible = true;
 					console.log("OBJECT:");
 					console.log(obj);
 					var children = this._findChildren(obj.node);
@@ -317,9 +331,9 @@ var IntelligentManager = function(spheres_object3d){
 					working_sphere.setAnimation(ANIMATION.GROWING);
 					this.makeEdges(working_sphere.objects, [obj], true);
 				}
-			}
-			else if(sphere.position.value == this.sphere_max-2){
+			}else if(sphere.position.value == this.sphere_max-2){
 				//inner
+				this.commands.push(new Command('handle_inner_click', obj.node, obj));
 				console.log("Clicked inner");
 				console.log("Clean sphere_max");
 				spheres[this.sphere_max].clear();
@@ -330,6 +344,7 @@ var IntelligentManager = function(spheres_object3d){
 				this.handle(sphere, obj);
 			}else if(sphere.position.value == this.sphere_max-3){
 				//center ze sfery
+				this.commands.push(new Command('handle_center_click', obj.node, obj));
 				console.log("Clicked inner");
 				console.log("Clean sphere_max");
 				spheres[this.sphere_max].clear();
@@ -347,7 +362,7 @@ var IntelligentManager = function(spheres_object3d){
 	this.handleDoubleClick = function(obj){
 		if (!obj.hasOwnProperty('spherevertex')) return;
 		console.log("Action");
-		console.log(obj.spherevertex);
+		//console.log(obj.spherevertex);
 		var url = obj.spherevertex.href;
 		if (url) {
 			console.log("Calling an new page action on url: " + url);
