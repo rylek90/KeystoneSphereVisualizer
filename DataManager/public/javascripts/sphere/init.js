@@ -267,7 +267,7 @@ var IntelligentManager = function(spheres_object3d){
 					sv.node = child;
 				});
 				
-				working_sphere.rearrangeObjects();
+				working_sphere.rearrangeObjects({'close_to' : obj});
 				$.each(spheres[this.sphere_max-1].objects, function(i, o){
 						o.object3d.visible = false;
 					});
@@ -292,6 +292,7 @@ var IntelligentManager = function(spheres_object3d){
 				});
 				
 				spheres[this.sphere_max].clear([obj]);
+				spheres[this.sphere_max-1].rearrangeObjects({'close_to' : obj, 'show_them_close_to': parents_objs});
 				this.makeEdges(parents_objs, [obj], true);
 			}
 		}else if(this.sphere_max > 0){
@@ -327,7 +328,7 @@ var IntelligentManager = function(spheres_object3d){
 						sv.node = child;
 					});
 				
-					working_sphere.rearrangeObjects();
+					working_sphere.rearrangeObjects({'close_to' : obj});
 					working_sphere.setAnimation(ANIMATION.GROWING);
 					this.makeEdges(working_sphere.objects, [obj], true);
 				}
@@ -462,14 +463,17 @@ var OnDataLoaded = function (nodes) {
         return;
     }
     
-    //console.log(nodes);
-	/*parsed_data = {};
-    $.each(nodes.features.feature, 
-		function (i, feature) {
+    console.log(nodes);
+	//preload - antylag
+    $.each(nodes.nodes.node,
+		function (i, node) {
 			//console.log(feature);
-			parsed_data[feature['name']] = [ nodes[feature['name']], feature['single_name']];
+			if(node.hasOwnProperty('img_src')){
+				var texture = node['img_src'];
+				tex = THREE.ImageUtils.loadTexture(texture);
+			}
 		}
-	);*/
+	);
 	//console.log(parsed_data);
 	intelligentManager.init(nodes);
 

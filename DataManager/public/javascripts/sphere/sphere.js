@@ -209,8 +209,8 @@ var Sphere = function (position) {
         var aZ = Math.sin(phi) * r;
         
         return { "x": aX, "y": aY, "z": aZ };
-    }
-    
+    };
+	
     this.rearrangeObjects = function (params) {
         var radius = this.position.radius;
         var yrotate = true;
@@ -238,16 +238,47 @@ var Sphere = function (position) {
         
         var mpi = Math.PI / 180;
         var N = this.nr_of_objects;
+		if(N<100) N = 100;
+		
+		var positions = [];
+		for(var i=0; i<this.nr_of_objects;i++){
+			positions.push(this.sphereCalculate(N,i));
+		}
 		
 		if(params){
-			if(params['grouped']){
+			/*if(params['grouped']){
 				N = 10;
+			}*/
+			if(params['close_to']){
+				if(params['show_them_close_to']){
+					//specify which elems should be closer (moved from outer sphere?)
+					var they_should_be_close = params['show_them_close_to'];
+					this.objects.sort(function(a,b){
+						//is on list? then it's smaller
+						if(they_should_be_close.contains(a)){
+							return -1;
+						}
+						return 1;
+						});
+				}
+				var centerobj = params['close_to'];
+				positions.sort(function(a,b){
+					var distance_ac = distance3d_sqr(centerobj,a);
+					var distance_bc = distance3d_sqr(centerobj,b);
+					if(a > b){
+						return 1;
+					}
+					if(a < b) {
+						return -1;
+					}
+					return 0;
+				});
 			}
 		}
 		
         for (var i = 0; i < this.nr_of_objects; i++) {
             //var point = this.calculateSpiralCoordinates(i, 0.005);
-            var point = this.sphereCalculate(N, i);
+            var point = positions[i];
             var working_obj = this.objects[i];
             var obj3d = working_obj.object3d;
             
@@ -257,6 +288,10 @@ var Sphere = function (position) {
             obj3d.updateMatrixWorld();
             working_obj.rearrange();
         }
+		if(params['show_them_close_to']){
+			//grow extra fast
+			this.setAnimation(ANIMATION.GROWING);
+		}
     };
     
     this.addObject = function (object) {
