@@ -64,6 +64,7 @@ function roundRect(ctx, x, y, w, h, r) {
 };
 
 function wrapText(context, text, x, y, maxWidth, lineHeight) {
+	if(text === undefined || text == null) return;
 	var words = text.split(' ');
 	var line = '';
 	var lines_count = 0;

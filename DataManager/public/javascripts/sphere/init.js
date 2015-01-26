@@ -37,11 +37,66 @@ $.each(spheres, function (i, o) {
     spheres_object3d.add(o.object3d)
 });
 
+var Command = function(name, node, obj){
+	this.name = name;
+	this.commandNode = node;
+	this.commandObj = obj;
+};
+
 var IntelligentManager = function(spheres_object3d){
 	this.nodes = null;
 	this.edges = null;
 	this.spheres_object3d = spheres_object3d;
 	this.occupied = {};
+	this.commands = [];
+	this.sphere_max = 0;
+	this.handleRightClick = function(){
+		/*var n = this.commands.length;
+		if(n>0){
+			console.log("Commands in the stack");
+			//UNDO
+			console.log(this.commands[n-1].name);
+			switch(this.commands[n-1].name){
+				case 'init':
+					console.log("Init command was last");
+					break;
+				case 'handle_sphere_click_with_children':
+					SPHERE.SURFACE.sphere.clear();
+					this.swapSpheres(SPHERE.SURFACE, SPHERE.OUTER);
+					this.swapSpheres(SPHERE.INNER, SPHERE.OUTER);
+					this.swapSpheres(SPHERE.CENTER, SPHERE.INNER);
+					$.each(spheres, function(i,s){ s.setAnimation(ANIMATION.GROWING); });
+					this.makeEdges(SPHERE.SURFACE.sphere.objects,[this.commands[n-1].commandObj], true);
+					
+					this.commands.pop();
+					break;
+				case 'handle_sphere_click_with_parents':
+				    this.commands.pop();
+					var parents = this._findParents(this.commands[n-1].commandNode);
+					var parents_objs = [];
+					$.each(parents, function(i, par_node){
+						//console.log("Par_node");
+						//console.log(par_node);
+						$.each(SPHERE.OUTER.sphere.objects, function(i, par_obj){
+							//console.log("par obj");
+							//console.log(par_obj);
+							if(par_node === par_obj.node){
+								console.log("THE SAME!");
+								parents_objs.push(par_obj);
+							}
+						});
+					});
+					SPHERE.SURFACE.sphere.clear([obj]);
+					this.makeEdges(parents_objs, [obj], true);
+					
+					this.commands.pop();
+					break;
+				case 'handle_outer_click':
+					
+					break;
+			}
+		}*/
+	};
 	this._findChildren = function(node){
 		console.log("Find children");
 		node_edges = [];
@@ -61,11 +116,12 @@ var IntelligentManager = function(spheres_object3d){
 				}
 			});
 		});
+		console.log(children);
 		return children;
 	};
 	
 	this._findParents = function(node){
-		console.log("Find children");
+		console.log("Find parents");
 		node_edges = [];
 		$.each(this.edges, function(i, e){
 			if(e['target'] == node['id']){
@@ -83,6 +139,7 @@ var IntelligentManager = function(spheres_object3d){
 				}
 			});
 		});
+		console.log(parents);
 		return parents;
 	};
 
@@ -102,16 +159,17 @@ var IntelligentManager = function(spheres_object3d){
 		console.log("Root node:");
 		console.log(root_node);
 		//add root node to center...
-		var sv = SPHERE.SURFACE.sphere.addObject(
+		var sv = SPHERE.CENTER.sphere.addObject(
 				new SphereVertex(root_node['img_src'])
 		);
 		sv.caption = root_node['name'];
 		sv.node = root_node;
-		SPHERE.SURFACE.sphere.rearrangeObjects();
+		this.commands.push('init', root_node, sv);
+		/*SPHERE.SURFACE.sphere.rearrangeObjects();
 		//ssphere.rearrangeObjects();
 		$.each(spheres, function (i, sphere) {
 			sphere.setAnimation(ANIMATION.GROWING);
-		});
+		});*/
 	};
 	
 	this.swapSpheres = function(sphere_pos, sphere_pos_2){
@@ -142,23 +200,14 @@ var IntelligentManager = function(spheres_object3d){
 		$.each(nodes1, function(i, node1){
 			$.each(nodes2, function(i, node2){
 				if(comp(node1,node2)){
-					join.push(node1);
+					join.push(node2);
 				}
 			});
 		});
 		return join;
 	};
 	this.handle = function(sphere, obj){
-		//console.log(SPHERE);
-		//console.log(spheres);
-		if(obj == this.root){
-			//reinit?
-		}
-		if(!sphere.isCenteredOn(obj)){
-			console.log("NOT CENTERED -> ANIMATION");
-			sphere.setAnimation(ANIMATION.CENTER, obj.object3d);
-			return;
-		}
+		//testing
 		switch(sphere.position){
 			case SPHERE.CENTER:
 				console.log("Center clicked");
@@ -168,16 +217,86 @@ var IntelligentManager = function(spheres_object3d){
 			break;
 			case SPHERE.OUTER:
 				console.log("Outer clicked");
-				console.log(SPHERE.SURFACE.sphere.objects.length);
-				if(SPHERE.SURFACE.sphere.objects.length>0){
-					SPHERE.SURFACE.sphere.clear();
+			break;
+			case SPHERE.SURFACE:
+				console.log("Surface clicked");
+			break;
+		};
+		if(!sphere.isCenteredOn(obj)){
+			console.log("NOT CENTERED -> ANIMATION");
+			sphere.setAnimation(ANIMATION.CENTER, obj.object3d);
+			return;
+		}else{
+			console.log("Centered...");
+		}
+		//surface click
+		console.log("Sphere max == " + this.sphere_max);
+		if(sphere.position.value == this.sphere_max){
+			console.log("Surface clicked");
+			//MAGIC HAPPENS - klik na wycentrowanym obiekcie, wszystko idzie na 2ga sfere, a na 1sza rzeczy zwiazane z featurem
+			
+			var children = this._findChildren(obj.node);
+			
+			if(children.length>0){ //mozna dalej rozwijac graf - wchodzic w glab
+				this.sphere_max++;
+				console.log('handle_sphere_click_with_children');
+				this.commands.push(new Command('handle_sphere_click_with_children', obj.node, obj));
+				//this.swapSpheres(SPHERE.CENTER, SPHERE.INNER);
+				//this.swapSpheres(SPHERE.INNER, SPHERE.OUTER);
+				//this.swapSpheres(SPHERE.SURFACE, SPHERE.OUTER);
+			
+				console.log("OBJECT:");
+				console.log(obj);
+				console.log("OBJECT ELEMS:");
+				console.log(children);
+				var working_sphere = spheres[this.sphere_max];
+				console.log(working_sphere.position);
+				$.each(children, function(i, child){
+					//console.log(country.id);
+					var tex = 'img/placeholder.png';
+					if(child.hasOwnProperty('img_src')){
+						tex = child['img_src'];
+					}
+					var sv = working_sphere.addObject(
+						new SphereVertex(tex)
+					);
+					if(child.hasOwnProperty('name') && child['name'].length>0)
+						sv.caption = child['name'].toLowerCase().capitalize();
+					//save obj as feature
+					sv.feature = i;
+					sv.node = child;
+				});
+				
+				working_sphere.rearrangeObjects();
+				working_sphere.setAnimation(ANIMATION.GROWING);
+				console.log(working_sphere);
+				this.makeEdges(working_sphere.objects, [obj], true);
+			}else{
+				this.commands.push(new Command('handle_sphere_click_with_parents', obj.node, obj));
+				//trzeba szukac czegos ciekawego na outer zeby polaczyc... ?
+				var parents = this._findParents(obj.node);
+				var parents_objs = [];
+				
+				parents_objs = this.joinNodes(parents, spheres[this.sphere_max-1].objects, function(p, o){ //pushes o to array if ===
+					return p === o.node;
+				});
+				
+				spheres[this.sphere_max].clear([obj]);
+				this.makeEdges(parents_objs, [obj], true);
+			}
+		}else if(this.sphere_max > 0){
+			if(sphere.position.value == this.sphere_max-1){
+				//outer
+				if(spheres[this.sphere_max].objects.length>0){
+					this.commands.push(new Command('handle_outer_click', obj.node, obj));
+					spheres[this.sphere_max].clear();
 					
 					console.log("OBJECT:");
 					console.log(obj);
 					var children = this._findChildren(obj.node);
 					console.log("OBJECT ELEMS:");
 					console.log(children);
-					var working_sphere = SPHERE.SURFACE.sphere;
+					var working_sphere = spheres[this.sphere_max];
 					$.each(children, function(i, child){
 						//console.log(country.id);
 						var tex = 'img/placeholder.png';
@@ -187,74 +306,42 @@ var IntelligentManager = function(spheres_object3d){
 						var sv = working_sphere.addObject(
 							new SphereVertex(tex)
 						);
-						sv.caption = child['name'].toLowerCase().capitalize();
+						if(child.hasOwnProperty('name') && child['name'].length>0)
+							sv.caption = child['name'].toLowerCase().capitalize();
 						//save obj as feature
 						sv.feature = i;
 						sv.node = child;
 					});
 				
-					SPHERE.SURFACE.sphere.rearrangeObjects();
-					SPHERE.SURFACE.sphere.setAnimation(ANIMATION.GROWING);
-					this.makeEdges(SPHERE.SURFACE.sphere.objects, [obj], true);
+					working_sphere.rearrangeObjects();
+					working_sphere.setAnimation(ANIMATION.GROWING);
+					this.makeEdges(working_sphere.objects, [obj], true);
 				}
-			break;
-			case SPHERE.SURFACE:
-				console.log("Surface clicked");
-				//MAGIC HAPPENS - klik na wycentrowanym obiekcie, wszystko idzie na 2ga sfere, a na 1sza rzeczy zwiazane z featurem
-				console.log('WAS CENTERED!');
-				//przesuniecie
-				
-				var children = this._findChildren(obj.node);
-				
-				if(children.length>0){ //mozna dalej rozwijac graf - wchodzic w glab
-					this.swapSpheres(SPHERE.CENTER, SPHERE.INNER);
-					this.swapSpheres(SPHERE.INNER, SPHERE.OUTER);
-					this.swapSpheres(SPHERE.SURFACE, SPHERE.OUTER);
-				
-					console.log("OBJECT:");
-					console.log(obj);
-					console.log("OBJECT ELEMS:");
-					console.log(children);
-					var working_sphere = SPHERE.SURFACE.sphere;
-					$.each(children, function(i, child){
-						//console.log(country.id);
-						var tex = 'img/placeholder.png';
-						if(child.hasOwnProperty('img_src')){
-							tex = child['img_src'];
-						}
-						var sv = working_sphere.addObject(
-							new SphereVertex(tex)
-						);
-						sv.caption = child['name'].toLowerCase().capitalize();
-						//save obj as feature
-						sv.feature = i;
-						sv.node = child;
-					});
-					
-					SPHERE.SURFACE.sphere.rearrangeObjects();
-					this.makeEdges(SPHERE.SURFACE.sphere.objects, [obj], true);
-				}else{
-					//trzeba szukac czegos ciekawego na outer zeby polaczyc... ?
-					var parents = this._findParents(obj.node);
-					var parents_objs = [];
-					$.each(parents, function(i, par_node){
-						//console.log("Par_node");
-						//console.log(par_node);
-						$.each(SPHERE.OUTER.sphere.objects, function(i, par_obj){
-							//console.log("par obj");
-							//console.log(par_obj);
-							if(par_node === par_obj.node){
-								console.log("THE SAME!");
-								parents_objs.push(par_obj);
-							}
-						});
-					});
-					SPHERE.SURFACE.sphere.clear([obj]);
-					this.makeEdges(parents_objs, [obj], true);
-				}
-			break;
+			}
+			else if(sphere.position.value == this.sphere_max-2){
+				//inner
+				console.log("Clicked inner");
+				console.log("Clean sphere_max");
+				spheres[this.sphere_max].clear();
+				console.log("Clean sphere_max-1");
+				spheres[this.sphere_max-1].clear();
+				console.log("Cleared (this and +1 sphere)....: " + this.sphere_max);
+				this.sphere_max-=2;
+				this.handle(sphere, obj);
+			}else if(sphere.position.value == this.sphere_max-3){
+				//center ze sfery
+				console.log("Clicked inner");
+				console.log("Clean sphere_max");
+				spheres[this.sphere_max].clear();
+				console.log("Clean sphere_max-1");
+				spheres[this.sphere_max-1].clear();
+				console.log("Cleared (this and +1 sphere)....: " + this.sphere_max);
+				console.log("Clean sphere_max-2");
+				spheres[this.sphere_max-2].clear();
+				this.sphere_max-=3;
+				this.handle(sphere, obj);
+			}
 		}
-		
 	};
 	
 	this.handleDoubleClick = function(obj){
@@ -379,9 +466,14 @@ document.addEventListener('dblclick', onDocumentDblClick, false);
 document.addEventListener('mousedown', onDocumentDown, false);
 document.addEventListener('mouseup', onDocumentUp, false);
 document.addEventListener('mousemove', onDocumentMove, false);
+document.addEventListener('contextmenu', onDocumentDownRight, false);
 window.addEventListener('mousewheel', onDocumentScroll, false);
 
-
+function onDocumentDownRight(event){
+    event.preventDefault();
+    console.log('right click');
+	intelligentManager.handleRightClick();
+};
 
 function onDocumentScroll(evt) {
     evt.preventDefault();

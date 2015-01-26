@@ -5,7 +5,7 @@
 */
 var SPHERE = {
     CENTER: { name: "center", value: 0, radius: 0, objects: 1, sphere: 0 },
-    INNER: { name: "inner", value: 1, radius: 1.8 * 2, objects: 6, sphere: 0 },
+    INNER: { name: "inner", value: 1, radius: 2.2 * 2, objects: 6, sphere: 0 },
     OUTER: { name: "outer", value: 2, radius: 2.4 * 2, objects: 10, sphere: 0 },
     SURFACE: { name: "surface", value: 3, radius: 3 * 2, objects: 30, sphere: 0 }
 };

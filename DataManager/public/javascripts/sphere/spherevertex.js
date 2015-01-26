@@ -99,7 +99,10 @@ var SphereVertex = function (texture) {
 		
     };
     this.rearrange = function () {
-        this._addCaption(this.caption);
+		if(this.caption && this.caption.length>0){
+			//console.log(this.caption);
+			this._addCaption(this.caption);
+		}
     };
 };
 
