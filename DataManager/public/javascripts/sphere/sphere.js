@@ -173,12 +173,18 @@ var Sphere = function (position) {
                 
                 var absx = Math.abs(vector.x);
                 var absy = Math.abs(vector.y);
+                var stepMultiplier = 1.2;
                 if (absx > 0.005) {
                     var sign = vector.x > 0 ? -1 : 1;
                     spheres_object3d.updateMatrixWorld();
                     vector = new THREE.Vector3();
                     vector.setFromMatrixPosition(io.matrixWorld);
-                    var step = anim_speed * deltaTime * absx;
+                    
+                    if (absx > 1) {
+                        stepMultiplier = 1.3;
+                    }
+
+                    var step = anim_speed * deltaTime * absx * stepMultiplier;
                     spheres_object3d.rotation.y += step * sign;
                     still = true;
                 } else if (absy > 0.005) {
@@ -186,7 +192,12 @@ var Sphere = function (position) {
                     spheres_object3d.updateMatrixWorld();
                     vector = new THREE.Vector3();
                     vector.setFromMatrixPosition(io.matrixWorld);
-                    var step = anim_speed * deltaTime * absy;
+                    
+                    if (absy > 1) {
+                        stepMultiplier = 1.3;
+                    }
+
+                    var step = anim_speed * deltaTime * absy * stepMultiplier;
                     spheres_object3d.rotation.x += step * sign;
                     still = true;
                 } else {
