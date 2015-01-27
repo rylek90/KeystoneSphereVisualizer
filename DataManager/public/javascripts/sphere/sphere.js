@@ -162,9 +162,8 @@ var Sphere = function (position) {
                     return; //let's do it only once.
                 }
                 
-                
-                spheres_object3d.rotation.y %= 2 * Math.PI;
                 spheres_object3d.rotation.x %= 2 * Math.PI;
+                spheres_object3d.rotation.y %= 2 * Math.PI;
 				spheres_object3d.rotation.z %= 2 * Math.PI;
                 spheres_object3d.updateMatrixWorld();
                 var vector = new THREE.Vector3();
@@ -249,10 +248,10 @@ var Sphere = function (position) {
         
         var mpi = Math.PI / 180;
         var N = this.nr_of_objects;
-		if(N<100) N = 100;
+		if(N<50) N = 50;
 		
 		var positions = [];
-		for(var i=0; i<this.nr_of_objects;i++){
+		for(var i=0; i<N;i++){
 			positions.push(this.sphereCalculate(N,i));
 		}
 		
@@ -274,13 +273,19 @@ var Sphere = function (position) {
 				}
 				var centerobj = params['close_to'];
 				positions.sort(function(a,b){
-					var distance_ac = distance3d_sqr(centerobj,a);
-					var distance_bc = distance3d_sqr(centerobj,b);
-					if(a > b){
-						return 1;
-					}
-					if(a < b) {
+					/*console.log("sort");
+					console.log(centerobj.object3d.position);
+					console.log(a);
+					console.log(b);*/
+					var distance_ac = distance3d_sqr(centerobj.object3d.position, a);
+					var distance_bc = distance3d_sqr(centerobj.object3d.position, b);
+					//console.log(distance_ac);
+					//console.log(distance_bc);
+					if(distance_ac > distance_bc){
 						return -1;
+					}
+					if(distance_ac < distance_bc) {
+						return 1;
 					}
 					return 0;
 				});
@@ -297,9 +302,9 @@ var Sphere = function (position) {
             obj3d.position.y = point.y;
             obj3d.position.z = point.z;
             obj3d.updateMatrixWorld();
-            working_obj.rearrange();
+			working_obj.rearrange();
         }
-		if(params['show_them_close_to']){
+		if(params && params['show_them_close_to']){
 			//grow extra fast
 			this.setAnimation(ANIMATION.GROWING);
 		}

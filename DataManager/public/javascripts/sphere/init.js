@@ -260,8 +260,7 @@ var IntelligentManager = function(spheres_object3d){
 					var sv = working_sphere.addObject(
 						new SphereVertex(tex)
 					);
-					if(child.hasOwnProperty('name') && child['name'].length>0)
-						sv.caption = child['name'].toLowerCase().capitalize();
+					sv.caption = child['name'].toLowerCase().capitalize();
 					//save obj as feature
 					sv.feature = i;
 					sv.node = child;
@@ -272,9 +271,26 @@ var IntelligentManager = function(spheres_object3d){
 						o.object3d.visible = false;
 					});
 				obj.object3d.visible = true;
+				
 				working_sphere.setAnimation(ANIMATION.GROWING);
 				console.log(working_sphere);
 				this.makeEdges(working_sphere.objects, [obj], true);
+				
+				try{
+					var sph = this.sphere_max-1;
+					var par = this._findParents(obj.node);
+					var parents_objs = this.joinNodes(par, spheres[sph].objects, function(p, o){ //pushes o to array if ===
+							return p === o.node;
+					});
+					while(parents_objs[0]){
+						edges.push(new Edge(parents_objs[0], obj.node, this.spheres_object3d));
+						sph--;
+						par = this._findParents(par[0]);
+						parents_objs = this.joinNodes(par, spheres[sph].objects, function(p, o){ //pushes o to array if ===
+							return p === o.node;
+						});
+					};
+				}catch(e){ console.log(e); }
 			}else{
 				this.commands.push(new Command('handle_sphere_click_with_parents', obj.node, obj));
 				//trzeba szukac czegos ciekawego na outer zeby polaczyc... ?
@@ -292,7 +308,7 @@ var IntelligentManager = function(spheres_object3d){
 				});
 				
 				spheres[this.sphere_max].clear([obj]);
-				spheres[this.sphere_max-1].rearrangeObjects({'close_to' : obj, 'show_them_close_to': parents_objs});
+				//spheres[this.sphere_max-1].rearrangeObjects({'close_to' : obj, 'show_them_close_to': parents_objs});
 				this.makeEdges(parents_objs, [obj], true);
 			}
 		}else if(this.sphere_max > 0){
@@ -321,8 +337,7 @@ var IntelligentManager = function(spheres_object3d){
 						var sv = working_sphere.addObject(
 							new SphereVertex(tex)
 						);
-						if(child.hasOwnProperty('name') && child['name'].length>0)
-							sv.caption = child['name'].toLowerCase().capitalize();
+						sv.caption = child['name'].toLowerCase().capitalize();
 						//save obj as feature
 						sv.feature = i;
 						sv.node = child;
@@ -395,46 +410,6 @@ var IntelligentManager = function(spheres_object3d){
 			}
 		}
 	};
-	/*
-	this.reloadOuterSphereFor = function (experObject) {
-		var id = experObject.id;
-		
-		$.each(SPHERE.SURFACE.sphere.object3d.children, function (i, sphereObj) {
-			var scientistObj = sphereObj.spherevertex;
-			if (scientistObj.hasOwnProperty('expertises') 
-				&& scientistObj.expertises.hasOwnProperty('expertise')) {
-				var expertisesIds = [];
-				
-				for (var i = 0; i < scientistObj.expertises.expertise.length; i++) {
-					expertisesIds[i] = scientistObj.expertises.expertise[i].id;
-				}
-				
-				if (!expertisesIds.contains(id)) {
-					scientistObj.object3d.visible = false;
-				}
-			} else {
-				scientistObj.object3d.visible = false;
-			}
-			
-		});
-	};
-	this.reloadInnerSphereFor = function(scientistObj) {
-		if (scientistObj.hasOwnProperty('expertises') 
-			&& scientistObj.expertises.hasOwnProperty('expertise')) {
-			var expertisesIds = [];
-			
-			for (var i = 0; i < scientistObj.expertises.expertise.length; i++) {
-				expertisesIds[i] = scientistObj.expertises.expertise[i].id;
-			}
-			
-			$.each(SPHERE.INNER.sphere.object3d.children, function (i, child) {
-				if (!expertisesIds.contains(child.spherevertex.id)) {
-					child.visible = false;
-				}
-			});
-		}
-	};
-	*/
 };
 
 //render threejs in progress
@@ -446,6 +421,9 @@ var render = function () {
 render();
 
 var intelligentManager = new IntelligentManager(spheres_object3d);
+
+
+var texturePooler = new TexturePooler();
 
 var OnDataLoaded = function (nodes) {
     var isAnyHiding = false;
@@ -470,7 +448,8 @@ var OnDataLoaded = function (nodes) {
 			//console.log(feature);
 			if(node.hasOwnProperty('img_src')){
 				var texture = node['img_src'];
-				tex = THREE.ImageUtils.loadTexture(texture);
+				//tex = THREE.ImageUtils.loadTexture(texture);
+				tex = texturePooler.getTexture(texture);
 			}
 		}
 	);

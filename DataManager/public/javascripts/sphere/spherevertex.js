@@ -99,7 +99,7 @@ var SphereVertex = function (texture) {
 		
     };
     this.rearrange = function () {
-		if(this.caption && this.caption.length>0){
+		if(this.caption){
 			//console.log(this.caption);
 			this._addCaption(this.caption);
 		}

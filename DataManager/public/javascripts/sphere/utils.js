@@ -26,7 +26,13 @@ function buildAxis(src, dst, colorHex, dashed) {
 };
 
 function distance3d_sqr(vector1, vector2){
-		return ((vector1.x*vector2.x)+(vector1.y*vector2.y)+(vector1.z*vector2.z));
+		/*console.log(vector1);
+		console.log(vector2);*/
+		var x = (vector1['x']*vector2['x']);
+		var y = (vector1['y']*vector2['y']);
+		var z = (vector1['z']*vector2['z']);
+		var distance = x+y+z;
+		return distance;
 };
 
 function buildAxes(length) {
@@ -68,6 +74,7 @@ function roundRect(ctx, x, y, w, h, r) {
 };
 
 function wrapText(context, text, x, y, maxWidth, lineHeight) {
+	try{
 	if(text === undefined || text == null) return;
 	var words = text.split(' ');
 	var line = '';
@@ -88,6 +95,11 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
 	}
 	context.fillText(line, x, y);
 	lines_count++;
+	}catch(err){
+		console.log("EXCEPTION");
+		console.log(err);
+		console.log(text);
+	}
 	return lines_count;
 }
 
