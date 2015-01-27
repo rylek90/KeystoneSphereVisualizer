@@ -36,6 +36,15 @@ var Sphere = function (position) {
         else if (this.animation == ANIMATION.CENTER && animation == ANIMATION.CENTER) {
             //this.animation = ANIMATION.CENTER;
             this.center_obj = animationObj;
+			spheres_object3d.rotation.x %= 2 * Math.PI;
+                spheres_object3d.rotation.y %= 2 * Math.PI;
+				spheres_object3d.rotation.z %= 2 * Math.PI;
+                spheres_object3d.updateMatrixWorld();
+                var vector = new THREE.Vector3();
+                vector.setFromMatrixPosition(animationObj.matrixWorld);
+                console.log("START ROTATING");
+				console.log(spheres_object3d.rotation);
+				console.log(vector);
         } else if (this.animation == ANIMATION.NONE) {
             this.animation = animation;
             if (animation == ANIMATION.CENTER) {
@@ -43,7 +52,15 @@ var Sphere = function (position) {
                 /*if (this.center_obj !== null && this.center_obj.id === animationObj.id) {
                     showAllObjects();
                 }*/
-                
+                spheres_object3d.rotation.x %= 2 * Math.PI;
+                spheres_object3d.rotation.y %= 2 * Math.PI;
+				spheres_object3d.rotation.z %= 2 * Math.PI;
+                spheres_object3d.updateMatrixWorld();
+                var vector = new THREE.Vector3();
+                vector.setFromMatrixPosition(animationObj.matrixWorld);
+                console.log("START ROTATING");
+				console.log(spheres_object3d.rotation);
+				console.log(vector);
                 this.center_obj = animationObj;
             }
         } else {
@@ -169,11 +186,22 @@ var Sphere = function (position) {
                 var vector = new THREE.Vector3();
                 var io = this.center_obj;
                 vector.setFromMatrixPosition(io.matrixWorld);
-                
+               // console.log("START ROTATING");
+				//console.log(spheres_object3d.rotation);
+				//console.log(vector);
+				
                 var absx = Math.abs(vector.x);
                 var absy = Math.abs(vector.y);
                 var stepMultiplier = 1.2;
-                if (absx > 0.005) {
+				
+				
+				 //rotation
+				var xAxis = new THREE.Vector3(1, 0, 0);
+				var yAxis = new THREE.Vector3(0, 1, 0);
+				//rotateAroundWorldAxis(spheres_object3d, yAxis, -0.3 * deltaX * mpi);
+				//rotateAroundWorldAxis(spheres_object3d, xAxis, -0.3 * deltaY * mpi);
+				
+				if (absx > 0.005) {
                     var sign = vector.x > 0 ? -1 : 1;
                     spheres_object3d.updateMatrixWorld();
                     vector = new THREE.Vector3();
@@ -184,7 +212,8 @@ var Sphere = function (position) {
                     }
 
                     var step = anim_speed * deltaTime * absx * stepMultiplier;
-                    spheres_object3d.rotation.y += step * sign;
+                    //spheres_object3d.rotation.y += step * sign;
+					rotateAroundWorldAxis(spheres_object3d, yAxis, step * sign);
                     still = true;
                 } else if (absy > 0.005) {
                     var sign = vector.y > 0 ? 1 : -1;
@@ -197,7 +226,8 @@ var Sphere = function (position) {
                     }
 
                     var step = anim_speed * deltaTime * absy * stepMultiplier;
-                    spheres_object3d.rotation.x += step * sign;
+                    //spheres_object3d.rotation.x += step * sign;
+					rotateAroundWorldAxis(spheres_object3d, xAxis, step * sign);
                     still = true;
                 } else {
                     this.animation = ANIMATION.NONE;
