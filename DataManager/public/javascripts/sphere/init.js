@@ -6,15 +6,17 @@ var raycaster;
 function initialize() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+	//var width = window.innerWidth/50;
+	//var height = window.innerHeight/50;
+	//camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 1000 );
+				
     raycaster = new THREE.Raycaster();
-    
-    if (window.WebGLRenderingContext)
-        renderer = new THREE.WebGLRenderer({ alpha: true });
-    else
-        renderer = new THREE.CanvasRenderer({ alpha: true });
+	
+	renderer = new THREE.WebGLRenderer({ alpha: true,  antialias: true } );
+    //renderer.shadowMapType = THREE.PCFSoftShadowMap;
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-    camera.position.z = 10;
+	document.body.appendChild(renderer.domElement);
+    camera.position.z = 10*globalscale;
 }
 
 initialize(); //scene, camera, renderer
@@ -466,6 +468,13 @@ document.addEventListener('mouseup', onDocumentUp, false);
 document.addEventListener('mousemove', onDocumentMove, false);
 document.addEventListener('contextmenu', onDocumentDownRight, false);
 window.addEventListener('mousewheel', onDocumentScroll, false);
+window.addEventListener('resize', onWindowResize, false);
+
+function onWindowResize(e) {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect	= window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();  
+}
 
 function onDocumentDownRight(event){
     event.preventDefault();
@@ -478,7 +487,7 @@ function onDocumentScroll(evt) {
     evt.stopPropagation();
     if (evt.wheelDeltaY > 0 && camera.position.z >= 3) {
         camera.position.z -= 0.1;
-    } else if (evt.wheelDeltaY < 0 && camera.position.z <= 13) {
+    } else if (evt.wheelDeltaY < 0 && camera.position.z <= 13*4) {
         camera.position.z += 0.1;
     }
 }
