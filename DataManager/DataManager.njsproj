@@ -33,6 +33,7 @@
     <Compile Include="app.js" />
     <Compile Include="public\javascripts\lib\bootstrap-multiselect.js" />
     <Compile Include="public\javascripts\lib\bootstrap.min.js" />
+    <Compile Include="public\javascripts\lib\select2.js" />
     <Compile Include="public\javascripts\manager\ScientistManager.js" />
     <Compile Include="public\javascripts\sphere\datamanager.js" />
     <Compile Include="public\javascripts\sphere\edge.js" />
@@ -202,6 +203,8 @@
     <Content Include="public\img\YaakovHaCohen-Kerner.png" />
     <Content Include="public\img\YannisStavrakas.png" />
     <Content Include="public\img\YannisVelegrakis.png" />
+    <Content Include="public\stylesheets\select2-spinner.gif" />
+    <Content Include="public\stylesheets\select2.css" />
     <Content Include="public\keystone.xml" />
     <Content Include="public\stylesheets\bootstrap-multiselect.css" />
     <Content Include="public\stylesheets\bootstrap.min.css" />

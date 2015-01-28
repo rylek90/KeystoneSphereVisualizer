@@ -12,7 +12,9 @@ function initialize() {
         renderer = new THREE.WebGLRenderer({ alpha: true });
     else
         renderer = new THREE.CanvasRenderer({ alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    renderer.setSize(window.innerWidth, window.innerHeight - 25);
+    $(renderer.domElement).attr('id', 'js-canvas');
     document.body.appendChild(renderer.domElement);
     camera.position.z = 10;
 }
@@ -205,7 +207,23 @@ var IntelligentManager = function(spheres_object3d){
 			});
 		});
 		return join;
-	};
+    };
+
+    this.findNode = function (name) {
+
+        var sphere = SPHERE.OUTER.sphere;
+
+        $.each(sphere.objects, function(i, obj) {
+            if (obj.node.name === name) {
+                if (!sphere.isCenteredOn(obj)) {
+                    sphere.setAnimation(ANIMATION.CENTER, obj.object3d);
+                    return;
+                }
+            }
+        });
+        
+    };
+
 	this.handle = function(sphere, obj){
 		//testing
 		switch(sphere.position){
@@ -250,7 +268,7 @@ var IntelligentManager = function(spheres_object3d){
 				console.log("OBJECT ELEMS:");
 				console.log(children);
 				var working_sphere = spheres[this.sphere_max];
-				console.log(working_sphere.position);
+                console.log(working_sphere.position);
 				$.each(children, function(i, child){
 					//console.log(country.id);
 					var tex = 'img/placeholder.png';
@@ -460,12 +478,12 @@ var OnDataLoaded = function (nodes) {
 
 var data_manager = new DataManager(OnDataLoaded);
 
-document.addEventListener('dblclick', onDocumentDblClick, false);
-document.addEventListener('mousedown', onDocumentDown, false);
-document.addEventListener('mouseup', onDocumentUp, false);
-document.addEventListener('mousemove', onDocumentMove, false);
-document.addEventListener('contextmenu', onDocumentDownRight, false);
-window.addEventListener('mousewheel', onDocumentScroll, false);
+document.getElementById("js-canvas").addEventListener('dblclick', onDocumentDblClick, false);
+document.getElementById("js-canvas").addEventListener('mousedown', onDocumentDown, false);
+document.getElementById("js-canvas").addEventListener('mouseup', onDocumentUp, false);
+document.getElementById("js-canvas").addEventListener('mousemove', onDocumentMove, false);
+document.getElementById("js-canvas").addEventListener('contextmenu', onDocumentDownRight, false);
+document.getElementById("js-canvas").addEventListener('mousewheel', onDocumentScroll, false);
 
 function onDocumentDownRight(event){
     event.preventDefault();
@@ -611,5 +629,34 @@ setInterval(mainloop, ONE_FRAME_TIME);
 
 //INITIAL DATA LOAD
 //data_manager.loadObjects('graphKASK.xml');
-data_manager.loadObjects('keystone.xml')
+data_manager.loadObjects('keystone.xml');
 //clike between evrythng
+
+function reinitSelectors() {
+    $(".js-data-array").select2({
+        data: function () {
+            return {
+                results: SPHERE.OUTER.sphere.objects, text: function (dat) {
+                    return dat.node.name;
+                }
+            };
+        },
+        allowClear: true,
+        placeholder: 'Select',
+        id: function (e) { return e.node.id; },
+        formatResult: function (dat) {
+            return dat.node.name;
+        },
+        formatSelection: function (item) {
+            intelligentManager.findNode(item.node.name);
+            return item.node.name;
+        },
+        change: function (e) {
+            console.dir(e);
+        }
+    });
+}
+
+$(document).ready(function () {
+    reinitSelectors();
+});
