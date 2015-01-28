@@ -11,11 +11,11 @@ function initialize() {
 	//camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 1000 );
 				
     raycaster = new THREE.Raycaster();
-    
+	
 	renderer = new THREE.WebGLRenderer({ alpha: true,  antialias: true } );
     //renderer.shadowMapType = THREE.PCFSoftShadowMap;
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+	document.body.appendChild(renderer.domElement);
     camera.position.z = 10*globalscale;
 }
 
@@ -283,8 +283,11 @@ var IntelligentManager = function(spheres_object3d){
 					sv.feature = i;
 					sv.node = child;
 				});
-				
+				if(this.sphere_max==1){
+					working_sphere.rearrangeObjects({'close_to' : { 'object3d' : {'position' : {'x':0,'y':0,'z':0.1}} }});
+				}else{
 				working_sphere.rearrangeObjects({'close_to' : obj});
+				}
 				$.each(spheres[this.sphere_max-1].objects, function(i, o){
 						o.object3d.visible = false;
 					});
@@ -393,16 +396,35 @@ var IntelligentManager = function(spheres_object3d){
 		}
 	};
 	
-	this.handleDoubleClick = function(obj){
+	this.handleDoubleClick = function(sphere, obj){
+		console.log("Double click on sphere!");
 		if (!obj.hasOwnProperty('spherevertex')) return;
-		console.log("Action");
-		//console.log(obj.spherevertex);
-		var url = obj.spherevertex.href;
-		if (url) {
-			console.log("Calling an new page action on url: " + url);
-			window.open(url, '_blank');
+		if(sphere.position.value == this.sphere_max){
+			console.log("pos == sphere_max");
+			//find parent, show other siblings
+			var parents = this._findParents(obj);
+			var parentsOfType = [];
+			$.each(parents, function(i, o){
+				if(o['type'] === obj.node['type']){
+					parentsOfType.push(o);
+				}
+			});
+			//cos tam zrob z node'ami
+			console.log(parentsOfType);
+		}
+		else if(sphere.position.value == this.spehere_max-1){
+			console.log("pos == sphere_max-1");
+		//outer
+		}else if(sphere.position.value == this.sphere_max-2){
+			console.log("pos == sphere_max-2");
+		//inner
+		}else if(sphere.position.value == this.sphere_max-3){
+			console.log("pos == sphere_max-3");
+			this.handle(sphere, obj);
 		}else{
-			console.log("No url specified");
+			console.log("DbClick - what should I do?");
+			console.log(sphere);
+			console.log(obj);
 		}
 	};
 	
@@ -486,6 +508,33 @@ document.getElementById("js-canvas").addEventListener('contextmenu', onDocumentD
 document.getElementById("js-canvas").addEventListener('mousewheel', onDocumentScroll, false);
 window.addEventListener('resize', onWindowResize, false);
 
+
+function singleClick(e) {
+    // do something, "this" will be the DOM element
+	
+}
+
+function doubleClick(e) {
+    // do something, "this" will be the DOM element
+}
+
+document.addEventListener('click', function(e) {
+    var that = this;
+    setTimeout(function() {
+        var dblclick = parseInt($(that).data('double'), 10);
+        if (dblclick > 0) {
+            $(that).data('double', dblclick-1);
+        } else {
+            onDocumentClick(e);
+        }
+    }, 200);
+}, false);
+
+document.addEventListener('dblclick', function(e){
+	 $(this).data('double', 2);
+	 onDocumentDblClick(e);
+}, false);
+
 function onWindowResize(e) {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect	= window.innerWidth / window.innerHeight;
@@ -510,13 +559,16 @@ function onDocumentScroll(evt) {
 
 function onDocumentDblClick(event) {
     event.preventDefault();
+    console.log("Double click event!");
+    //clicked? center the vert
     var vector = new THREE.Vector3();
     vector.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
     vector.unproject(camera);
     raycaster.ray.set(camera.position, vector.sub(camera.position).normalize());
-    //on any sphere...
+    var PI2 = Math.PI * 2;
     
-    //sphere obj?
+   
+    //sphere objs
     var all_objs = [];
     var objects = {};
     for (var it = 3; it >= 0; it--) {
@@ -530,7 +582,16 @@ function onDocumentDblClick(event) {
     if (intersects.length > 0) {
         //console.log("Intersection click!");
         var io = intersects[0].object;
-		intelligentManager.handleDoubleClick(io);
+        //intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+        //WHAT DO
+        for (var it = 3; it >= 0; it--) {
+            if (objects[it].contains(io)) {
+                if (io.spherevertex.object3d.visible) {
+                    intelligentManager.handleDoubleClick(spheres[it], io.spherevertex);
+                }
+                return;
+            }
+        }
     }
 };
 
@@ -547,14 +608,8 @@ function onDocumentUp(event) {
     //console.log("Moving stopped");
 }
 
-function onDocumentDown(event) {
-    event.preventDefault();
-    movingStarted = true;
-    
-    //console.log("Moving started");
-    oldMouse = { "x": event.pageX, "y": event.pageY };
-    startMouseMoving = oldMouse;
-    
+function onDocumentClick(event){
+	console.log("Click event!");
     //clicked? center the vert
     var vector = new THREE.Vector3();
     vector.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
@@ -562,9 +617,9 @@ function onDocumentDown(event) {
     raycaster.ray.set(camera.position, vector.sub(camera.position).normalize());
     var PI2 = Math.PI * 2;
     
-    var particleMaterial = new THREE.MeshBasicMaterial(
+    /*var particleMaterial = new THREE.MeshBasicMaterial(
         { color: 0xFFFFFF, side: THREE.DoubleSide }
-    );
+    );*/
     //sphere obj?
     var all_objs = [];
     var objects = {};
@@ -590,6 +645,16 @@ function onDocumentDown(event) {
             }
         }
     }
+}
+
+function onDocumentDown(event) {
+    event.preventDefault();
+    movingStarted = true;
+    
+    //console.log("Moving started");
+    oldMouse = { "x": event.pageX, "y": event.pageY };
+    startMouseMoving = oldMouse;
+    
 }
 
 function onDocumentMove(event) {
