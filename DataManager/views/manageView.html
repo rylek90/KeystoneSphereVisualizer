@@ -1,24 +1,126 @@
 ﻿<html>
-    <form>
-        <%= person.id %> <br/>
-        <%= country.name %> <br/>
-        <select name="country">
-            <% for (var i = 0; i < country.length; i++) {
-            
-            if (country[i].isSelected) { %>
-                <option selected="selected" value="<%= country[i].id %>"><%= country[i].name %></option>
-            <% } else {
-            %> <option value="<%= country[i].id %>"><%= country[i].name %></option> <%
-            }
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="text/javascript" src="public/javascripts/lib/bootstrap.min.js"></script>
 
-            } %>
-        </select>
-        <%= country.name %> <br/>
-        <input type="text" value="<%= person.href %>"/>
-        <input type="text" value="<%= person.img_src %>" />
-        <input type="text" value="<%= person.name %>" />
-    </form>
-    
+        <link rel="stylesheet" href="../public/stylesheets/bootstrap.min.css" type="text/css" />
+
+        <script type="text/javascript" src="public/javascripts/lib/bootstrap-multiselect.js"></script>
+        <link rel="stylesheet" href="/public/stylesheets/bootstrap-multiselect.css" type="text/css" />
+        <script type="text/javascript" src="/public/javascripts/manager/ScientistManager.js"></script>
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#expertisesSelect').multiselect();
+
+                $('.js-submit').click(function() {
+                    var manager = new ScientistManager();
+                    manager.postData();
+                });
+            });
+        </script>
+    </head>
+    <body id="mainBody">
+        <form class="form-horizontal" role="search">
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">URL</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control js-url" placeholder="http://www.keystone-cost.eu/keystone/author/" />
+                </div>
+            </div>
+
+            
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Image</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control js-image-source" placeholder="img/FileName.png" />
+                </div>
+            </div>
+
+            
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control js-name" placeholder="John Appleseed" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Country</label>
+                <div class="col-sm-10">
+                    <select id="countrySelect" class="form-control js-countries" name="country">
+                        <% for (var i = 0; i < countries.length; i++) {
+
+                        if (countries[i].isSelected) { %>
+                        <option selected="selected" value="<%= countries[i].id %>"><%= countries[i].name %></option>
+                        <% } else {
+                        %>
+                        <option value="<%= countries[i].id %>"><%= countries[i].name %></option> <%
+                        }
+
+                        } %>
+
+                    </select>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Workgroup</label>
+                <div class="col-sm-10">
+                    <select id="workgroupsSelect" class="form-control js-workgroups" name="workgroups">
+                        <% for (var i = 0; i < workgroups.length; i++) {
+
+                        if (workgroups[i].isSelected) { %>
+                        <option selected="selected" value="<%= workgroups[i].id %>"><%= workgroups[i].name %></option>
+                        <% } else {
+                        %>
+                        <option value="<%= workgroups[i].id %>"><%= workgroups[i].name %></option> <%
+                        }
+
+                        } %>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Entity</label>
+                <div class="col-sm-10">
+                    <select id="entitiesSelect" class="form-control js-entities" name="entities">
+                        <% for (var i = 0; i < entities.length; i++) {
+
+                        if (entities[i].isSelected) { %>
+                        <option selected="selected" value="<%= entities[i].id %>"><%= entities[i].name %></option>
+                        <% } else {
+                        %>
+                        <option value="<%= entities[i].id %>"><%= entities[i].name %></option> <%
+                        }
+
+                        } %>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Expertises</label>
+                <div class="col-sm-10">
+                    <select id="expertisesSelect" class="js-expertises form-control" multiple="multiple">
+                        <% for (var i = 0; i < expertises.length; i++) { %>
+
+                        <option value="<%= expertises[i].id %>"><%= expertises[i].name %></option>
+
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+            
+            <button type="submit" class="js-submit btn btn-default">Submit</button>
+
+
+
+        </form>
+    </body>
     
      
      
