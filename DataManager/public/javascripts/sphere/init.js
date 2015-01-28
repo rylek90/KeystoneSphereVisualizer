@@ -15,6 +15,8 @@ function initialize() {
 	renderer = new THREE.WebGLRenderer({ alpha: true,  antialias: true } );
     //renderer.shadowMapType = THREE.PCFSoftShadowMap;
     renderer.setSize(window.innerWidth, window.innerHeight);
+	
+	$(renderer.domElement).attr('id', 'js-canvas');
 	document.body.appendChild(renderer.domElement);
     camera.position.z = 10*globalscale;
 }
@@ -500,7 +502,8 @@ var OnDataLoaded = function (nodes) {
 
 var data_manager = new DataManager(OnDataLoaded);
 
-document.getElementById("js-canvas").addEventListener('dblclick', onDocumentDblClick, false);
+document.getElementById("js-canvas").addEventListener('dblclick', dblclick, false);
+document.getElementById("js-canvas").addEventListener('click', click, false);
 document.getElementById("js-canvas").addEventListener('mousedown', onDocumentDown, false);
 document.getElementById("js-canvas").addEventListener('mouseup', onDocumentUp, false);
 document.getElementById("js-canvas").addEventListener('mousemove', onDocumentMove, false);
@@ -508,17 +511,7 @@ document.getElementById("js-canvas").addEventListener('contextmenu', onDocumentD
 document.getElementById("js-canvas").addEventListener('mousewheel', onDocumentScroll, false);
 window.addEventListener('resize', onWindowResize, false);
 
-
-function singleClick(e) {
-    // do something, "this" will be the DOM element
-	
-}
-
-function doubleClick(e) {
-    // do something, "this" will be the DOM element
-}
-
-document.addEventListener('click', function(e) {
+function click(e) {
     var that = this;
     setTimeout(function() {
         var dblclick = parseInt($(that).data('double'), 10);
@@ -528,12 +521,12 @@ document.addEventListener('click', function(e) {
             onDocumentClick(e);
         }
     }, 200);
-}, false);
+};
 
-document.addEventListener('dblclick', function(e){
+function dblclick(e){
 	 $(this).data('double', 2);
 	 onDocumentDblClick(e);
-}, false);
+};
 
 function onWindowResize(e) {
   renderer.setSize(window.innerWidth, window.innerHeight);
