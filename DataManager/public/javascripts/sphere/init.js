@@ -478,12 +478,12 @@ var OnDataLoaded = function (nodes) {
 
 var data_manager = new DataManager(OnDataLoaded);
 
-document.addEventListener('dblclick', onDocumentDblClick, false);
-document.addEventListener('mousedown', onDocumentDown, false);
-document.addEventListener('mouseup', onDocumentUp, false);
-document.addEventListener('mousemove', onDocumentMove, false);
-document.addEventListener('contextmenu', onDocumentDownRight, false);
-window.addEventListener('mousewheel', onDocumentScroll, false);
+document.getElementById("js-canvas").addEventListener('dblclick', onDocumentDblClick, false);
+document.getElementById("js-canvas").addEventListener('mousedown', onDocumentDown, false);
+document.getElementById("js-canvas").addEventListener('mouseup', onDocumentUp, false);
+document.getElementById("js-canvas").addEventListener('mousemove', onDocumentMove, false);
+document.getElementById("js-canvas").addEventListener('contextmenu', onDocumentDownRight, false);
+document.getElementById("js-canvas").addEventListener('mousewheel', onDocumentScroll, false);
 window.addEventListener('resize', onWindowResize, false);
 
 function onWindowResize(e) {
