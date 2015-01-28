@@ -14,10 +14,10 @@ function initialize() {
 	
 	renderer = new THREE.WebGLRenderer({ alpha: true,  antialias: true } );
     //renderer.shadowMapType = THREE.PCFSoftShadowMap;
-    renderer.setSize(window.innerWidth, window.innerHeight);
 	
 	$(renderer.domElement).attr('id', 'js-canvas');
 	document.body.appendChild(renderer.domElement);
+	renderer.setSize(window.innerWidth, window.innerHeight);
     camera.position.z = 10*globalscale;
 }
 
@@ -265,10 +265,10 @@ var IntelligentManager = function(spheres_object3d){
 				//this.swapSpheres(SPHERE.INNER, SPHERE.OUTER);
 				//this.swapSpheres(SPHERE.SURFACE, SPHERE.OUTER);
 			
-				console.log("OBJECT:");
-				console.log(obj);
-				console.log("OBJECT ELEMS:");
-				console.log(children);
+				//console.log("OBJECT:");
+				//console.log(obj);
+				//console.log("OBJECT ELEMS:");
+				//console.log(children);
 				var working_sphere = spheres[this.sphere_max];
 				console.log(working_sphere.position);
 				$.each(children, function(i, child){
@@ -286,7 +286,8 @@ var IntelligentManager = function(spheres_object3d){
 					sv.node = child;
 				});
 				if(this.sphere_max==1){
-					working_sphere.rearrangeObjects({'close_to' : { 'object3d' : {'position' : {'x':0,'y':0,'z':0.1}} }});
+					console.log(spheres_object3d.rotation);
+					working_sphere.rearrangeObjects({'close_to' : { 'object3d' : {'position' : spheres_object3d.rotation} }});
 				}else{
 				working_sphere.rearrangeObjects({'close_to' : obj});
 				}
@@ -296,7 +297,7 @@ var IntelligentManager = function(spheres_object3d){
 				obj.object3d.visible = true;
 				
 				working_sphere.setAnimation(ANIMATION.GROWING);
-				console.log(working_sphere);
+				//console.log(working_sphere);
 				this.makeEdges(working_sphere.objects, [obj], true);
 				
 				try{
@@ -345,11 +346,11 @@ var IntelligentManager = function(spheres_object3d){
 						o.object3d.visible = false;
 					});
 					obj.object3d.visible = true;
-					console.log("OBJECT:");
-					console.log(obj);
+				//	console.log("OBJECT:");
+				//	console.log(obj);
 					var children = this._findChildren(obj.node);
-					console.log("OBJECT ELEMS:");
-					console.log(children);
+				//	console.log("OBJECT ELEMS:");
+				//	console.log(children);
 					var working_sphere = spheres[this.sphere_max];
 					$.each(children, function(i, child){
 						//console.log(country.id);
@@ -373,24 +374,24 @@ var IntelligentManager = function(spheres_object3d){
 			}else if(sphere.position.value == this.sphere_max-2){
 				//inner
 				this.commands.push(new Command('handle_inner_click', obj.node, obj));
-				console.log("Clicked inner");
-				console.log("Clean sphere_max");
+			//	console.log("Clicked inner");
+			//	console.log("Clean sphere_max");
 				spheres[this.sphere_max].clear();
-				console.log("Clean sphere_max-1");
+			//	console.log("Clean sphere_max-1");
 				spheres[this.sphere_max-1].clear();
-				console.log("Cleared (this and +1 sphere)....: " + this.sphere_max);
+			//	console.log("Cleared (this and +1 sphere)....: " + this.sphere_max);
 				this.sphere_max-=2;
 				this.handle(sphere, obj);
 			}else if(sphere.position.value == this.sphere_max-3){
 				//center ze sfery
 				this.commands.push(new Command('handle_center_click', obj.node, obj));
-				console.log("Clicked inner");
-				console.log("Clean sphere_max");
+			//	console.log("Clicked inner");
+			//	console.log("Clean sphere_max");
 				spheres[this.sphere_max].clear();
-				console.log("Clean sphere_max-1");
+			//	console.log("Clean sphere_max-1");
 				spheres[this.sphere_max-1].clear();
-				console.log("Cleared (this and +1 sphere)....: " + this.sphere_max);
-				console.log("Clean sphere_max-2");
+			//	console.log("Cleared (this and +1 sphere)....: " + this.sphere_max);
+			//	console.log("Clean sphere_max-2");
 				spheres[this.sphere_max-2].clear();
 				this.sphere_max-=3;
 				this.handle(sphere, obj);
@@ -509,6 +510,7 @@ document.getElementById("js-canvas").addEventListener('mouseup', onDocumentUp, f
 document.getElementById("js-canvas").addEventListener('mousemove', onDocumentMove, false);
 document.getElementById("js-canvas").addEventListener('contextmenu', onDocumentDownRight, false);
 document.getElementById("js-canvas").addEventListener('mousewheel', onDocumentScroll, false);
+
 window.addEventListener('resize', onWindowResize, false);
 
 function click(e) {
@@ -520,7 +522,7 @@ function click(e) {
         } else {
             onDocumentClick(e);
         }
-    }, 200);
+    }, 300);
 };
 
 function dblclick(e){
@@ -572,19 +574,31 @@ function onDocumentDblClick(event) {
     }
     //console.log(objects);
     var intersects = raycaster.intersectObjects(all_objs);
+	intersects.sort(function(a,b){
+		var vectora = new THREE.Vector3();
+        vectora.setFromMatrixPosition(a.object.matrixWorld);
+		var vectorb = new THREE.Vector3();
+        vectorb.setFromMatrixPosition(b.object.matrixWorld);
+		
+		if(vectora.z < vectora.z) return -1;
+		if(vectorb.z > vectorb.z) return 1;
+		return 0;
+	});
     if (intersects.length > 0) {
         //console.log("Intersection click!");
-        var io = intersects[0].object;
         //intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
         //WHAT DO
-        for (var it = 3; it >= 0; it--) {
-            if (objects[it].contains(io)) {
-                if (io.spherevertex.object3d.visible) {
-                    intelligentManager.handleDoubleClick(spheres[it], io.spherevertex);
-                }
-                return;
-            }
-        }
+		for(var i=0; i<intersects.length; i++){
+			var io = intersects[i].object;
+			for (var it = 3; it >= 0; it--) {
+				if (objects[it].contains(io)) {
+					if (io.spherevertex.object3d.visible) {
+						intelligentManager.handleDoubleClick(spheres[it], io.spherevertex);
+					}
+					return;
+				}
+			}
+		};
     }
 };
 
@@ -603,6 +617,15 @@ function onDocumentUp(event) {
 
 function onDocumentClick(event){
 	console.log("Click event!");
+	var nowMouse = { "x": event.pageX, "y": event.pageY };
+	var moved = Math.abs(startMouseMoving.x - nowMouse.x) + Math.abs(startMouseMoving.y - nowMouse.y);
+	console.log(moved);
+	if(moved > 40){
+		console.log("Moved hard");
+		movingStarted = false;
+		return;
+	}
+	
     //clicked? center the vert
     var vector = new THREE.Vector3();
     vector.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
@@ -624,19 +647,38 @@ function onDocumentClick(event){
     }
     //console.log(objects);
     var intersects = raycaster.intersectObjects(all_objs);
+	var num = 1;
+	
+	/*for(var i=0; i<intersects.length; i++){
+			console.log(intersects[i].object.spherevertex.node['name']);
+			console.log(intersects[i]);
+	}*/
+	intersects.sort(function(a,b){
+		var vectora = new THREE.Vector3();
+        vectora.setFromMatrixPosition(a.object.matrixWorld);
+		var vectorb = new THREE.Vector3();
+        vectorb.setFromMatrixPosition(b.object.matrixWorld);
+		
+		if(vectora.z < vectora.z) return -1;
+		if(vectorb.z > vectorb.z) return 1;
+		return 0;
+	});
     if (intersects.length > 0) {
         //console.log("Intersection click!");
-        var io = intersects[0].object;
+        
         //intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
         //WHAT DO
-        for (var it = 3; it >= 0; it--) {
-            if (objects[it].contains(io)) {
-                if (io.spherevertex.object3d.visible) {
-                    intelligentManager.handle(spheres[it], io.spherevertex);
-                }
-                return;
-            }
-        }
+		for(var i=0; i<intersects.length; i++){
+			var io = intersects[i].object;
+			for (var it = 3; it >= 0; it--) {
+				if (objects[it].contains(io)) {
+					if (io.spherevertex.object3d.visible) {
+						intelligentManager.handle(spheres[it], io.spherevertex);
+					}
+					return;
+				}
+			}
+		};
     }
 }
 
@@ -653,6 +695,13 @@ function onDocumentDown(event) {
 function onDocumentMove(event) {
     //console.log("moving");
     if (movingStarted) {
+		if(event.which==1){
+			console.log("Button hold");
+		}else{
+			console.log("BUG");
+			movingStarted = false;
+			return;
+		}
         //should we cancel animation?
         var nowMouse = { "x": event.pageX, "y": event.pageY };
         var deltaX = oldMouse.x - nowMouse.x;

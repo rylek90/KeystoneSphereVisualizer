@@ -42,9 +42,9 @@ var Sphere = function (position) {
                 spheres_object3d.updateMatrixWorld();
                 var vector = new THREE.Vector3();
                 vector.setFromMatrixPosition(animationObj.matrixWorld);
-                console.log("START ROTATING");
-				console.log(spheres_object3d.rotation);
-				console.log(vector);
+                //console.log("START ROTATING");
+				//console.log(spheres_object3d.rotation);
+				//console.log(vector);
         } else if (this.animation == ANIMATION.NONE) {
             this.animation = animation;
             if (animation == ANIMATION.CENTER) {
@@ -58,9 +58,9 @@ var Sphere = function (position) {
                 spheres_object3d.updateMatrixWorld();
                 var vector = new THREE.Vector3();
                 vector.setFromMatrixPosition(animationObj.matrixWorld);
-                console.log("START ROTATING");
-				console.log(spheres_object3d.rotation);
-				console.log(vector);
+                //console.log("START ROTATING");
+				//console.log(spheres_object3d.rotation);
+				//console.log(vector);
                 this.center_obj = animationObj;
             }
         } else {
