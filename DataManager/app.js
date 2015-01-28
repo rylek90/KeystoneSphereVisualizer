@@ -42,6 +42,7 @@ app.get('/public/javascripts/manager/ScientistManager.js', function (req, res) {
 
 app.post('/postData', function(req, res) {
     var data = req.body;
+    
 
     var guids = [data.country, data.workgroup, data.entity];
 
@@ -52,14 +53,14 @@ app.post('/postData', function(req, res) {
     }
 
     appendToXml(function (serializedPath) {
-
         res.send(serializedPath);
     }, data.url, data.name, data.imgSrc, guids);
 
     
 });
 
-app.get('/public/new.xml', function(req, res) {
+app.get('/public/new.xml', function (req, res) {
+   // res.setHeader('Content-disposition', 'attachment; filename=keystone.xml');
     res.sendFile(path.join(__dirname, '/public/new.xml'));
 });
 
@@ -112,7 +113,7 @@ function appendPerson(parsedXml, person) {
 
     for (var i = 0; i < person.guids.length; i++) {
         allEdges[allEdges.length] = { $: { source: newPerson.$.id, target: person.guids[i]}};
-        allEdges[allEdges.length] = { $: { source: person.guids[i], target: newPerson.$.id}};
+       // allEdges[allEdges.length] = { $: { source: person.guids[i], target: newPerson.$.id}};
     }
     
 

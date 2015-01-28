@@ -36,8 +36,10 @@ var ScientistManager = function() {
             type: "POST",
             url: "/postData",
             data: dataToPost,
-            success: function(data) {
-                document.location = '/public/new.xml';
+            success: function (data) {
+                
+                window.location = '/public/new.xml';
+                return false;
             }
         });
     };
