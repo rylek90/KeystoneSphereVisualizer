@@ -5,9 +5,9 @@
 */
 var SPHERE = {
     CENTER: { name: "center", value: 0, radius: 0, objects: 1, sphere: 0 },
-    INNER: { name: "inner", value: 1, radius: 1.6 * 2, objects: 6, sphere: 0 },
-    OUTER: { name: "outer", value: 2, radius: 2.4 * 2, objects: 10, sphere: 0 },
-    SURFACE: { name: "surface", value: 3, radius: 3 * 2, objects: 30, sphere: 0 }
+    INNER: { name: "inner", value: 1, radius: 1.6 * 2 * globalscale, objects: 6, sphere: 0 },
+    OUTER: { name: "outer", value: 2, radius: 2.4 * 2 * globalscale, objects: 10, sphere: 0 },
+    SURFACE: { name: "surface", value: 3, radius: 3 * 2 * globalscale, objects: 30, sphere: 0 }
 };
 
 var Sphere = function (position) {
@@ -104,9 +104,9 @@ var Sphere = function (position) {
     
     this.update = function (deltaTime, spheres_object3d) {
         var anim_speed = 0.002;
-        
+        var position = this.position;
         $.each(this.objects, function (i, obj) {
-            obj.update();
+            obj.update(position);
         }
         );
         
@@ -136,11 +136,11 @@ var Sphere = function (position) {
                     $.each(this.objects, function (i, o) {
                         obj3d = o.object3d;
                         var normvec = new THREE.Vector3(obj3d.position.x, obj3d.position.y, obj3d.position.z).normalize();
-                        normvec.multiplyScalar(deltaTime * anim_speed);
+                        normvec.multiplyScalar(deltaTime * anim_speed * globalscale);
                         obj3d.position.x += normvec.x*sign;
                         obj3d.position.y += normvec.y*sign;
                         obj3d.position.z += normvec.z*sign;
-                        o.update();
+                        o.update(position);
                     });
                 //animate!
                 } else {
@@ -162,11 +162,11 @@ var Sphere = function (position) {
                     $.each(this.objects, function (i, o) {
                         obj3d = o.object3d;
                         var normvec = new THREE.Vector3(obj3d.position.x, obj3d.position.y, obj3d.position.z).normalize();
-                        normvec.multiplyScalar(deltaTime * anim_speed);
+                        normvec.multiplyScalar(deltaTime * anim_speed * globalscale);
                         obj3d.position.x -= normvec.x;
                         obj3d.position.y -= normvec.y;
                         obj3d.position.z -= normvec.z;
-                        o.update();
+                        o.update(position);
                     });
                 } else {
                     this.animation = ANIMATION.NONE;

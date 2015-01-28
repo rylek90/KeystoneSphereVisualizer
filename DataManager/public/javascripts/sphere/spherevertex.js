@@ -36,7 +36,8 @@ var SphereVertex = function (texture) {
         this.object3d = new THREE.Object3D();//THREE.Sprite(sprite_mat);
 		//console.log("Object3d instead of sprite:");
     }
-    
+    this.object3d.scale.set(1*globalscale, 1*globalscale, 1*globalscale);
+            
     //new THREE.Mesh( new THREE.PlaneGeometry( 0.5, 0.5 ), material );
     this.object3d.spherevertex = this;
     //this.object3d.scale.set(0.5, 0.5, 1);
@@ -57,7 +58,6 @@ var SphereVertex = function (texture) {
         } 
         );
         //var box = new THREE.Box3().setFromObject(this.object3d);
-        tsprite.scale.set(1, 1, 1);
         this.caption = tsprite;
         this.object3d.add(tsprite);
         this.object3d.updateMatrixWorld();
@@ -73,9 +73,9 @@ var SphereVertex = function (texture) {
         this.caption.position.y = vec2.y;
         this.caption.position.z = vec2.z;
     };
-    this.update = function () {
+    this.update = function (position) {
         if (this.aspectSet) {
-            this.object3d.scale.set(this.aspect, 1, 1);
+            this.object3d.scale.set(this.aspect*globalscale, 1*globalscale, 1*globalscale);
             //this.object3d.scale.set(0.1, 1, 1);
             //console.log("ASPECT SET:");
             //console.log(this.object3d);
@@ -93,7 +93,12 @@ var SphereVertex = function (texture) {
         if (this.object3d && this.object3d.material) {
             var vector = new THREE.Vector3();
             vector.setFromMatrixPosition(this.object3d.matrixWorld);
-            opacity = (vector.z + 3) / 6;
+			var r = position.radius;
+			if(position===SPHERE.CENTER){
+				opacity = 1;
+			}else{
+				opacity = (vector.z + r/2*globalscale) / r*globalscale;
+			}
             this.object3d.material.opacity = opacity * opacity;
         }
 		

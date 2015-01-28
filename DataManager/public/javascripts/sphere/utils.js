@@ -1,3 +1,5 @@
+var globalscale = 1;
+
 var ANIMATION = {
     NONE : 0,
     GROWING : 1,
@@ -120,7 +122,7 @@ function makeTextSprite(message, parameters) {
     
     var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
 		parameters["backgroundColor"] : { r: 255, g: 255, b: 255, a: 1.0 };
-    
+	
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
     context.font = "Bold " + fontsize + "px " + fontface;
@@ -150,13 +152,15 @@ function makeTextSprite(message, parameters) {
     
     // canvas contents will be used for a texture
     var texture = new THREE.Texture(canvas);
+	//texture.magFilter = THREE.NearestFilter; texture.minFilter = THREE.NearestFilter; texture.generateMipmaps = false;
     texture.needsUpdate = true;
     
     var spriteMaterial = new THREE.SpriteMaterial( 
         { map: texture }
 	);
+	
     var sprite = new THREE.Sprite(spriteMaterial);
-    //sprite.scale.set(1, 1, 1.0);
+    sprite.scale.set(1*globalscale, 1*globalscale, 1*globalscale);
     return sprite;
 };
 
