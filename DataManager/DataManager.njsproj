@@ -208,6 +208,7 @@
     <Content Include="public\keystone.xml" />
     <Content Include="public\stylesheets\bootstrap-multiselect.css" />
     <Content Include="public\stylesheets\bootstrap.min.css" />
+    <Content Include="public\stylesheets\select2.png" />
     <Content Include="public\stylesheets\style.css" />
     <Content Include="public\stylesheets\style.styl" />
     <Content Include="README.md" />
