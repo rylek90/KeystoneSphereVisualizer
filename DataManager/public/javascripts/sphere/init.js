@@ -268,6 +268,8 @@ var IntelligentManager = function(spheres_object3d){
 					console.log("Attrib click - show ppl");
 					this.sphere_max = 1;
 					var obj_n = obj.node;
+					console.log("obj_n:");
+					console.log(obj_n);
 					spheres[2].clear();
 					//open people
 					var people_obj = null;
@@ -279,16 +281,37 @@ var IntelligentManager = function(spheres_object3d){
 						}
 					});
 					people_obj.object3d.visible = true;
-					
+					console.log("people_obj:");
+					console.log(people_obj);
 					this.handle(spheres[1], people_obj, true);
-					this.handle(spheres[2], spheres[2].objects[0], true);
+					
+					//find anyone with country obj_n
+					var somebody = null;
+					var self = this;
+					$.each(spheres[2].objects, function(i, per){
+						var countries = self._findChildren(per.node);
+						if(countries.contains(obj_n)){
+							somebody = per;
+						}
+					});
+					var obj2 = somebody;
+					console.log("obj2");
+					console.log(obj2);
+					this.handle(spheres[2], obj2, true);
 					var attrib = null;
 					$.each(spheres[3].objects, function(i, o){
 						if(o.node === obj_n){
 							attrib = o;
 						}
 					});
+					console.log("attrib:");
+					console.log(attrib);
+					$.each(spheres, function(i, sph){ if(sph.animation===ANIMATION.CENTER) sph.animation = ANIMATION.NONE; });
 					this.handle(spheres[3], attrib, true);
+					console.log("FINAL CENTER");
+					spheres[3].stackedCenter = attrib.object3d;
+					console.log(spheres[3].center_obj);
+					
 					return;
 				}
 			}

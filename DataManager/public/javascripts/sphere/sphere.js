@@ -21,7 +21,7 @@ var Sphere = function (position) {
     this.getInfo = function () {
         return "Sphere pos: " + this.position.name;
     };
-    
+    this.stackedCenter = null;
     this.setAnimation = function (animation, animationObj, force) {
         //console.log(this.center_obj);
         
@@ -103,7 +103,7 @@ var Sphere = function (position) {
     
     
     this.update = function (deltaTime, spheres_object3d) {
-        var anim_speed = 0.002;
+        var anim_speed = 0.004;
         var position = this.position;
         $.each(this.objects, function (i, obj) {
             obj.update(position);
@@ -136,7 +136,13 @@ var Sphere = function (position) {
                     $.each(this.objects, function (i, o) {
                         obj3d = o.object3d;
                         var normvec = new THREE.Vector3(obj3d.position.x, obj3d.position.y, obj3d.position.z).normalize();
-                        normvec.multiplyScalar(deltaTime * anim_speed * globalscale);
+						var mul = deltaTime * anim_speed * globalscale;
+                        normvec.multiplyScalar(mul);
+						if(normvec.magnitude > Math.abs(diff)){
+							normvec.normalize();
+							normvec.multiplyScalar(diff);
+						}
+						
                         obj3d.position.x += normvec.x*sign;
                         obj3d.position.y += normvec.y*sign;
                         obj3d.position.z += normvec.z*sign;
@@ -235,6 +241,12 @@ var Sphere = function (position) {
                 
                 break;
         }
+		if(this.animation==ANIMATION.NONE){
+			if(this.stackedCenter != null){
+				this.setAnimation(ANIMATION.CENTER, this.stackedCenter);
+				this.stackedCenter = null;
+			}
+		}
     };
     
     this.sphereCalculate = function (N, k) {
