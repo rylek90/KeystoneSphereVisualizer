@@ -325,6 +325,10 @@ var Sphere = function (position) {
         for (var i = 0; i < this.nr_of_objects; i++) {
             //var point = this.calculateSpiralCoordinates(i, 0.005);
             var point = positions[i];
+			if(params && params['alreadyGrown']){
+				point.normalize();
+				point = point.multiplyScalar(this.position.radius);
+			}
             var working_obj = this.objects[i];
             var obj3d = working_obj.object3d;
             
