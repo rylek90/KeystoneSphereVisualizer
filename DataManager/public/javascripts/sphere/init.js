@@ -425,7 +425,7 @@ var IntelligentManager = function(spheres_object3d){
 			//find children
 			var children = this._findChildren(obj.node);
 			if(children.length>0){
-				this.handle(sphere,obj);
+				this.handle(sphere,obj, true);
 			}
 			this.commands.push(new Command('handle_surface_dblclick', obj.node, obj));
 			
