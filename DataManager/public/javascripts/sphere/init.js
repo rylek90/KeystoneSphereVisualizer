@@ -847,6 +847,15 @@ function onDocumentMove(event) {
 var ONE_FRAME_TIME = 1000 / 20;
 
 var mainloop = function () {
+	if(intelligentManager.sphere_max==3){
+		//console.log("SWITCH RADIUS 2 & 3");
+		spheres[3].position.radius = spheres[2].position.initialradius;
+		spheres[2].position.radius = spheres[3].position.initialradius;
+	}else{
+		$.each(spheres, function(i, sphere){
+			sphere.position.radius = sphere.position.initialradius;
+		});
+	}
     $.each(spheres, function (i, sphere) {
         sphere.update(ONE_FRAME_TIME, spheres_object3d);
     });

@@ -4,10 +4,10 @@
             ^center ^inner	^outer	^surface
 */
 var SPHERE = {
-    CENTER: { name: "center", value: 0, radius: 0, objects: 1, sphere: 0 },
-    INNER: { name: "inner", value: 1, radius: 1.6 * 2 * globalscale, objects: 6, sphere: 0 },
-    OUTER: { name: "outer", value: 2, radius: 2.4 * 2 * globalscale, objects: 10, sphere: 0 },
-    SURFACE: { name: "surface", value: 3, radius: 3 * 2 * globalscale, objects: 30, sphere: 0 }
+    CENTER: { name: "center", value: 0, initialradius: 0, radius: 0, objects: 1, sphere: 0 },
+    INNER: { name: "inner", value: 1, initialradius: 1.6*2*globalscale, radius: 1.6 * 2 * globalscale, objects: 6, sphere: 0 },
+    OUTER: { name: "outer", value: 2, initialradius: 2.4*2*globalscale, radius: 2.4 * 2 * globalscale, objects: 10, sphere: 0 },
+    SURFACE: { name: "surface", value: 3, initialradius: 3*2*globalscale, radius: 3 * 2 * globalscale, objects: 30, sphere: 0 }
 };
 
 var Sphere = function (position) {
@@ -138,9 +138,9 @@ var Sphere = function (position) {
                         var normvec = new THREE.Vector3(obj3d.position.x, obj3d.position.y, obj3d.position.z).normalize();
 						var mul = deltaTime * anim_speed * globalscale;
                         normvec.multiplyScalar(mul);
-						if(normvec.magnitude > Math.abs(diff)){
+						if(normvec.magnitude > Math.sqrt(Math.abs(diff))){
 							normvec.normalize();
-							normvec.multiplyScalar(diff);
+							normvec.multiplyScalar(Math.sqrt(Math.abs(diff)));
 						}
 						
                         obj3d.position.x += normvec.x*sign;
@@ -217,7 +217,7 @@ var Sphere = function (position) {
                         stepMultiplier = 1.3;
                     }
 
-                    var step = anim_speed * deltaTime * absx * stepMultiplier;
+                    var step = anim_speed *0.5* deltaTime * absx * stepMultiplier;
                     //spheres_object3d.rotation.y += step * sign;
 					rotateAroundWorldAxis(spheres_object3d, yAxis, step * sign);
                     still = true;
@@ -231,7 +231,7 @@ var Sphere = function (position) {
                         stepMultiplier = 1.3;
                     }
 
-                    var step = anim_speed * deltaTime * absy * stepMultiplier;
+                    var step = anim_speed *0.5* deltaTime * absy * stepMultiplier;
                     //spheres_object3d.rotation.x += step * sign;
 					rotateAroundWorldAxis(spheres_object3d, xAxis, step * sign);
                     still = true;
