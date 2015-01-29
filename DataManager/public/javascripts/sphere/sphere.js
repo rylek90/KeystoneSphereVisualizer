@@ -78,6 +78,8 @@ var Sphere = function (position) {
     };
     
 	this.isCenteredOn = function(obj){
+		console.log("IS CENTERED ON?");
+		spheres_object3d.updateMatrixWorld();
 		var obj = obj.object3d;
 		//console.log(this.position);
 		if(this.position == SPHERE.CENTER) {
@@ -86,15 +88,18 @@ var Sphere = function (position) {
 		if (this.center_obj == null) {
             return false;
 		}
-		if(this.center_obj != obj){
-			return false;
+		
+		if (this.center_obj != obj) {
+            return false;
 		}
+		
 		var vector = new THREE.Vector3();
         var io = this.center_obj;
 		vector.setFromMatrixPosition(io.matrixWorld);
                 
 		var absx = Math.abs(vector.x);
         var absy = Math.abs(vector.y);
+		console.log("absx: " + absx + " absy: " + absy);
         if (absx <= 0.05 && absy <= 0.05) {
 			return true;
 		}

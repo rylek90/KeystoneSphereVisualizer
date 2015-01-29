@@ -484,6 +484,7 @@ var IntelligentManager = function(spheres_object3d){
 	this.handleDoubleClick = function(sphere, obj){
 		console.log("Double click on sphere!");
 		console.log(obj);
+		var obj_n = obj.node;
 		//if(sphere.position.value == this.sphere_max){
 			console.log("pos == sphere_max // surface");
 			//find children
@@ -509,6 +510,7 @@ var IntelligentManager = function(spheres_object3d){
 			this.commands.push(new Command('handle_surface_dblclick', obj.node, obj));
 			var parent_obj = null;
 			var parent_sphere = -1;
+			var obj_clicked = null
 			for(var i=0; i<this.sphere_max; i++){
 				$.each(spheres[i].objects, function(j,o){
 					if(o.node === parentsOfType[0]){
@@ -529,7 +531,19 @@ var IntelligentManager = function(spheres_object3d){
 			});
 			parent_obj.object3d.visible = true;
 			this.sphere_max = parent_sphere;
+			
 			this.handle(spheres[parent_sphere], parent_obj, true);
+			//spheres_object3d.updateMatrixWorld();
+			$.each(spheres[parent_sphere+1].objects, function(i,obj){
+				if(obj.node === obj_n){
+					console.log("NODE FOUND!!!");
+					console.log(obj.node);
+					$.each(spheres, function(i, sph){ if(sph.animation===ANIMATION.CENTER) sph.animation = ANIMATION.NONE; });
+					spheres[parent_sphere+1].stackedCenter=obj.object3d;
+				}
+			});
+			
+			
 		/*}
 		else if(sphere.position.value == this.spehere_max-1){
 			console.log("pos == sphere_max-1 // outer");
