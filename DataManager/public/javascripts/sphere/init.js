@@ -5,7 +5,6 @@ var raycaster;
 
 function initialize() {
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 	//var width = window.innerWidth/50;
 	//var height = window.innerHeight/50;
 	//camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 1000 );
@@ -16,6 +15,7 @@ function initialize() {
     //renderer.shadowMapType = THREE.PCFSoftShadowMap;
 	
 	$(renderer.domElement).attr('id', 'js-canvas');
+	camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 	document.body.appendChild(renderer.domElement);
 	renderer.setSize(window.innerWidth, window.innerHeight);
     camera.position.z = 10*globalscale;
@@ -311,7 +311,9 @@ var IntelligentManager = function(spheres_object3d){
 					console.log("FINAL CENTER");
 					spheres[3].stackedCenter = attrib.object3d;
 					console.log(spheres[3].center_obj);
-					
+					var temp = spheres[3].position.radius;
+					spheres[3].position.radius = spheres[2].position.radius;
+					spheres[2].position.radius = temp;
 					return;
 				}
 			}
@@ -847,7 +849,7 @@ function onDocumentMove(event) {
 var ONE_FRAME_TIME = 1000 / 20;
 
 var mainloop = function () {
-	if(intelligentManager.sphere_max==3){
+	/*if(intelligentManager.sphere_max==3){
 		//console.log("SWITCH RADIUS 2 & 3");
 		spheres[3].position.radius = spheres[2].position.initialradius;
 		spheres[2].position.radius = spheres[3].position.initialradius;
@@ -855,7 +857,7 @@ var mainloop = function () {
 		$.each(spheres, function(i, sphere){
 			sphere.position.radius = sphere.position.initialradius;
 		});
-	}
+	}*/
     $.each(spheres, function (i, sphere) {
         sphere.update(ONE_FRAME_TIME, spheres_object3d);
     });

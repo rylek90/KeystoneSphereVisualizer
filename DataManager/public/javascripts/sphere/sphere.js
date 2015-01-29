@@ -5,9 +5,9 @@
 */
 var SPHERE = {
     CENTER: { name: "center", value: 0, initialradius: 0, radius: 0, objects: 1, sphere: 0 },
-    INNER: { name: "inner", value: 1, initialradius: 1.6*2*globalscale, radius: 1.6 * 2 * globalscale, objects: 6, sphere: 0 },
-    OUTER: { name: "outer", value: 2, initialradius: 2.4*2*globalscale, radius: 2.4 * 2 * globalscale, objects: 10, sphere: 0 },
-    SURFACE: { name: "surface", value: 3, initialradius: 3*2*globalscale, radius: 3 * 2 * globalscale, objects: 30, sphere: 0 }
+    INNER: { name: "inner", value: 1, initialradius: 1.6 * 2 * globalscale, radius: 1.6 * 2 * globalscale, objects: 6, sphere: 0 },
+    OUTER: { name: "outer", value: 2, initialradius: 2.4 * 2 * globalscale, radius: 2.4 * 2 * globalscale, objects: 10, sphere: 0 },
+    SURFACE: { name: "surface", value: 3, initialradius: 3 * 2 * globalscale, radius: 3 * 2 * globalscale, objects: 30, sphere: 0 }
 };
 
 var Sphere = function (position) {
