@@ -9,6 +9,7 @@ canvas {
 
 .search-box {
     margin-right: 15px;
+    display: block;
     float: right;
     padding-right: 15px;
 }
