@@ -240,24 +240,63 @@ var IntelligentManager = function(spheres_object3d){
 				console.log("Surface clicked");
 			break;
 		};
-		if(!force && !sphere.isCenteredOn(obj)){
+		if(!sphere.isCenteredOn(obj)){
 			console.log("NOT CENTERED -> ANIMATION");
 			sphere.setAnimation(ANIMATION.CENTER, obj.object3d);
-			return;
+			if(!force){
+				return;
+			}
 		}else{
 			console.log("Centered...");
 		}
 		//surface click
 		console.log("Sphere max == " + this.sphere_max);
+		
+		//SPECIAL
+		
+		if(sphere.position.value >= this.sphere_max-1){
+			var type = obj.node['type'];
+			console.log(type);
+			if((type==='entity' || type==='country' || type==='workgroup' || type==='expertise')){
+				console.log("GO TO PEOPLE TEST - special case");
+				if(this.sphere_max == 3){
+					//this.commands.push(new Command('handle_sphere_click_special_case_1', obj.node, obj));
+					console.log("People attrib click ");
+					
+				}else if(this.sphere_max == 2){
+					this.commands.push(new Command('handle_sphere_click_special_case', obj.node, obj));
+					console.log("Attrib click - show ppl");
+					this.sphere_max = 1;
+					var obj_n = obj.node;
+					spheres[2].clear();
+					//open people
+					var people_obj = null;
+					$.each(spheres[1].objects, function(i,o){
+						if(o.node['name']==='people') {
+							people_obj = o; 
+						}else{
+							o.object3d.visible = false;
+						}
+					});
+					people_obj.object3d.visible = true;
+					
+					this.handle(spheres[1], people_obj, true);
+					this.handle(spheres[2], spheres[2].objects[0], true);
+					var attrib = null;
+					$.each(spheres[3].objects, function(i, o){
+						if(o.node === obj_n){
+							attrib = o;
+						}
+					});
+					this.handle(spheres[3], attrib, true);
+					return;
+				}
+			}
+		}
+		
 		if(sphere.position.value == this.sphere_max){
 			console.log("Surface clicked");
 			//MAGIC HAPPENS - klik na wycentrowanym obiekcie, wszystko idzie na 2ga sfere, a na 1sza rzeczy zwiazane z featurem
-			var type = obj.node['type'];
-			console.log(type);
-			if((type==='entity' || type==='country' || type==='workgroup')&& this.sphere_max != 3){
-				console.log("GO TO PEOPLE TEST - special case");
-				return;
-			}
 			
 			var children = this._findChildren(obj.node);
 			if(children.length>0){ //mozna dalej rozwijac graf - wchodzic w glab
@@ -295,7 +334,7 @@ var IntelligentManager = function(spheres_object3d){
 					//spheres_object3d.rotation.set(new THREE.Vector3(0,0,0));
 					working_sphere.rearrangeObjects({'close_to' : { 'object3d' : {'position' : vector} }});
 				}else{
-				working_sphere.rearrangeObjects({'close_to' : obj});
+					working_sphere.rearrangeObjects({'close_to' : obj});
 				}
 				$.each(spheres[this.sphere_max-1].objects, function(i, o){
 						o.object3d.visible = false;
@@ -424,10 +463,9 @@ var IntelligentManager = function(spheres_object3d){
 			console.log("pos == sphere_max // surface");
 			//find children
 			var children = this._findChildren(obj.node);
-			if(children.length>0){
+			if(children.length>0 && sphere.position.value!=3){
 				this.handle(sphere,obj, true);
 			}
-			this.commands.push(new Command('handle_surface_dblclick', obj.node, obj));
 			
 			var parents = this._findParents(obj.node);
 			var parentsOfType = [];
@@ -440,8 +478,10 @@ var IntelligentManager = function(spheres_object3d){
 			console.log(parentsOfType);
 			if(parentsOfType.length <= 0) {
 				console.log("No parent category");
+				this.handle(sphere, obj, true);
 				return;
 			}
+			this.commands.push(new Command('handle_surface_dblclick', obj.node, obj));
 			var parent_obj = null;
 			var parent_sphere = -1;
 			for(var i=0; i<this.sphere_max; i++){
