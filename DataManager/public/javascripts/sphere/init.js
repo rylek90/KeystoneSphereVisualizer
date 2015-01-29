@@ -212,9 +212,7 @@ var IntelligentManager = function(spheres_object3d){
 	};
 
     this.findNode = function (name) {
-
-        var sphere = SPHERE.OUTER.sphere;
-
+        var sphere = spheres[this.sphere_max];
         $.each(sphere.objects, function(i, obj) {
             if (obj.node.name === name) {
                 if (!sphere.isCenteredOn(obj)) {
@@ -226,7 +224,7 @@ var IntelligentManager = function(spheres_object3d){
         
     };
 
-	this.handle = function(sphere, obj){
+	this.handle = function(sphere, obj, force){
 		//testing
 		switch(sphere.position){
 			case SPHERE.CENTER:
@@ -242,8 +240,8 @@ var IntelligentManager = function(spheres_object3d){
 				console.log("Surface clicked");
 			break;
 		};
-		if(!sphere.isCenteredOn(obj)){
-			//console.log("NOT CENTERED -> ANIMATION");
+		if(!force && !sphere.isCenteredOn(obj)){
+			console.log("NOT CENTERED -> ANIMATION");
 			sphere.setAnimation(ANIMATION.CENTER, obj.object3d);
 			return;
 		}else{
@@ -254,9 +252,14 @@ var IntelligentManager = function(spheres_object3d){
 		if(sphere.position.value == this.sphere_max){
 			console.log("Surface clicked");
 			//MAGIC HAPPENS - klik na wycentrowanym obiekcie, wszystko idzie na 2ga sfere, a na 1sza rzeczy zwiazane z featurem
+			var type = obj.node['type'];
+			console.log(type);
+			if((type==='entity' || type==='country' || type==='workgroup')&& this.sphere_max != 3){
+				console.log("GO TO PEOPLE TEST - special case");
+				return;
+			}
 			
 			var children = this._findChildren(obj.node);
-			
 			if(children.length>0){ //mozna dalej rozwijac graf - wchodzic w glab
 				this.sphere_max++;
 				console.log('handle_sphere_click_with_children');
@@ -286,8 +289,11 @@ var IntelligentManager = function(spheres_object3d){
 					sv.node = child;
 				});
 				if(this.sphere_max==1){
-					console.log(spheres_object3d.rotation);
-					working_sphere.rearrangeObjects({'close_to' : { 'object3d' : {'position' : spheres_object3d.rotation} }});
+					var vector = new THREE.Vector3(0,0,10);
+					spheres_object3d.rotation.set(0,0,0);
+					spheres_object3d.updateMatrixWorld();
+					//spheres_object3d.rotation.set(new THREE.Vector3(0,0,0));
+					working_sphere.rearrangeObjects({'close_to' : { 'object3d' : {'position' : vector} }});
 				}else{
 				working_sphere.rearrangeObjects({'close_to' : obj});
 				}
@@ -338,8 +344,10 @@ var IntelligentManager = function(spheres_object3d){
 		}else if(this.sphere_max > 0){
 			if(sphere.position.value == this.sphere_max-1){
 				//outer
+				console.log("outer click");
 				if(spheres[this.sphere_max].objects.length>0){
 					this.commands.push(new Command('handle_outer_click', obj.node, obj));
+					console.log('handle_outer_click');
 					spheres[this.sphere_max].clear();
 					
 					$.each(spheres[this.sphere_max-1].objects, function(i, o){
@@ -366,14 +374,23 @@ var IntelligentManager = function(spheres_object3d){
 						sv.feature = i;
 						sv.node = child;
 					});
-				
-					working_sphere.rearrangeObjects({'close_to' : obj});
+					if(this.sphere_max==1){
+						console.log("Actually center click");
+						var vector = new THREE.Vector3(0,0,10);
+						spheres_object3d.rotation.set(0,0,0);
+						spheres_object3d.updateMatrixWorld();
+						//spheres_object3d.rotation.set(new THREE.Vector3(0,0,0));
+						working_sphere.rearrangeObjects({'close_to' : { 'object3d' : {'position' : vector} }});
+					}else{
+						working_sphere.rearrangeObjects({'close_to' : obj});
+					}
 					working_sphere.setAnimation(ANIMATION.GROWING);
 					this.makeEdges(working_sphere.objects, [obj], true);
 				}
 			}else if(sphere.position.value == this.sphere_max-2){
 				//inner
 				this.commands.push(new Command('handle_inner_click', obj.node, obj));
+				console.log('handle_inner_click');
 			//	console.log("Clicked inner");
 			//	console.log("Clean sphere_max");
 				spheres[this.sphere_max].clear();
@@ -385,6 +402,7 @@ var IntelligentManager = function(spheres_object3d){
 			}else if(sphere.position.value == this.sphere_max-3){
 				//center ze sfery
 				this.commands.push(new Command('handle_center_click', obj.node, obj));
+				console.log('handle_center_click');
 			//	console.log("Clicked inner");
 			//	console.log("Clean sphere_max");
 				spheres[this.sphere_max].clear();
@@ -401,34 +419,68 @@ var IntelligentManager = function(spheres_object3d){
 	
 	this.handleDoubleClick = function(sphere, obj){
 		console.log("Double click on sphere!");
-		if (!obj.hasOwnProperty('spherevertex')) return;
-		if(sphere.position.value == this.sphere_max){
-			console.log("pos == sphere_max");
-			//find parent, show other siblings
-			var parents = this._findParents(obj);
+		console.log(obj);
+		//if(sphere.position.value == this.sphere_max){
+			console.log("pos == sphere_max // surface");
+			//find children
+			var children = this._findChildren(obj.node);
+			if(children.length>0){
+				this.handle(sphere,obj);
+			}
+			this.commands.push(new Command('handle_surface_dblclick', obj.node, obj));
+			
+			var parents = this._findParents(obj.node);
 			var parentsOfType = [];
-			$.each(parents, function(i, o){
-				if(o['type'] === obj.node['type']){
-					parentsOfType.push(o);
+			console.log(parents);
+			$.each(parents, function(i, par){
+				if(par['type'] === "category"){
+					parentsOfType.push(par);
 				}
 			});
-			//cos tam zrob z node'ami
 			console.log(parentsOfType);
-		}
+			if(parentsOfType.length <= 0) {
+				console.log("No parent category");
+				return;
+			}
+			var parent_obj = null;
+			var parent_sphere = -1;
+			for(var i=0; i<this.sphere_max; i++){
+				$.each(spheres[i].objects, function(j,o){
+					if(o.node === parentsOfType[0]){
+						parent_sphere = i;
+						parent_obj = o;
+					}
+				});
+				if(parent_sphere!=-1){
+					break;
+				}
+			}
+			console.log("parent sph:" + parent_sphere);
+			for(var i=parent_sphere+1; i<=this.sphere_max; i++){
+				spheres[i].clear();
+			}
+			$.each(spheres[parent_sphere].objects, function(i,o) { 
+				o.object3d.visible = false; 
+			});
+			parent_obj.object3d.visible = true;
+			this.sphere_max = parent_sphere;
+			this.handle(spheres[parent_sphere], parent_obj, true);
+		/*}
 		else if(sphere.position.value == this.spehere_max-1){
-			console.log("pos == sphere_max-1");
+			console.log("pos == sphere_max-1 // outer");
 		//outer
 		}else if(sphere.position.value == this.sphere_max-2){
-			console.log("pos == sphere_max-2");
+			console.log("pos == sphere_max-2 // inner");
 		//inner
 		}else if(sphere.position.value == this.sphere_max-3){
-			console.log("pos == sphere_max-3");
+			console.log("pos == sphere_max-3 // center");
 			this.handle(sphere, obj);
 		}else{
 			console.log("DbClick - what should I do?");
+			
 			console.log(sphere);
 			console.log(obj);
-		}
+		}*/
 	};
 	
 	this.makeEdges = function(objects1, objects2, delete_edges){
