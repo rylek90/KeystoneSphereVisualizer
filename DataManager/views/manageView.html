@@ -115,11 +115,16 @@
                 <label class="col-sm-2 control-label">Expertises</label>
                 <div class="col-sm-10">
                     <select id="expertisesSelect" class="js-expertises form-control" multiple="multiple">
-                        <% for (var i = 0; i < expertises.length; i++) { %>
+                        <% for (var i = 0; i < expertises.length; i++) {
 
-                        <option value="<%= expertises[i].id %>"><%= expertises[i].name %></option>
+                        if (expertises[i].isSelected) { %>
+                        <option selected="selected" value="<%= expertises[i].id %>"><%= expertises[i].name %></option>
+                        <% } else {
+                        %>
+                        <option value="<%= expertises[i].id %>"><%= expertises[i].name %></option> <%
+                        }
 
-                        <% } %>
+                        } %>
                     </select>
                 </div>
             </div>
