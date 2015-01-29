@@ -60,7 +60,6 @@ app.post('/postData', function(req, res) {
 });
 
 app.get('/public/new.xml', function (req, res) {
-   // res.setHeader('Content-disposition', 'attachment; filename=keystone.xml');
     res.sendFile(path.join(__dirname, '/public/new.xml'));
 });
 
@@ -125,20 +124,42 @@ app.get('/add', function(req, res) {
     var fs = require('fs');
     var path = require('path');
     var xml = require('xml2js');
-
+    
+    var url = require('url');
+    var url_parts = url.parse(req.url, true);
+    var id = url_parts.query.id;
+    
     var filePath = path.join(__dirname, '/public/keystone.xml');
 
     fs.readFile(filePath, {}, function(err, data) {
         if (!err) {
             xml.parseString(data, function(err, parsedXml) {
                 if (!err) {
+
+                    var person = undefined;
+
+                    if (id) {
+                        person = getPerson(parsedXml, id);
+                    }
+
                     var workgroups = getAllElementsOf(parsedXml, 'workgroup');
                     var countries = getAllElementsOf(parsedXml, 'country');
                     var entities = getAllElementsOf(parsedXml, 'entity');
                     var expertises = getAllElementsOf(parsedXml, 'expertise');
 
+                    var edges;
+                    if (id) {
+                        edges = getAllEdges(parsedXml, id);
+                    }
+                    if (edges) {
+                        workgroups = applySelections(workgroups, edges);
+                        countries = applySelections(countries, edges);
+                        entities = applySelections(entities, edges);
+                        expertises = applySelections(expertises, edges);
+                    }
+
                     res.render('manageView', {
-                        countries: countries, workgroups: workgroups, entities: entities, expertises: expertises,
+                        countries: countries, workgroups: workgroups, entities: entities, expertises: expertises, person: person,
                         scripts: ['javascripts/lib/jquery.min.js',
                             'javascripts/lib/bootstrap.min.js',
                             'javascripts/lib/bootstrap-multiselect.js',
@@ -155,6 +176,29 @@ app.get('/add', function(req, res) {
     });
 
 });
+
+var selectionDebug = 0;
+
+function applySelections(nodes, edges) {
+
+    var edgesTargets = [];
+    
+    for (var i = 0; i < edges.length; i++) {
+        edgesTargets.push(edges[i].target);
+    }
+
+    for (var i = 0; i < nodes.length; i++) {
+
+        if (edgesTargets.contains(nodes[i].id)) {
+            nodes[i].isSelected = true;
+            selectionDebug += 1;
+            console.log("associated selection");
+            console.log(selectionDebug);
+        }
+    }
+
+    return nodes;
+}
 
 function getAllEdges(parsedXml, id) {
     var results = [];
@@ -194,43 +238,12 @@ Array.prototype.contains = function(obj) {
     return (index >= 0);
 };
 
-function getAssociatedWorkgroups(parsedXml, workGroupsIds) {
-    var workgroupsResult = [];
-    var workgroups = parsedXml.root.workgroups[0].workgroup;
-
-    for (var i = 0; i < workgroups.length; i++) {
-        var selected = false;
-        if (workGroupsIds.contains(workgroups[i].$.id)) {
-            selected = true;
-        }
-        console.dir(workgroups[i]);
-        workgroupsResult[i] = { name: workgroups[i]._, id: workgroups[i].$.id, isSelected: selected };
-    }
-    return workgroupsResult;
-}
-
-function getAssociatedCountry(parsedXml, countryId) {
-    var countries = parsedXml.root.countries[0].country;
-
-    var resultCountries = [];
-
-    for (var i = 0; i < countries.length; i++) {
-        var selected = false;
-        if (countries[i].$.id == countryId) {
-            selected = true;
-        }
-        resultCountries[i] = { id: countries[i].$.id, name: countries[i]._, isSelected: selected };
-    }
-
-    return resultCountries;
-}
-
 function getPerson(parsedXml, id) {
-    var people = parsedXml.root.people[0].person;
+    var people = parsedXml.root.nodes[0].node;
     for (var i = 0; i < people.length; i++) {
         if (people[i].$.id == id) {
             console.dir(people[i]);
-            return people[i];
+            return people[i].$;
         }
     }
 }
