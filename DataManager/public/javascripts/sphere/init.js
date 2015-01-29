@@ -489,9 +489,11 @@ var IntelligentManager = function(spheres_object3d){
 			console.log("pos == sphere_max // surface");
 			//find children
 			var children = this._findChildren(obj.node);
-			if(children.length>0 && sphere.position.value!=3){
+			/*if(children.length>0 && sphere.position.value!=3){
+				console.log('redirect(1) to handle');
 				this.handle(sphere,obj, true);
-			}
+				return;
+			}*/
 			
 			var parents = this._findParents(obj.node);
 			var parentsOfType = [];
@@ -505,8 +507,10 @@ var IntelligentManager = function(spheres_object3d){
 			if(parentsOfType.length <= 0) {
 				console.log("No parent category");
 				this.handle(sphere, obj, true);
+				console.log('redirect(2) to handle');
 				return;
 			}
+			console.log('handle_surface_dblclick');
 			this.commands.push(new Command('handle_surface_dblclick', obj.node, obj));
 			var parent_obj = null;
 			var parent_sphere = -1;
@@ -534,12 +538,15 @@ var IntelligentManager = function(spheres_object3d){
 			
 			this.handle(spheres[parent_sphere], parent_obj, true);
 			//spheres_object3d.updateMatrixWorld();
+			var doloop = true;
 			$.each(spheres[parent_sphere+1].objects, function(i,obj){
+				if(!doloop) return;
 				if(obj.node === obj_n){
-					console.log("NODE FOUND!!!");
-					console.log(obj.node);
+					//console.log("NODE FOUND!!!");
+					//console.log(obj.node);
 					$.each(spheres, function(i, sph){ if(sph.animation===ANIMATION.CENTER) sph.animation = ANIMATION.NONE; });
 					spheres[parent_sphere+1].stackedCenter=obj.object3d;
+					doloop = false;
 				}
 			});
 			
