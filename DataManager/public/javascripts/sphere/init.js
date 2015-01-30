@@ -5,23 +5,43 @@ var raycaster;
 
 function initialize() {
     scene = new THREE.Scene();
-	//var width = window.innerWidth/50;
-	//var height = window.innerHeight/50;
+	//var width = initialWidth/50;
+	//var height = initialWidth/50;
 	//camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 1000 );
-				
+    reinitXY()
     raycaster = new THREE.Raycaster();
 	
 	renderer = new THREE.WebGLRenderer({ alpha: true,  antialias: true } );
     //renderer.shadowMapType = THREE.PCFSoftShadowMap;
 	
 	$(renderer.domElement).attr('id', 'js-canvas');
-	camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-	document.body.appendChild(renderer.domElement);
-	renderer.setSize(window.innerWidth, window.innerHeight);
+	camera = new THREE.PerspectiveCamera(75, initialWidth / initialHeight, 0.1, 1000);
+    //document.body.appendChild(renderer.domElement);
+    
+    
+    renderer.setSize(initialWidth, initialHeight);
+    
+    $(document.getElementById("js-canvas")).replaceWith($(renderer.domElement));
     camera.position.z = 10*globalscale;
 }
 
+function reinitXY() {
+    $(document.getElementById("js-canvas")).width('100%');
+    $(document.getElementById("js-canvas")).height('95%');
+    initialWidth = $(document.getElementById("js-canvas")).width();
+    initialHeight = $(document.getElementById("js-canvas")).height();	
+}
+
+var initialWidth = '';
+var initialHeight = '';
+$(document).ready(function () {
+    
+    reinitSelectors();
+});
+
 initialize(); //scene, camera, renderer
+
+
 var spheres_object3d = new THREE.Object3D();
 SPHERE.CENTER.sphere = new Sphere(SPHERE.CENTER);
 SPHERE.INNER.sphere = new Sphere(SPHERE.INNER);
@@ -662,8 +682,9 @@ function dblclick(e){
 };
 
 function onWindowResize(e) {
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.aspect	= window.innerWidth / window.innerHeight;
+reinitXY();
+  renderer.setSize(initialWidth, initialHeight);
+  camera.aspect	= initialWidth / initialHeight;
   camera.updateProjectionMatrix();  
 }
 
@@ -688,7 +709,7 @@ function onDocumentDblClick(event) {
     console.log("Double click event!");
     //clicked? center the vert
     var vector = new THREE.Vector3();
-    vector.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
+    vector.set((event.clientX / initialWidth) * 2 - 1, -(event.clientY / initialHeight) * 2 + 1, 0.5);
     vector.unproject(camera);
     raycaster.ray.set(camera.position, vector.sub(camera.position).normalize());
     var PI2 = Math.PI * 2;
@@ -759,7 +780,7 @@ function onDocumentClick(event){
 	
     //clicked? center the vert
     var vector = new THREE.Vector3();
-    vector.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
+    vector.set((event.clientX / initialWidth) * 2 - 1, -(event.clientY / initialHeight) * 2 + 1, 0.5);
     vector.unproject(camera);
     raycaster.ray.set(camera.position, vector.sub(camera.position).normalize());
     var PI2 = Math.PI * 2;
@@ -911,6 +932,3 @@ function reinitSelectors() {
     });
 }
 
-$(document).ready(function () {
-    reinitSelectors();
-});

@@ -5,11 +5,13 @@ body {
 }
 
 canvas {
+    width: 100%;
+    height: 95%;
 }
 
 .search-box {
-    margin-right: 15px;
     display: block;
     float: right;
+    width: 15%;
     padding-right: 15px;
 }
