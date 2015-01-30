@@ -205,7 +205,11 @@ var Sphere = function (position) {
                 var absy = Math.abs(vector.y);
                 var stepMultiplier = 1.2;
 				
-				
+				/*var absz = camera.position.z - this.position.initialradius;
+				console.log("ABSZ: " + absz);
+				if(camera.position.z < this.position.initialradius){
+					camera.position.z = camera.position.z - Math.sign(absz)*0.1; 
+				}*/
 				 //rotation
 				var xAxis = new THREE.Vector3(1, 0, 0);
 				var yAxis = new THREE.Vector3(0, 1, 0);
@@ -236,7 +240,7 @@ var Sphere = function (position) {
                         stepMultiplier = 1.3;
                     }
 
-                    var step = anim_speed *0.5* deltaTime * absy * stepMultiplier;
+                    var step = anim_speed * 0.5* deltaTime * absy * stepMultiplier;
                     //spheres_object3d.rotation.x += step * sign;
 					rotateAroundWorldAxis(spheres_object3d, xAxis, step * sign);
                     still = true;

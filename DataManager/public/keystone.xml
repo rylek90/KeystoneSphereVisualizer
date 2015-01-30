@@ -358,7 +358,6 @@
     <node id="6fc73a00-a666-11e4-8f70-002219ef6eb5" img_src="img/flags/the_netherlands.png" name="The Netherlands" type="country"/>
     <node id="72ceada1-a666-11e4-be1e-002219ef6eb5" img_src="img/flags/netherlands.png" name="Netherlands" type="country"/>
     <node id="72d2cc4f-a666-11e4-b742-002219ef6eb5" img_src="img/flags/fyr_macedonia.png" name="Fyr Macedonia" type="country"/>
-    <node id="6fcf775e-a666-11e4-8d09-002219ef6eb5" img_src="img/flags/rmany.png" name="Rmany" type="country"/>
     <node id="6fc3b78f-a666-11e4-9881-002219ef6eb5" img_src="img/flags/poland.png" name="Poland" type="country"/>
     <node id="73da2a30-a666-11e4-9d98-002219ef6eb5" img_src="img/flags/finland.png" name="Finland" type="country"/>
     <node id="72d4c821-a666-11e4-983d-002219ef6eb5" img_src="img/flags/sweden.png" name="Sweden" type="country"/>
@@ -1485,7 +1484,7 @@
     <edge source="9ef63c90-a666-11e4-95fe-002219ef6eb5" target="6fc73a00-a666-11e4-8f70-002219ef6eb5"/>
     <edge source="9ef63c90-a666-11e4-95fe-002219ef6eb5" target="72ceada1-a666-11e4-be1e-002219ef6eb5"/>
     <edge source="9ef63c90-a666-11e4-95fe-002219ef6eb5" target="72d2cc4f-a666-11e4-b742-002219ef6eb5"/>
-    <edge source="9ef63c90-a666-11e4-95fe-002219ef6eb5" target="6fcf775e-a666-11e4-8d09-002219ef6eb5"/>
+    <edge source="9ef63c90-a666-11e4-95fe-002219ef6eb5" target="70fea88f-a666-11e4-bd12-002219ef6eb5"/>
     <edge source="9ef63c90-a666-11e4-95fe-002219ef6eb5" target="6fc3b78f-a666-11e4-9881-002219ef6eb5"/>
     <edge source="9ef63c90-a666-11e4-95fe-002219ef6eb5" target="73da2a30-a666-11e4-9d98-002219ef6eb5"/>
     <edge source="9ef63c90-a666-11e4-95fe-002219ef6eb5" target="72d4c821-a666-11e4-983d-002219ef6eb5"/>

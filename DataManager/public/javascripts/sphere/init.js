@@ -1,17 +1,14 @@
 ﻿var scene;
 var camera;
 var renderer;
-var raycaster;
-
+//var raycaster;
 function initialize() {
     scene = new THREE.Scene();
 	//var width = initialWidth/50;
 	//var height = initialWidth/50;
 	//camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 1000 );
     reinitXY()
-    raycaster = new THREE.Raycaster();
-	
-	renderer = new THREE.WebGLRenderer({ alpha: true,  antialias: true } );
+    renderer = new THREE.WebGLRenderer({ alpha: true,  antialias: true } );
     //renderer.shadowMapType = THREE.PCFSoftShadowMap;
 	
 	$(renderer.domElement).attr('id', 'js-canvas');
@@ -22,7 +19,7 @@ function initialize() {
     renderer.setSize(initialWidth, initialHeight);
     
     $(document.getElementById("js-canvas")).replaceWith($(renderer.domElement));
-    camera.position.z = 10*globalscale;
+    camera.position.z = 8*globalscale;
 }
 
 function reinitXY() {
@@ -232,7 +229,12 @@ var IntelligentManager = function(spheres_object3d){
 	};
 
     this.findNode = function (name) {
-        var sphere = spheres[this.sphere_max];
+	
+        var sphere = null;
+		if(this.sphere_max==3)
+			sphere=spheres[this.sphere_max-1];
+		else
+			sphere=spheres[this.sphere_max];
         $.each(sphere.objects, function(i, obj) {
             if (obj.node.name === name) {
                 if (!sphere.isCenteredOn(obj)) {
@@ -360,7 +362,7 @@ var IntelligentManager = function(spheres_object3d){
 				console.log(working_sphere.position);
 				$.each(children, function(i, child){
 					//console.log(country.id);
-					var tex = 'img/placeholder.png';
+					var tex = 'img/placeholder_node.png';
 					if(child.hasOwnProperty('img_src')){
 						tex = child['img_src'];
 					}
@@ -446,7 +448,7 @@ var IntelligentManager = function(spheres_object3d){
 					var working_sphere = spheres[this.sphere_max];
 					$.each(children, function(i, child){
 						//console.log(country.id);
-						var tex = 'img/placeholder.png';
+						var tex = 'img/placeholder_node.png';
 						if(child.hasOwnProperty('img_src')){
 							tex = child['img_src'];
 						}
@@ -499,6 +501,7 @@ var IntelligentManager = function(spheres_object3d){
 				this.handle(sphere, obj);
 			}
 		}
+		reinitSelectors();
 	};
 	
 	this.handleDoubleClick = function(sphere, obj){
@@ -587,6 +590,7 @@ var IntelligentManager = function(spheres_object3d){
 			console.log(sphere);
 			console.log(obj);
 		}*/
+		reinitSelectors();
 	};
 	
 	this.makeEdges = function(objects1, objects2, delete_edges){
@@ -706,7 +710,7 @@ function onDocumentScroll(evt) {
     evt.stopPropagation();
     if (evt.wheelDeltaY > 0 && camera.position.z >= 3) {
         camera.position.z -= 0.1;
-    } else if (evt.wheelDeltaY < 0 && camera.position.z <= 13*4) {
+    } else if (evt.wheelDeltaY < 0 && camera.position.z <= 10) {
         camera.position.z += 0.1;
     }
 }
@@ -715,6 +719,7 @@ function onDocumentDblClick(event) {
     event.preventDefault();
     console.log("Double click event!");
     //clicked? center the vert
+	var raycaster = new THREE.Raycaster();
     var vector = new THREE.Vector3();
     vector.set((event.clientX / initialWidth) * 2 - 1, -(event.clientY / initialHeight) * 2 + 1, 0.5);
     vector.unproject(camera);
@@ -732,8 +737,9 @@ function onDocumentDblClick(event) {
         all_objs = all_objs.concat(objects[it]);
     }
     //console.log(objects);
+	spheres_object3d.updateMatrixWorld();
     var intersects = raycaster.intersectObjects(all_objs);
-	intersects.sort(function(a,b){
+	/*intersects.sort(function(a,b){
 		var vectora = new THREE.Vector3();
         vectora.setFromMatrixPosition(a.object.matrixWorld);
 		var vectorb = new THREE.Vector3();
@@ -742,7 +748,7 @@ function onDocumentDblClick(event) {
 		if(vectora.z < vectora.z) return -1;
 		if(vectorb.z > vectorb.z) return 1;
 		return 0;
-	});
+	});*/
     if (intersects.length > 0) {
         //console.log("Intersection click!");
         //intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
@@ -784,7 +790,7 @@ function onDocumentClick(event){
 		movingStarted = false;
 		return;
 	}
-	
+	var raycaster = new THREE.Raycaster();
     //clicked? center the vert
     var vector = new THREE.Vector3();
     vector.set((event.clientX / initialWidth) * 2 - 1, -(event.clientY / initialHeight) * 2 + 1, 0.5);
@@ -805,6 +811,7 @@ function onDocumentClick(event){
         all_objs = all_objs.concat(objects[it]);
     }
     //console.log(objects);
+	spheres_object3d.updateMatrixWorld();
     var intersects = raycaster.intersectObjects(all_objs);
 	var num = 1;
 	
@@ -814,23 +821,34 @@ function onDocumentClick(event){
         
     }
 
-
+	intersects_filtered = [];
+	$.each(intersects, function(i, inter){
+		if(inter.object.spherevertex.object3d.visible){
+			intersects_filtered.push(inter);
+		}
+	});
+    intersects = intersects_filtered;
+	
 	intersects = intersects.sort(function(a,b){
 		var vectora = new THREE.Vector3();
         vectora.setFromMatrixPosition(a.object.matrixWorld);
 		var vectorb = new THREE.Vector3();
         vectorb.setFromMatrixPosition(b.object.matrixWorld);
         // if object a is farther screen
-	    if (vectora.z < vectorb.z && (raycaster.ray.origin.distanceTo(a) < raycaster.ray.origin.distanceTo(b)))
-            return 1;
-        
-        return -1;
+	   if (raycaster.ray.origin.distanceTo(a) < raycaster.ray.origin.distanceTo(b))
+           return 1;
+        //if(vectora.z > vectorb.z) return -1
+		return -1;
+		
+		//if(a.z < b.z) return 1;
+		//else return -1;
     });
-    
-    for (var i = 0; i < intersects.length; i++) {
+	
+    /*for (var i = 0; i < intersects.length; i++) {
         console.log(intersects[i].object.spherevertex.node['name']);
         console.log(intersects[i]);
-    }
+    }*/
+	console.log("Intersection loop");
     if (intersects.length > 0) {
         //console.log("Intersection click!");
         
@@ -899,6 +917,7 @@ function onDocumentMove(event) {
 //main update loop
 var ONE_FRAME_TIME = 1000 / 20;
 
+var last_surf = 0;
 var mainloop = function () {
 	/*if(intelligentManager.sphere_max==3){
 		//console.log("SWITCH RADIUS 2 & 3");
@@ -915,6 +934,7 @@ var mainloop = function () {
 	$.each(edges, function (i, edge) {
 		edge.update();
     });
+	
 };
 setInterval(mainloop, ONE_FRAME_TIME);
 
@@ -924,10 +944,23 @@ data_manager.loadObjects('keystone.xml');
 //clike between evrythng
 
 function reinitSelectors() {
+	var results_obj = null;
+	/*if(intelligentManager.sphere_max==3){
+		results_obj = spheres[intelligentManager.sphere_max-1].objects;
+	}else{*/
+		results_obj = spheres[intelligentManager.sphere_max].objects;
+	var final_res = [];
+	
+	$.each(results_obj, function(i, res){
+		if(res.object3d.visible === true){
+			final_res.push(res);
+		}
+	});
+	//}
     $(".js-data-array").select2({
         data: function () {
             return {
-                results: SPHERE.OUTER.sphere.objects, text: function (dat) {
+                results: final_res, text: function (dat) {
                     return dat.node.name;
                 }
             };

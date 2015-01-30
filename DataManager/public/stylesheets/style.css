@@ -11,9 +11,10 @@ canvas {
 
 .search-box {
     display: block;
-    float: right;
-    width: 15%;
+    float: left;
+    width: 100%;
     padding-right: 15px;
+	padding-left: 15px;
 }
 
 .current-caption {
