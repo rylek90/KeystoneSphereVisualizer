@@ -808,20 +808,29 @@ function onDocumentClick(event){
     var intersects = raycaster.intersectObjects(all_objs);
 	var num = 1;
 	
-	/*for(var i=0; i<intersects.length; i++){
-			console.log(intersects[i].object.spherevertex.node['name']);
-			console.log(intersects[i]);
-	}*/
-	intersects.sort(function(a,b){
+    for (var i = 0; i < intersects.length; i++) {
+        console.log(intersects[i].object.spherevertex.node['name']);
+        console.log(intersects[i]);
+        
+    }
+
+
+	intersects = intersects.sort(function(a,b){
 		var vectora = new THREE.Vector3();
         vectora.setFromMatrixPosition(a.object.matrixWorld);
 		var vectorb = new THREE.Vector3();
         vectorb.setFromMatrixPosition(b.object.matrixWorld);
-		
-		if(vectora.z < vectora.z) return -1;
-		if(vectorb.z > vectorb.z) return 1;
-		return 0;
-	});
+        // if object a is farther screen
+	    if (vectora.z < vectorb.z && (raycaster.ray.origin.distanceTo(a) < raycaster.ray.origin.distanceTo(b)))
+            return 1;
+        
+        return -1;
+    });
+    
+    for (var i = 0; i < intersects.length; i++) {
+        console.log(intersects[i].object.spherevertex.node['name']);
+        console.log(intersects[i]);
+    }
     if (intersects.length > 0) {
         //console.log("Intersection click!");
         
