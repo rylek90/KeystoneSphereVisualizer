@@ -15,3 +15,9 @@ canvas {
     width: 15%;
     padding-right: 15px;
 }
+
+.current-caption {
+    display: inline-block;
+    text-align: center;
+    margin-left: 50%;
+}

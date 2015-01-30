@@ -10,28 +10,33 @@
         <script type="text/javascript" src="/public/javascripts/manager/ScientistManager.js"></script>
         
         <script type="text/javascript">
-            $(document).ready(function() {
-                $('#expertisesSelect').multiselect();
-
-                $('.js-submit').click(function() {
-                    var manager = new ScientistManager();
-                    manager.postData();
-                });
-            });
+            function clickButton() {
+                var manager = new ScientistManager();
+                manager.postData();
+            };
         </script>
     </head>
     <body id="mainBody">
-        <form class="form-horizontal" role="search">
+        
+        <div class="js-done-message" hidden="true">
+            Done! Click <a href="/" />here</a> to go back!
+        </div>
+
+        <form class="js-form-main form-horizontal" role="search">
             <% 
             var pName = '';
             var pImage = '';
             var pUrl = '';
+            var pId= '';
             if (person) {
+            pId = person.id;
             pName = person.name;
             pImage = person.img_src;
             pUrl = person.href;
             }
             %>
+            
+            <div hidden="true" class="js-person-id"><%= pId %></div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">URL</label>
@@ -78,9 +83,10 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Workgroup</label>
                 <div class="col-sm-10">
-                    <select id="workgroupsSelect" class="form-control js-workgroups" name="workgroups">
+                    <select id="workgroupsSelect" class="form-control js-workgroups" multiple="multiple" name="workgroups">
                         <% for (var i = 0; i < workgroups.length; i++) {
-
+                        console.dir(workgroups);
+                        console.dir(workgroups.length);
                         if (workgroups[i].isSelected) { %>
                         <option selected="selected" value="<%= workgroups[i].id %>"><%= workgroups[i].name %></option>
                         <% } else {
@@ -92,6 +98,9 @@
                     </select>
                 </div>
             </div>
+            
+
+
             <div class="form-group">
                 <label class="col-sm-2 control-label">Entity</label>
                 <div class="col-sm-10">
@@ -129,7 +138,7 @@
                 </div>
             </div>
             
-            <button type="submit" class="js-submit btn btn-default">Submit</button>
+            <button type="button" onclick="clickButton()" class="js-submit btn btn-default">Submit</button>
 
 
 

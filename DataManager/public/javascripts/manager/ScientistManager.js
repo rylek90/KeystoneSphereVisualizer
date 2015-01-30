@@ -1,4 +1,10 @@
 ﻿
+$(document).ready(function () {
+    $('#expertisesSelect').multiselect();
+    $('#workgroupsSelect').multiselect();
+    
+});
+
 var ScientistManager = function() {
 
     this.Selectors = {
@@ -22,6 +28,8 @@ var ScientistManager = function() {
         var entity = this.ResolveValue(this.Selectors.Entities);
         var expertises = this.ResolveValue(this.Selectors.Expertises);
 
+        var personId = $('.js-person-id').text();
+
         var dataToPost = {
             url: url,
             name: name,
@@ -29,16 +37,18 @@ var ScientistManager = function() {
             country: country,
             workgroup: workgroup,
             entity: entity,
-            expertises: expertises
-        };
+            expertises: expertises,
+            id: personId ? personId : ''
+    };
+        
 
         $.ajax({
             type: "POST",
             url: "/postData",
             data: dataToPost,
             success: function (data) {
-                
-                window.location = '/public/new.xml';
+                $('.js-main-form').hide();
+                $('.js-done-message').show();
                 return false;
             }
         });

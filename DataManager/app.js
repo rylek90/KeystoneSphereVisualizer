@@ -24,68 +24,122 @@ app.get('/public/javascripts/lib/bootstrap.min.js', function(req, res) {
     res.sendfile(__dirname + '/public/javascripts/lib/bootstrap.min.js');
 });
 
-app.get('/public/javascripts/lib/bootstrap-multiselect.js', function (req, res) {
+app.get('/public/javascripts/lib/bootstrap-multiselect.js', function(req, res) {
     res.sendfile(__dirname + '/public/javascripts/lib/bootstrap-multiselect.js');
 });
 
-app.get('/public/stylesheets/bootstrap.min.css', function (req, res) {
+app.get('/public/stylesheets/bootstrap.min.css', function(req, res) {
     res.sendfile(__dirname + '/public/stylesheets/bootstrap.min.css');
 });
 
-app.get('/public/stylesheets/bootstrap-multiselect.css', function (req, res) {
+app.get('/public/stylesheets/bootstrap-multiselect.css', function(req, res) {
     res.sendfile(__dirname + '/public/stylesheets/bootstrap-multiselect.css');
 });
 
-app.get('/public/javascripts/manager/ScientistManager.js', function (req, res) {
+app.get('/public/javascripts/manager/ScientistManager.js', function(req, res) {
     res.sendfile(__dirname + '/public/javascripts/manager/ScientistManager.js');
 });
 
 app.post('/postData', function(req, res) {
     var data = req.body;
+
+
+    var guids = [data.country, data.entity];
+
+    var expertises = data['expertises[]'];
+    var workgroups = data['workgroup[]'];
+
+    if (expertises) {
+
+        if (Array.isArray(expertises)) {
+            for (var i = 0; i < expertises.length; i++) {
+                guids[guids.length] = expertises[i];
+            }
+        } else {
+            guids[guids.length] = expertises;
+        }
+    }
     
-
-    var guids = [data.country, data.workgroup, data.entity];
-
-    if (data['expertises[]']) {
-        for (var i = 0; i < data['expertises[]'].length; i++) {
-            guids[guids.length] = data['expertises[]'][i];
+    if (workgroups) {
+        if (Array.isArray(workgroups)) {
+            for (var i = 0; i < workgroups.length; i++) {
+                guids[guids.length] = workgroups[i];
+            }
+        } else {
+            guids[guids.length] = workgroups;
         }
     }
 
-    appendToXml(function (serializedPath) {
-        res.send(serializedPath);
-    }, data.url, data.name, data.imgSrc, guids);
+    appendToXml(data.url, data.name, data.imgSrc, guids, data.id);
 
+    res.end();
+});
+
+function removePerson(parsedXml, userId) {
+    var allEdges = parsedXml.root.edges[0].edge;
+    var allNodes = parsedXml.root.nodes[0].node;
+    var newEdges = [];
+    var newNodes = [];
     
-});
+    for (var i = 0; i < allNodes.length; i++) {
+        if (allNodes[i].$.id != userId) {
+            newNodes.push(allNodes[i]);
+        } else {
+            console.log('usuwam');
+        }
+    }
 
-app.get('/public/new.xml', function (req, res) {
-    res.sendFile(path.join(__dirname, '/public/new.xml'));
-});
+    for (var i = 0; i < allEdges.length; i++) {
+        if (allEdges[i].$.source != userId && allEdges[i].$.target != userId) {
+            newEdges.push(allEdges[i]);
+        }
+    }
 
-function appendToXml(callback, url, name, imgSrc, guids) {
+    console.dir(parsedXml);
+    var dollar = {
+        root_node_id: parsedXml.root.$.root_node_id
+    };
+
+    var root = {
+        $: dollar,
+        nodes: [ { node: newNodes}],
+        edges: [{ edge: newEdges }]
+    };
+
+    var newCollection = {
+      root:  root
+    };
+
+    return newCollection;
+}
+
+function appendToXml(url, name, imgSrc, guids, id) {
     var fs = require('fs');
     var path = require('path');
     var xml = require('xml2js');
-    var serializer = require('js2xmlparser');
-    var resend = callback;
     var filePath = path.join(__dirname, '/public/keystone.xml');
-    
-    fs.readFile(filePath, {}, function (err, data) {
+
+    var backUp = path.join(__dirname, '/public/keystoneBackup.xml');
+    fs.writeFileSync(backUp, fs.readFileSync(filePath));
+
+    fs.readFile(filePath, {}, function(err, data) {
         if (!err) {
-            xml.parseString(data, function (err, parsedXml) {
+            xml.parseString(data, function(err, parsedXml) {
                 if (!err) {
                     var builder = new xml.Builder();
                     console.log(parsedXml.root.nodes[0].node.length);
-                    parsedXml = appendPerson(parsedXml, {url: url, name: name, imgSrc: imgSrc, guids: guids});
+                    console.log(parsedXml.root.edges[0].edge.length);
+                    if (id) {
+                        parsedXml = removePerson(parsedXml, id);
+                    }
+                    parsedXml = appendPerson(parsedXml, { url: url, name: name, imgSrc: imgSrc, guids: guids, id: id });
+                    console.log(parsedXml.root.edges[0].edge.length);
                     console.log(parsedXml.root.nodes[0].node.length);
 
                     var serialized = builder.buildObject(parsedXml);
 
-                    var saveFilePath = path.join(__dirname, '/public/new.xml');
-                    fs.writeFile(saveFilePath, serialized, function(e) {
-                        callback(saveFilePath);
-                    });
+                    var saveFilePath = path.join(__dirname, '/public/keystone.xml');
+                    fs.writeFile(saveFilePath, serialized);
                 }
             });
         }
@@ -95,26 +149,31 @@ function appendToXml(callback, url, name, imgSrc, guids) {
 function appendPerson(parsedXml, person) {
     var allNodes = parsedXml.root.nodes[0].node;
     var allEdges = parsedXml.root.edges[0].edge;
-    
+
     // append person
-    var newPerson = { $: {}};
+
+    var newPerson = { $: {} };
     var uuid = require('uuid');
     newPerson.$.href = person.url;
-    newPerson.$.id = uuid.v1();
+
+    if (!person.id || person.id == '') {
+        newPerson.$.id = uuid.v1();
+    } else {
+        newPerson.$.id = person.id;
+    }
     newPerson.$.img_src = person.imgSrc;
     newPerson.$.name = person.name;
     newPerson.$.type = 'person';
     allNodes[allNodes.length] = newPerson;
-    
-    // append edges
-    var newPersonEdge = { $: {source: peopleGuid, target: newPerson.$.id} };
-    allEdges[allEdges.length] = newPersonEdge;
 
+    // append edges
+    var newPersonEdge = { $: { source: peopleGuid, target: newPerson.$.id } };
+    allEdges[allEdges.length] = newPersonEdge;
     for (var i = 0; i < person.guids.length; i++) {
-        allEdges[allEdges.length] = { $: { source: newPerson.$.id, target: person.guids[i]}};
-       // allEdges[allEdges.length] = { $: { source: person.guids[i], target: newPerson.$.id}};
+        allEdges[allEdges.length] = { $: { source: newPerson.$.id, target: person.guids[i] } };
+        // allEdges[allEdges.length] = { $: { source: person.guids[i], target: newPerson.$.id}};
     }
-    
+
 
     return parsedXml;
 };
@@ -124,11 +183,11 @@ app.get('/add', function(req, res) {
     var fs = require('fs');
     var path = require('path');
     var xml = require('xml2js');
-    
+
     var url = require('url');
     var url_parts = url.parse(req.url, true);
     var id = url_parts.query.id;
-    
+
     var filePath = path.join(__dirname, '/public/keystone.xml');
 
     fs.readFile(filePath, {}, function(err, data) {
@@ -159,16 +218,21 @@ app.get('/add', function(req, res) {
                     }
 
                     res.render('manageView', {
-                        countries: countries, workgroups: workgroups, entities: entities, expertises: expertises, person: person,
-                        scripts: ['javascripts/lib/jquery.min.js',
+                        countries: countries,
+                        workgroups: workgroups,
+                        entities: entities,
+                        expertises: expertises,
+                        person: person,
+                        scripts: [
+                            'javascripts/lib/jquery.min.js',
                             'javascripts/lib/bootstrap.min.js',
                             'javascripts/lib/bootstrap-multiselect.js',
                             'javascripts/manager/ScientistManager.js'
                         ],
-                    stylesheets: [
+                        stylesheets: [
                             'stylesheets/bootstrap.min.css',
                             'stylesheets/bootstrap-multiselect.css'
-                    ]
+                        ]
                     });
                 }
             });
@@ -182,7 +246,7 @@ var selectionDebug = 0;
 function applySelections(nodes, edges) {
 
     var edgesTargets = [];
-    
+
     for (var i = 0; i < edges.length; i++) {
         edgesTargets.push(edges[i].target);
     }
