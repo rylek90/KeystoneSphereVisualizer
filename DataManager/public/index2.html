@@ -1,0 +1,409 @@
+﻿<head>
+    <title>My first Three.js app</title>
+</head>
+<body>
+    <div class="search-box">
+        <input type="hidden" class="js-data-array" />
+    </div>
+    <div class="current-caption js-caption">
+    </div>
+    <canvas id="js-canvas"></canvas>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/select2.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="javascripts/lib/three.min.js"></script>
+	<script src="javascripts/sphere/utils.js"></script>
+	<script>
+	var scene;
+var camera;
+var renderer;
+var particleMaterial; 
+var initialWidth;
+var initialHeight;
+
+function initialize() {
+	reinitXY();
+    scene = new THREE.Scene();
+	
+	//camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 2000 );
+    renderer = new THREE.WebGLRenderer({ alpha: true,  antialias: true } );
+    //renderer.shadowMapType = THREE.PCFSoftShadowMap;
+	
+	$(renderer.domElement).attr('id', 'js-canvas');
+	camera = new THREE.PerspectiveCamera(75, initialWidth / initialHeight, 0.1, 20000);
+    //document.body.appendChild(renderer.domElement);
+    
+    
+    renderer.setSize(initialWidth, initialHeight);
+    
+	
+	/*var canvas = document.createElement('canvas-part');
+	var context = canvas.getContext('2d');
+		context.beginPath();
+		context.arc( 0, 0, 0.5, 0, Math.PI2, true );
+        context.fill();
+	var texture = new THREE.Texture(canvas);
+	*/
+	
+	particleMaterial = new THREE.MeshBasicMaterial( { color: 0x006666, wireframe: true } );
+	/*new THREE.SpriteMaterial( 
+		{ map: texture }
+	);
+	texture.needsUpdate = true;*/
+	
+    $(document.getElementById("js-canvas")).replaceWith($(renderer.domElement));
+    camera.position.z = 1500;
+}
+
+function reinitXY() {
+    $(document.getElementById("js-canvas")).width('100%');
+    $(document.getElementById("js-canvas")).height('95%');
+    initialWidth = $(document.getElementById("js-canvas")).width();
+    initialHeight = $(document.getElementById("js-canvas")).height();	
+}
+
+$(document).ready(function () {
+    
+    reinitSelectors();
+});
+
+initialize(); //scene, camera, renderer
+
+
+var spheres_object3d = new THREE.Object3D();
+
+//render threejs in progress
+var t = new THREE.Object3D();
+t.add(spheres_object3d);
+//scene.add(spheres_object3d);
+scene.add(t);
+t.scale.set(1,1,2.5);
+var render = function () {
+    requestAnimationFrame(render);
+    renderer.render(scene, camera);
+};
+render();
+
+
+document.getElementById("js-canvas").addEventListener('dblclick', dblclick, false);
+document.getElementById("js-canvas").addEventListener('click', click, false);
+document.getElementById("js-canvas").addEventListener('mousedown', onDocumentDown, false);
+document.getElementById("js-canvas").addEventListener('mouseup', onDocumentUp, false);
+document.getElementById("js-canvas").addEventListener('mousemove', onDocumentMove, false);
+document.getElementById("js-canvas").addEventListener('contextmenu', onDocumentDownRight, false);
+document.getElementById("js-canvas").addEventListener('mousewheel', onDocumentScroll, false);
+
+window.addEventListener('resize', onWindowResize, false);
+
+function click(e) {
+    var that = this;
+    setTimeout(function() {
+        var dblclick = parseInt($(that).data('double'), 10);
+        if (dblclick > 0) {
+            $(that).data('double', dblclick-1);
+        } else {
+            onDocumentClick(e);
+        }
+    }, 300);
+};
+
+function dblclick(e){
+	 $(this).data('double', 2);
+	 onDocumentDblClick(e);
+};
+
+function onWindowResize(e) {
+  reinitXY();
+  renderer.setSize(initialWidth, initialHeight);
+  camera.aspect	= initialWidth / initialHeight;
+  camera.updateProjectionMatrix();  
+}
+
+function onDocumentDownRight(event){
+    event.preventDefault();
+    console.log('right click');
+	intelligentManager.handleRightClick();
+};
+
+function onDocumentScroll(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    if (evt.wheelDeltaY > 0 && camera.position.z >= 3) {
+        camera.position.z -= 0.1*(globalscale);
+    } else if (evt.wheelDeltaY < 0 && camera.position.z <= 20000) {
+        camera.position.z += 0.1*globalscale;
+    }
+}
+
+function onDocumentDblClick(event) {
+    event.preventDefault();
+    console.log("Double click event!");
+    //clicked? center the vert
+	var raycaster = new THREE.Raycaster();
+    var vector = new THREE.Vector3();
+    vector.set((event.clientX / initialWidth) * 2 - 1, -(event.clientY / initialHeight) * 2 + 1, 0.0);
+    vector.unproject(camera);
+    raycaster.ray.set(camera.position, vector.sub(camera.position).normalize());
+    var PI2 = Math.PI * 2;
+    
+   
+    //sphere objs
+    var all_objs = [];
+    var objects = {};
+	var len = 2;//spheres.length;
+    for (var it = len; it >= 0; it--) {
+        //console.log('Getting  objs');
+        //console.log(spheres);
+        objects[it] = spheres[it].getObjects3d();
+        all_objs = all_objs.concat(objects[it]);
+    }
+    //console.log(objects);
+	spheres_object3d.updateMatrixWorld();
+	drawRayLine( raycaster );
+    var intersects = raycaster.intersectObjects(all_objs);
+	/*intersects.sort(function(a,b){
+		var vectora = new THREE.Vector3();
+        vectora.setFromMatrixPosition(a.object.matrixWorld);
+		var vectorb = new THREE.Vector3();
+        vectorb.setFromMatrixPosition(b.object.matrixWorld);
+		
+		if(vectora.z < vectora.z) return -1;
+		if(vectorb.z > vectorb.z) return 1;
+		return 0;
+	});*/
+    if (intersects.length > 0) {
+        //console.log("Intersection click!");
+        //intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+        //WHAT DO
+		for(var i=0; i<intersects.length; i++){
+			var io = intersects[i].object;
+			var len = 2;//spheres.length;
+			for (var it = len; it >= 0; it--) {
+				if (objects[it].contains(io)) {
+					if (io.spherevertex.object3d.visible) {
+						intelligentManager.handleDoubleClick(spheres[it], io.spherevertex);
+					}
+					return;
+				}
+			}
+		};
+    }
+};
+
+var movingStarted = false;
+var startMouseMoving = { "x": 0, "y": 0 };
+var oldMouse = { "x": 0, "y": 0 };
+
+function onDocumentUp(event) {
+    event.preventDefault();
+    
+    if (movingStarted) {
+        movingStarted = false;
+    }
+    //console.log("Moving stopped");
+}
+
+function onDocumentClick(event){
+	console.log("Click event!");
+	var nowMouse = { "x": event.pageX, "y": event.pageY };
+	var moved = Math.abs(startMouseMoving.x - nowMouse.x) + Math.abs(startMouseMoving.y - nowMouse.y);
+	console.log(moved);
+	if(moved > 40){
+		console.log("Moved hard");
+		movingStarted = false;
+		return;
+	}
+	var raycaster = new THREE.Raycaster();
+    //clicked? center the vert
+    var vector = new THREE.Vector3();
+    vector.set((event.clientX / initialWidth) * 2 - 1, -(event.clientY / initialHeight) * 2 + 1, 1);
+    vector.unproject(camera);
+    raycaster.ray.set(camera.position, vector.sub(camera.position).normalize());
+	raycaster.ray.linePrecision = 0.00000000000000001;
+    raycaster.ray.precision = 0.00000000000000001;
+	
+    drawRayLine( raycaster );
+	
+	
+	var PI2 = Math.PI * 2;
+    
+    /*var particleMaterial = new THREE.MeshBasicMaterial(
+        { color: 0xFFFFFF, side: THREE.DoubleSide }
+    );*/
+    //sphere obj?
+    var all_objs = [];
+    var objects = {};
+    var len = 2;//spheres.length;
+    for (var it = len; it >= 0; it--) {
+        //console.log('Getting  objs');
+        //console.log(spheres);
+        objects[it] = spheres[it].getObjects3d();
+        all_objs = all_objs.concat(objects[it]);
+    }
+    //console.log(objects);
+	
+	spheres_object3d.updateMatrixWorld();
+    var intersects = raycaster.intersectObjects(all_objs);
+	var num = 1;
+	
+    for (var i = 0; i < intersects.length; i++) {
+        console.log(intersects[i].object.spherevertex.node['name']);
+        console.log(intersects[i]);
+        
+    }
+
+	intersects_filtered = [];
+	$.each(intersects, function(i, inter){
+		if(inter.object.spherevertex.object3d.visible){
+			intersects_filtered.push(inter);
+		}
+	});
+    intersects = intersects_filtered;
+	/*
+	intersects = intersects.sort(function(a,b){
+		var vectora = new THREE.Vector3();
+        vectora.setFromMatrixPosition(a.object.matrixWorld);
+		var vectorb = new THREE.Vector3();
+        vectorb.setFromMatrixPosition(b.object.matrixWorld);
+        // if object a is farther screen
+	   if (raycaster.ray.origin.distanceTo(a) < raycaster.ray.origin.distanceTo(b))
+           return 1;
+        //if(vectora.z > vectorb.z) return -1
+		return -1;
+		
+		//if(a.z < b.z) return 1;
+		//else return -1;
+    });
+	*/
+    /*for (var i = 0; i < intersects.length; i++) {
+        console.log(intersects[i].object.spherevertex.node['name']);
+        console.log(intersects[i]);
+    }*/
+	console.log("Intersection loop");
+    if (intersects.length > 0) {
+        //console.log("Intersection click!");
+        
+        //intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+        //WHAT DO
+		for(var i=0; i<intersects.length; i++){
+			console.log(intersects[i]);
+			var pos = intersects[i].point;
+			var o = new THREE.Object3D();
+			var mat = new THREE.MeshBasicMaterial( { color: 0x660000, wireframe: true } );
+			var mesh = new THREE.Mesh( new THREE.SphereGeometry( 50, 16, 16), mat );
+			o.add(mesh);
+			spheres_object3d.add( o );
+			o.position.x = pos.x;
+			o.position.y = pos.y;
+			o.position.z = pos.z;
+			
+			var io = intersects[i].object;
+			var len = 2;//spheres.length;
+			for (var it = len; it >= 0; it--) {
+				if (objects[it].contains(io)) {
+					if (io.spherevertex.object3d.visible) {
+						intelligentManager.handle(spheres[it], io.spherevertex);
+					}
+					return;
+				}
+			}
+		};
+    }
+}
+
+function onDocumentDown(event) {
+    event.preventDefault();
+    movingStarted = true;
+    
+    //console.log("Moving started");
+    oldMouse = { "x": event.pageX, "y": event.pageY };
+    startMouseMoving = oldMouse;
+    
+}
+
+function onDocumentMove(event) {
+    //console.log("moving");
+    if (movingStarted) {
+		if(event.which==1){
+			console.log("Button hold");
+		}else{
+			console.log("BUG");
+			movingStarted = false;
+			return;
+		}
+        //should we cancel animation?
+        var nowMouse = { "x": event.pageX, "y": event.pageY };
+        var deltaX = oldMouse.x - nowMouse.x;
+        var deltaY = oldMouse.y - nowMouse.y;
+        oldMouse = nowMouse;
+        
+        var mpi = Math.PI / 180;
+        //rotation
+        var xAxis = new THREE.Vector3(1, 0, 0);
+        var yAxis = new THREE.Vector3(0, 1, 0);
+		
+        rotateAroundWorldAxis(spheres_object3d, yAxis, -0.3 * deltaX * mpi);
+        rotateAroundWorldAxis(spheres_object3d, xAxis, -0.3 * deltaY * mpi);
+      /* $.each(spheres, function(i,sphere){
+			var objs = sphere.objects;
+			$.each(objs, function(j, obj){
+				rotateAroundWorldAxis(obj, yAxis, -0.3 * deltaX * mpi);
+				rotateAroundWorldAxis(obj, xAxis, -0.3 * deltaY * mpi);
+			});
+		});*/
+        //if moved more than 13 px, turn of centering animation
+        var moved = Math.abs(startMouseMoving.x - nowMouse.x) + Math.abs(startMouseMoving.y - nowMouse.y);
+        //console.log(moved);
+        if (moved > 30) {
+            $.each(spheres, function (i, sphere) {
+                if (sphere.animation !== ANIMATION.HIDING && sphere.animation !== ANIMATION.GROWING) {
+                    sphere.setAnimation(ANIMATION.NONE, null, true);
+                }
+            });
+        }
+    }
+}
+
+//main update loop
+var ONE_FRAME_TIME = 1000 / 20;
+
+var last_surf = 0;
+var mainloop = function () {
+	
+};
+setInterval(mainloop, ONE_FRAME_TIME);
+
+//INITIAL DATA LOAD
+//data_manager.loadObjects('graphKASK.xml');
+//clike between evrythng
+
+function reinitSelectors() {
+	
+	//}
+    $(".js-data-array").select2({
+        data: function () {
+            return {
+                results: final_res, text: function (dat) {
+                    return dat.node.name;
+                }
+            };
+        },
+        allowClear: true,
+        placeholder: 'Select',
+        id: function (e) { return e.node.id; },
+        formatResult: function (dat) {
+            return dat.node.name;
+        },
+        formatSelection: function (item) {
+            //intelligentManager.findNode(item.node.name);
+            return item.node.name;
+        },
+        change: function (e) {
+            //console.dir(e);
+        }
+    });
+}
+
+
+	</script>
+</body>

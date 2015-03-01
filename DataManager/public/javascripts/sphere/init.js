@@ -1,36 +1,56 @@
 ﻿var scene;
 var camera;
 var renderer;
-//var raycaster;
+var particleMaterial; 
+var initialWidth;
+var initialHeight;
+
+var camera_tween = 0;
+
 function initialize() {
+	reinitXY();
     scene = new THREE.Scene();
-	//var width = initialWidth/50;
-	//var height = initialWidth/50;
-	//camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 1000 );
-    reinitXY()
+	
+	//camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0.1, 2000 );
     renderer = new THREE.WebGLRenderer({ alpha: true,  antialias: true } );
     //renderer.shadowMapType = THREE.PCFSoftShadowMap;
 	
 	$(renderer.domElement).attr('id', 'js-canvas');
-	camera = new THREE.PerspectiveCamera(75, initialWidth / initialHeight, 0.1, 1000);
+	camera = new THREE.PerspectiveCamera(75, initialWidth / initialHeight, 0.1, 20000);
+	var width = initialWidth;
+	var height = initialHeight;
+	//camera = new THREE.OrthographicCamera( -width , width , height, -height, 0.1, 20000 );
     //document.body.appendChild(renderer.domElement);
     
     
     renderer.setSize(initialWidth, initialHeight);
     
+	
+	/*var canvas = document.createElement('canvas-part');
+	var context = canvas.getContext('2d');
+		context.beginPath();
+		context.arc( 0, 0, 0.5, 0, Math.PI2, true );
+        context.fill();
+	var texture = new THREE.Texture(canvas);
+	*/
+	
+	particleMaterial = new THREE.MeshBasicMaterial( { color: 0x006666, wireframe: true } );
+	/*new THREE.SpriteMaterial( 
+		{ map: texture }
+	);
+	texture.needsUpdate = true;*/
+	
     $(document.getElementById("js-canvas")).replaceWith($(renderer.domElement));
-    camera.position.z = 8*globalscale;
+    camera.position.z = 150;
 }
 
 function reinitXY() {
     $(document.getElementById("js-canvas")).width('100%');
-    $(document.getElementById("js-canvas")).height('95%');
+    $(document.getElementById("js-canvas")).height('100%');
     initialWidth = $(document.getElementById("js-canvas")).width();
     initialHeight = $(document.getElementById("js-canvas")).height();	
 }
 
-var initialWidth = '';
-var initialHeight = '';
 $(document).ready(function () {
     
     reinitSelectors();
@@ -40,6 +60,8 @@ initialize(); //scene, camera, renderer
 
 
 var spheres_object3d = new THREE.Object3D();
+var spheres_geometries = new THREE.Object3D();
+
 SPHERE.CENTER.sphere = new Sphere(SPHERE.CENTER);
 SPHERE.INNER.sphere = new Sphere(SPHERE.INNER);
 SPHERE.OUTER.sphere = new Sphere(SPHERE.OUTER);
@@ -71,6 +93,18 @@ var IntelligentManager = function(spheres_object3d){
 	this.occupied = {};
 	this.commands = [];
 	this.sphere_max = 0;
+	this._sphereMaxChangedEventHandlers = [];
+	this.AddSphereMaxChangedEventHandler = function(callback){
+		this._sphereMaxChangedEventHandlers.push(callback);
+	};
+	this.setSphereMax = function(new_max){
+		this.sphere_max = new_max;
+		$.each(this._sphereMaxChangedEventHandlers, function(i, o){
+			if(o!=null){
+				o(new_max);
+			}
+		});
+	};
 	this.handleRightClick = function(){
 		/*var n = this.commands.length;
 		if(n>0){
@@ -278,7 +312,7 @@ var IntelligentManager = function(spheres_object3d){
 		
 		if(sphere.position.value >= this.sphere_max-1){
 			var type = obj.node['type'];
-			console.log(type);
+			//console.log(type);
 			if((type==='entity' || type==='country' || type==='workgroup' || type==='expertise')){
 				console.log("GO TO PEOPLE TEST - special case");
 				if(this.sphere_max == 3){
@@ -288,7 +322,8 @@ var IntelligentManager = function(spheres_object3d){
 				}else if(this.sphere_max == 2){
 					this.commands.push(new Command('handle_sphere_click_special_case', obj.node, obj));
 					console.log("Attrib click - show ppl");
-					this.sphere_max = 1;
+					this.setSphereMax(1);
+					
 					var obj_n = obj.node;
 					console.log("obj_n:");
 					console.log(obj_n);
@@ -347,7 +382,7 @@ var IntelligentManager = function(spheres_object3d){
 			
 			var children = this._findChildren(obj.node);
 			if(children.length>0){ //mozna dalej rozwijac graf - wchodzic w glab
-				this.sphere_max++;
+				this.setSphereMax(this.sphere_max+1);//sphere_max++;
 				console.log('handle_sphere_click_with_children');
 				this.commands.push(new Command('handle_sphere_click_with_children', obj.node, obj));
 				//this.swapSpheres(SPHERE.CENTER, SPHERE.INNER);
@@ -483,7 +518,7 @@ var IntelligentManager = function(spheres_object3d){
 			//	console.log("Clean sphere_max-1");
 				spheres[this.sphere_max-1].clear();
 			//	console.log("Cleared (this and +1 sphere)....: " + this.sphere_max);
-				this.sphere_max-=2;
+				this.setSphereMax(this.sphere_max-2);//this.sphere_max-=2;
 				this.handle(sphere, obj);
 			}else if(sphere.position.value == this.sphere_max-3){
 				//center ze sfery
@@ -497,7 +532,8 @@ var IntelligentManager = function(spheres_object3d){
 			//	console.log("Cleared (this and +1 sphere)....: " + this.sphere_max);
 			//	console.log("Clean sphere_max-2");
 				spheres[this.sphere_max-2].clear();
-				this.sphere_max-=3;
+				this.setSphereMax(this.sphere_max-3);
+				//this.sphere_max-=3;
 				this.handle(sphere, obj);
 			}
 		}
@@ -557,7 +593,7 @@ var IntelligentManager = function(spheres_object3d){
 				o.object3d.visible = false; 
 			});
 			parent_obj.object3d.visible = true;
-			this.sphere_max = parent_sphere;
+			this.setSphereMax(parent_sphere);//this.sphere_max = parent_sphere;
 			
 			this.handle(spheres[parent_sphere], parent_obj, true);
 			//spheres_object3d.updateMatrixWorld();
@@ -573,7 +609,7 @@ var IntelligentManager = function(spheres_object3d){
 				}
 			});
 			
-			
+			this.setSphereMax(this.sphere_max);
 		/*}
 		else if(sphere.position.value == this.spehere_max-1){
 			console.log("pos == sphere_max-1 // outer");
@@ -618,7 +654,14 @@ var IntelligentManager = function(spheres_object3d){
 };
 
 //render threejs in progress
-scene.add(spheres_object3d);
+var t = new THREE.Object3D();
+t.add(spheres_object3d);
+t.add(spheres_geometries);
+//scene.add(spheres_object3d);
+scene.add(t);
+//
+//t.scale.set(1,1,1.5);
+//t.scale.set(1,1,1.5);
 var render = function () {
     requestAnimationFrame(render);
     renderer.render(scene, camera);
@@ -627,6 +670,13 @@ render();
 
 var intelligentManager = new IntelligentManager(spheres_object3d);
 
+intelligentManager.AddSphereMaxChangedEventHandler(function(max){
+	camera_tween = max;
+});
+
+$.each(spheres, function(i,o){
+	o.setManager(intelligentManager);
+});
 
 var texturePooler = new TexturePooler();
 
@@ -672,6 +722,7 @@ document.getElementById("js-canvas").addEventListener('mouseup', onDocumentUp, f
 document.getElementById("js-canvas").addEventListener('mousemove', onDocumentMove, false);
 document.getElementById("js-canvas").addEventListener('contextmenu', onDocumentDownRight, false);
 document.getElementById("js-canvas").addEventListener('mousewheel', onDocumentScroll, false);
+document.getElementById("js-canvas").addEventListener('resize', onWindowResize, false);
 
 window.addEventListener('resize', onWindowResize, false);
 
@@ -693,26 +744,27 @@ function dblclick(e){
 };
 
 function onWindowResize(e) {
-reinitXY();
+  reinitXY();
   renderer.setSize(initialWidth, initialHeight);
   camera.aspect	= initialWidth / initialHeight;
   camera.updateProjectionMatrix();  
 }
 
 function onDocumentDownRight(event){
-    event.preventDefault();
+//    event.preventDefault();
     console.log('right click');
-	intelligentManager.handleRightClick();
+	//intelligentManager.handleRightClick();
 };
 
 function onDocumentScroll(evt) {
     evt.preventDefault();
     evt.stopPropagation();
     if (evt.wheelDeltaY > 0 && camera.position.z >= 3) {
-        camera.position.z -= 0.1;
-    } else if (evt.wheelDeltaY < 0 && camera.position.z <= 10) {
-        camera.position.z += 0.1;
+        camera.position.z -= 0.1*(globalscale);
+    } else if (evt.wheelDeltaY < 0 && camera.position.z <= 20000) {
+        camera.position.z += 0.1*globalscale;
     }
+	console.log("Scroll z: " + camera.position.z);
 }
 
 function onDocumentDblClick(event) {
@@ -721,7 +773,7 @@ function onDocumentDblClick(event) {
     //clicked? center the vert
 	var raycaster = new THREE.Raycaster();
     var vector = new THREE.Vector3();
-    vector.set((event.clientX / initialWidth) * 2 - 1, -(event.clientY / initialHeight) * 2 + 1, 0.5);
+    vector.set((event.clientX / initialWidth) * 2 - 1, -(event.clientY / initialHeight) * 2 + 1, 0.0);
     vector.unproject(camera);
     raycaster.ray.set(camera.position, vector.sub(camera.position).normalize());
     var PI2 = Math.PI * 2;
@@ -730,7 +782,8 @@ function onDocumentDblClick(event) {
     //sphere objs
     var all_objs = [];
     var objects = {};
-    for (var it = 3; it >= 0; it--) {
+	var len = Object.size(spheres)-1;
+    for (var it = len; it >= 0; it--) {
         //console.log('Getting  objs');
         //console.log(spheres);
         objects[it] = spheres[it].getObjects3d();
@@ -738,6 +791,7 @@ function onDocumentDblClick(event) {
     }
     //console.log(objects);
 	spheres_object3d.updateMatrixWorld();
+	//drawRayLine( raycaster );
     var intersects = raycaster.intersectObjects(all_objs);
 	/*intersects.sort(function(a,b){
 		var vectora = new THREE.Vector3();
@@ -755,7 +809,8 @@ function onDocumentDblClick(event) {
         //WHAT DO
 		for(var i=0; i<intersects.length; i++){
 			var io = intersects[i].object;
-			for (var it = 3; it >= 0; it--) {
+			var len = Object.size(spheres)-1;
+			for (var it = len; it >= 0; it--) {
 				if (objects[it].contains(io)) {
 					if (io.spherevertex.object3d.visible) {
 						intelligentManager.handleDoubleClick(spheres[it], io.spherevertex);
@@ -793,10 +848,16 @@ function onDocumentClick(event){
 	var raycaster = new THREE.Raycaster();
     //clicked? center the vert
     var vector = new THREE.Vector3();
-    vector.set((event.clientX / initialWidth) * 2 - 1, -(event.clientY / initialHeight) * 2 + 1, 0.5);
+    vector.set((event.clientX / initialWidth) * 2 - 1, -(event.clientY / initialHeight) * 2 + 1, 1);
     vector.unproject(camera);
     raycaster.ray.set(camera.position, vector.sub(camera.position).normalize());
-    var PI2 = Math.PI * 2;
+	raycaster.ray.linePrecision = 0.0000001;
+    raycaster.ray.precision = 0.0000001;
+	
+    //drawRayLine( raycaster );
+	
+	
+	var PI2 = Math.PI * 2;
     
     /*var particleMaterial = new THREE.MeshBasicMaterial(
         { color: 0xFFFFFF, side: THREE.DoubleSide }
@@ -804,13 +865,17 @@ function onDocumentClick(event){
     //sphere obj?
     var all_objs = [];
     var objects = {};
-    for (var it = 3; it >= 0; it--) {
+    var len = Object.size(spheres)-1;
+	console.log('len');
+	console.log(len);
+    for (var it = len; it >= 0; it--) {
         //console.log('Getting  objs');
         //console.log(spheres);
         objects[it] = spheres[it].getObjects3d();
         all_objs = all_objs.concat(objects[it]);
     }
     //console.log(objects);
+	
 	spheres_object3d.updateMatrixWorld();
     var intersects = raycaster.intersectObjects(all_objs);
 	var num = 1;
@@ -828,7 +893,7 @@ function onDocumentClick(event){
 		}
 	});
     intersects = intersects_filtered;
-	
+	/*
 	intersects = intersects.sort(function(a,b){
 		var vectora = new THREE.Vector3();
         vectora.setFromMatrixPosition(a.object.matrixWorld);
@@ -843,7 +908,7 @@ function onDocumentClick(event){
 		//if(a.z < b.z) return 1;
 		//else return -1;
     });
-	
+	*/
     /*for (var i = 0; i < intersects.length; i++) {
         console.log(intersects[i].object.spherevertex.node['name']);
         console.log(intersects[i]);
@@ -855,8 +920,20 @@ function onDocumentClick(event){
         //intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
         //WHAT DO
 		for(var i=0; i<intersects.length; i++){
+			/*console.log(intersects[i]);
+			var pos = intersects[i].point;
+			var o = new THREE.Object3D();
+			var mat = new THREE.MeshBasicMaterial( { color: 0x660000, wireframe: true } );
+			var mesh = new THREE.Mesh( new THREE.SphereGeometry( 50, 16, 16), mat );
+			o.add(mesh);
+			spheres_object3d.add( o );
+			o.position.x = pos.x;
+			o.position.y = pos.y;
+			o.position.z = pos.z;*/
+			
 			var io = intersects[i].object;
-			for (var it = 3; it >= 0; it--) {
+			var len = Object.size(spheres)-1;
+			for (var it = len; it >= 0; it--) {
 				if (objects[it].contains(io)) {
 					if (io.spherevertex.object3d.visible) {
 						intelligentManager.handle(spheres[it], io.spherevertex);
@@ -898,9 +975,16 @@ function onDocumentMove(event) {
         //rotation
         var xAxis = new THREE.Vector3(1, 0, 0);
         var yAxis = new THREE.Vector3(0, 1, 0);
+		
         rotateAroundWorldAxis(spheres_object3d, yAxis, -0.3 * deltaX * mpi);
         rotateAroundWorldAxis(spheres_object3d, xAxis, -0.3 * deltaY * mpi);
-        
+      /* $.each(spheres, function(i,sphere){
+			var objs = sphere.objects;
+			$.each(objs, function(j, obj){
+				rotateAroundWorldAxis(obj, yAxis, -0.3 * deltaX * mpi);
+				rotateAroundWorldAxis(obj, xAxis, -0.3 * deltaY * mpi);
+			});
+		});*/
         //if moved more than 13 px, turn of centering animation
         var moved = Math.abs(startMouseMoving.x - nowMouse.x) + Math.abs(startMouseMoving.y - nowMouse.y);
         //console.log(moved);
@@ -935,6 +1019,37 @@ var mainloop = function () {
 		edge.update();
     });
 	
+	//camera update
+	var camera_goto;
+	var movement_speed = 0.4;
+	var delta = ONE_FRAME_TIME;
+	if(camera_tween!=-1){
+		switch(camera_tween){
+			case 0:
+			 camera_goto = 150;
+			break;
+			case 1:
+			 movement_speed*=2;
+			 camera_goto = 330;
+			break;
+			case 2:
+			 camera_goto = 380;
+			break;
+			case 3:
+			default:
+			 camera_goto = 480;
+			break;
+		}
+		var pos = camera.position.z;
+		var diff = camera.position.z - camera_goto;
+		var diffs = Math.sign(diff);
+		var mov = diffs*movement_speed*delta;
+		if(Math.abs(mov) > Math.abs(diff)){
+			mov -= diff;
+			camera_tween = -1;
+		}
+		camera.position.z -= mov;
+	}
 };
 setInterval(mainloop, ONE_FRAME_TIME);
 
@@ -965,7 +1080,7 @@ function reinitSelectors() {
                 }
             };
         },
-        allowClear: true,
+       // allowClear: true,
         placeholder: 'Select',
         id: function (e) { return e.node.id; },
         formatResult: function (dat) {
@@ -981,3 +1096,79 @@ function reinitSelectors() {
     });
 }
 
+(function ($, window) {
+
+    $.fn.contextMenu = function (settings) {
+
+        return this.each(function () {
+
+            // Open context menu
+            $(this).on("contextmenu", function (e) {
+                //open menu
+                $(settings.menuSelector)
+                    .data("invokedOn", $(e.target))
+                    .show()
+                    .css({
+                        position: "absolute",
+                        left: getLeftLocation(e),
+                        top: getTopLocation(e)
+                    })
+                    .off('click')
+                    .on('click', function (e) {
+                        $(this).hide();
+                
+                        var $invokedOn = $(this).data("invokedOn");
+                        var $selectedMenu = $(e.target);
+                        var $rayOn = findFirstIntersection(e);
+                        settings.menuSelected.call(this, $invokedOn, $selectedMenu, $rayOn);
+                });
+                
+                return false;
+            });
+
+            //make sure menu closes on any click
+            $(document).click(function () {
+                $(settings.menuSelector).hide();
+            });
+        });
+
+        function getLeftLocation(e) {
+            var mouseWidth = e.pageX;
+            var pageWidth = $(window).width();
+            var menuWidth = $(settings.menuSelector).width();
+            
+            // opening menu would pass the side of the page
+            if (mouseWidth + menuWidth > pageWidth &&
+                menuWidth < mouseWidth) {
+                return mouseWidth - menuWidth;
+            } 
+            return mouseWidth;
+        }        
+        
+        function getTopLocation(e) {
+            var mouseHeight = e.pageY;
+            var pageHeight = $(window).height();
+            var menuHeight = $(settings.menuSelector).height();
+
+            // opening menu would pass the bottom of the page
+            if (mouseHeight + menuHeight > pageHeight &&
+                menuHeight < mouseHeight) {
+                return mouseHeight - menuHeight;
+            } 
+            return mouseHeight;
+        }
+
+    };
+})(jQuery, window);
+
+$("#js-canvas").contextMenu({
+    menuSelector: "#contextMenu",
+    menuSelected: function (invokedOn, selectedMenu, intersect) {
+        var msg = "You selected the menu item '" + selectedMenu.text() +
+            "' on the value '" + invokedOn.text() + "'";
+		if(intersect){
+			msg += "\n intersection with:" + JSON.stringify(intersect, null, 2);
+		}
+        alert(msg);
+    }
+});

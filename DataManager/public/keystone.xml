@@ -341,7 +341,7 @@
     <node id="9e400bf0-a666-11e4-bd41-002219ef6eb5" name="University of Aveiro - IEETA" type="entity"/>
     <node id="9e403301-a666-11e4-8dea-002219ef6eb5" name="University of Jyvaskyla" type="entity"/>
     <node id="9e41e0ae-a666-11e4-95c5-002219ef6eb5" name="University of Aveiro" type="entity"/>
-    <node id="6fc53e30-a666-11e4-bdee-002219ef6eb5" img_src="img/placeholder_node.png" name="" type="country"/>
+    <node id="6fc53e30-a666-11e4-bdee-002219ef6eb5" img_src="img/placeholder_node.png" name="Unspecified" type="country"/>
     <node id="70f9eda1-a666-11e4-bf71-002219ef6eb5" img_src="img/flags/brazil.png" name="Brazil" type="country"/>
     <node id="6fcdc9b0-a666-11e4-af54-002219ef6eb5" img_src="img/flags/italy.png" name="Italy" type="country"/>
     <node id="6fc676ae-a666-11e4-927f-002219ef6eb5" img_src="img/flags/serbia.png" name="Serbia" type="country"/>

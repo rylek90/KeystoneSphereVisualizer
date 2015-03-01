@@ -1,16 +1,13 @@
 ﻿<head>
-    <title>My first Three.js app</title>
+    <title>Elipsy - Graph visualisations using elipsoids </title>
 </head>
 <body>
-    <div class="search-box">
-        <input type="hidden" class="js-data-array" />
-    </div>
-    <div class="current-caption js-caption">
-    </div>
     <canvas id="js-canvas"></canvas>
+	<link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
     <link rel="stylesheet" type="text/css" href="stylesheets/select2.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="javascripts/lib/bootstrap.min.js"></script>
     <script src="javascripts/lib/three.min.js"></script>
     <script src="javascripts/lib/jquery.xml2json.js"></script>
     <script src="javascripts/sphere/utils.js"></script>
@@ -21,6 +18,17 @@
     <script src="javascripts/sphere/edge.js"></script>
     <script src="javascripts/sphere/init.js"></script>
     <script type="text/javascript" src="javascripts/lib/select2.js"></script>
-    
-    
+	 <div class="search-box">
+        <input type="hidden" class="js-data-array" />
+    </div>
+    <div class="current-caption js-caption"></div>
+	
+	<ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none" >
+    <li><a tabindex="-1" href="#">Reflect</a></li>
+    <li><a tabindex="-1" href="#">Undo(unimplemented)</a></li>
+    <li><a tabindex="-1" href="#">Action x</a></li>
+    <li class="divider"></li>
+    <li><a tabindex="-1" href="#">Action y</a></li>
+	<li><a tabindex="-1" href="#">Action z</a></li>
+	</ul>
 </body>

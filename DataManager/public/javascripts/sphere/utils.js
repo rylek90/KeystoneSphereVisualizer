@@ -1,4 +1,4 @@
-var globalscale = 1;
+var globalscale = 100;
 
 var ANIMATION = {
     NONE : 0,
@@ -109,10 +109,10 @@ function makeTextSprite(message, parameters) {
     if (parameters === undefined) parameters = {};
     
     var fontface = parameters.hasOwnProperty("fontface") ? 
-		parameters["fontface"] : "Times New Roman";
+		parameters["fontface"] : "Arial";
     
     var fontsize = parameters.hasOwnProperty("fontsize") ? 
-		parameters["fontsize"] : 18;
+		parameters["fontsize"] : 36;
     
     var borderThickness = parameters.hasOwnProperty("borderThickness") ? 
 		parameters["borderThickness"] : 2;
@@ -141,7 +141,7 @@ function makeTextSprite(message, parameters) {
     context.lineWidth = borderThickness;
 	context.textAlign = "center";
 	lines_count = wrapText(context, message, 150, fontsize+borderThickness, maxWidth, fontsize);
-    roundRect(context, borderThickness / 2, borderThickness / 2, maxWidth-borderThickness/*textWidth + borderThickness*/, lines_count*(fontsize * 1.4) + borderThickness, 6);
+    roundRect(context, borderThickness / 2, borderThickness / 2, maxWidth-borderThickness/*textWidth + borderThickness*/, lines_count*(fontsize) + borderThickness*2, 6);
     // 1.4 is extra height factor for text below baseline: g,j,p,q.
     
     // text color
@@ -160,7 +160,7 @@ function makeTextSprite(message, parameters) {
 	);
 	
     var sprite = new THREE.Sprite(spriteMaterial);
-    sprite.scale.set(1*globalscale, 1*globalscale, 1*globalscale);
+    sprite.scale.set(globalscale/2, globalscale/2, globalscale/2);
     return sprite;
 };
 
@@ -176,6 +176,58 @@ THREE.Object3D.prototype.removeChild = function (child) {
     child.parent.remove(child);
 
 };
+
+
+function addNewParticle(pos, scale)
+{
+    if( !scale )
+    {
+        scale = 16;
+    }
+    /*var particle = new THREE.Sprite( particleMaterial );
+    particle.position = pos;
+	particle.scale.set(50,50,50);
+    //particle.scale.x = particle.scale.y = scale;*/
+	console.log("addNewParticle: ");
+	console.log(pos);
+	var particle = new THREE.Object3D();
+	var mat = new THREE.MeshBasicMaterial( { color: 0x660000, wireframe: true } );
+	var mesh = new THREE.Mesh( new THREE.SphereGeometry( 1, 1, 1), mat );
+	particle.add(mesh);
+	particle.position.x=pos.x;
+	particle.position.y=pos.y;
+	particle.position.z=pos.z;
+    scene.add( particle );
+	
+}
+
+function getFactorPos( val, factor, step )
+{
+    return step / factor * val;                
+}
+
+function drawParticleLine(pointA,pointB)
+{
+    var factor = 50;
+    for( var i = 0; i < factor; i++ )
+    {
+        var x = getFactorPos( pointB.x - pointA.x, factor, i );
+        var y = getFactorPos( pointB.y - pointA.y, factor, i );
+        var z = getFactorPos( pointB.z - pointA.z, factor, i );
+        addNewParticle( new THREE.Vector3( pointA.x+x,pointA.y+y,pointA.z+z ), Math.max(2, initialWidth / 500 ) );
+    }
+}
+
+function drawRayLine(rayCaster)
+{
+	console.log("Drawing ray...");
+    var scale = initialWidth*2;
+    var rayDir = new THREE.Vector3(rayCaster.ray.direction.x*scale,rayCaster.ray.direction.y*scale,rayCaster.ray.direction.z*scale);
+    var rayVector = new THREE.Vector3(camera.position.x + rayDir.x, camera.position.y + rayDir.y, camera.position.z + rayDir.z);
+    drawParticleLine(camera.position, rayVector);
+}          
+
+
 /*
 
 THREE.Object3D.prototype.removeChildRecurse = function(child){
@@ -195,3 +247,48 @@ function rotateAroundWorldAxis(object, axis, radians) {
 String.prototype.capitalize = function(){
        return this.replace( /(^|\s)([a-z])/g , function(m,p1,p2){ return p1+p2.toUpperCase(); } );
 }
+
+
+
+function findFirstIntersection(event){
+	var raycaster = new THREE.Raycaster();
+	var vector = new THREE.Vector3();
+	vector.set((event.clientX / initialWidth) * 2 - 1, -(event.clientY / initialHeight) * 2 + 1, 1);
+	vector.unproject(camera);
+	raycaster.ray.set(camera.position, vector.sub(camera.position).normalize());
+	raycaster.ray.linePrecision = 0.0000001;
+	raycaster.ray.precision = 0.0000001;
+	
+	var all_objs = [];
+	var objects = {};
+	var len = Object.size(spheres)-1;
+	for (var it = len; it >= 0; it--) {
+	  //console.log('Getting  objs');
+		//console.log(spheres);
+		objects[it] = spheres[it].getObjects3d();
+		all_objs = all_objs.concat(objects[it]);
+	}
+	
+	spheres_object3d.updateMatrixWorld();
+	var intersects = raycaster.intersectObjects(all_objs);
+	intersects_filtered = [];
+	$.each(intersects, function(i, inter){
+		if(inter.object.spherevertex.object3d.visible){
+			intersects_filtered.push(inter);
+		}
+	});
+	intersects = intersects_filtered;
+	if(intersects.length > 0){
+		return intersects[0].object.spherevertex;
+	}
+	return null;
+}
+
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+

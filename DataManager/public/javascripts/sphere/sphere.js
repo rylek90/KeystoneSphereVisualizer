@@ -3,21 +3,128 @@
             *		)		)		)
             ^center ^inner	^outer	^surface
 */
+
+var _inner =  1.4 * 1 * globalscale;
+var _outer = 2.3 * 1 * globalscale;
+var _surface = 3.5 * 1 * globalscale;
 var SPHERE = {
     CENTER: { name: "center", value: 0, initialradius: 0, radius: 0, objects: 1, sphere: 0 },
-    INNER: { name: "inner", value: 1, initialradius: 1.6 * 2 * globalscale, radius: 1.6 * 2 * globalscale, objects: 6, sphere: 0 },
-    OUTER: { name: "outer", value: 2, initialradius: 2.4 * 2 * globalscale, radius: 2.4 * 2 * globalscale, objects: 10, sphere: 0 },
-    SURFACE: { name: "surface", value: 3, initialradius: 3 * 2 * globalscale, radius: 3 * 2 * globalscale, objects: 30, sphere: 0 }
+    INNER: { name: "inner", value: 1, initialradius: _inner , radius: _inner , objects: 6, sphere: 0 },
+    OUTER: { name: "outer", value: 2, initialradius: _outer, radius: _outer, objects: 10, sphere: 0 },
+    SURFACE: { name: "surface", value: 3, initialradius: _surface, radius: _surface, objects: 30, sphere: 0 }
 };
 
 var Sphere = function (position) {
     //constructor
-    this.object3d = new THREE.Object3D();
+	this.object3d = new THREE.Object3D();
     this.position = position;
     this.objects = [];
     this.nr_of_objects = 0;
     this.animation = ANIMATION.NONE;
     this.center_obj = null;
+	var sc = position.value;
+	var mat;
+	this.mesh;
+	if(sc>1){
+		//var ob = new THREE.Object3D();
+		mat = new THREE.MeshNormalMaterial( { color: 0xFFFFFF, wireframe: true, opacity: 0.1, depthTest: true, shading: THREE.SmoothShading} );
+		//wireframe: true 
+		//mat = new THREE.MeshNormalMaterial( { color: 0x000060*sc, opacity: 0.1 } );
+		mat.opacity = 0;
+		var densh = 8*sc;
+		var densw = 8*sc;
+		//this.mesh = new THREE.Mesh( new THREE.SphereGeometry( position.radius, densw, densh ), mat );
+		//this.mesh.overdraw = true;
+		//scene.add(ob);
+		//ob.scale.set(1,1,2.5);
+		//this.object3d.add( this.mesh );
+		//this.mesh = new THREE.Mesh(
+			//	new THREE.CircleGeometry( position.radius, densh ), 
+		//		mat 
+			//);
+		
+		var color = 0x003300;
+		if(sc>2) 
+			color= 0x333333;
+		var material = new THREE.LineBasicMaterial({ opacity:0.3, color: color });
+		var lines = new THREE.Object3D();
+		var segmentCount = 64;
+		var radius = position.radius;
+		var segmentHCount = 3;
+		var xAxis = new THREE.Vector3(1, 0, 0);
+        var yAxis = new THREE.Vector3(0, 1, 0);
+		for(var j=-segmentHCount*3; j<segmentHCount*2; j++){
+			var geometry = new THREE.Geometry();
+			var h = radius - (Math.cos(j/segmentHCount)*radius);
+			var newr = Math.sqrt((2*radius-h)*h);
+			for (var i = 0; i <= segmentCount; i++) {
+				var theta = (i / segmentCount) * Math.PI * 2;
+				
+				geometry.vertices.push(
+					new THREE.Vector3(
+						Math.cos(theta) * newr,
+						Math.sin(theta) * newr,
+						Math.cos(j/segmentHCount)*radius
+					)
+				);            
+			}
+			var line = new THREE.Line(geometry, material); 
+			lines.add(line);
+		}
+		
+		segmentHCount = 4;
+		for(var j=0; j<segmentHCount; j++){
+			var geometry = new THREE.Geometry();
+			for (var i = 0; i <= segmentCount; i++) {
+				var theta = (i / segmentCount) * Math.PI * 2;
+				geometry.vertices.push(
+					new THREE.Vector3(
+						Math.cos(theta)* radius,
+						Math.sin(theta) * radius,
+						0
+					)
+				);            
+			}
+			var line = new THREE.Line(geometry, material); 
+			//line.scale.set(1,1,2.5);
+			rotateAroundWorldAxis(line, yAxis, (j/segmentHCount)*Math.PI + Math.PI/8);
+			rotateAroundWorldAxis(line, xAxis, Math.PI/2);
+			lines.add(line);
+		}
+		
+		/*if(position.value%2){
+			rotateAroundWorldAxis(lines, yAxis, Math.PI/4);
+			rotateAroundWorldAxis(lines, xAxis, Math.PI/4);
+		}*/
+		
+		rotateAroundWorldAxis(lines, xAxis, Math.PI/2);
+		
+		//lines.position.z = radius*0.5;
+		//lines.scale.set(1,2.5,1);
+		scene.add(lines);
+		
+		//spheres_object3d.add(lines);
+		//spheres_object3d.add(this.mesh);
+		//scene.add(lines);
+		//spheres_geometries.add(lines);
+		
+	}
+	
+	this.setManager = function(manager){
+		if(!this.mesh) return;
+		var pos = this.position;
+		console.log(this.mesh);
+		var mat = this.mesh.material;
+		manager.AddSphereMaxChangedEventHandler(function(max){
+			console.log("Visible sphere!");
+			
+			if(max>=pos){
+				//mat.opacity=0.1;
+			}else{
+				//mat.opacity = 0;
+			}
+		});
+	};
     this.getInfo = function () {
         return "Sphere pos: " + this.position.name;
     };
@@ -99,8 +206,8 @@ var Sphere = function (position) {
                 
 		var absx = Math.abs(vector.x);
         var absy = Math.abs(vector.y);
-		console.log("absx: " + absx + " absy: " + absy);
-        if (absx <= 0.05 && absy <= 0.05) {
+		//console.log("absx: " + absx + " absy: " + absy);
+        if (absx <= 0.05*globalscale && absy <= 0.05*globalscale) {
 			return true;
 		}
 		return false;
@@ -130,32 +237,38 @@ var Sphere = function (position) {
                 obj3d.position.y * obj3d.position.y +
                 obj3d.position.z * obj3d.position.z;
                 //console.log("rkw: " + rkw + " r: " + r);
-				var diff = r * r - rkw;
+				var diff = r - Math.sqrt(rkw);
 				var sign = Math.sign(diff);
+				
 				//console.log(sign);
 				if(sign<0){
 					//console.log(diff);
 					//console.log(sign);
 				}
-                if (Math.abs(diff) > 0.01) {
+                if (Math.abs(diff) > 0.01*globalscale) {
+					//console.log("diff: " + diff);
                     $.each(this.objects, function (i, o) {
                         obj3d = o.object3d;
                         var normvec = new THREE.Vector3(obj3d.position.x, obj3d.position.y, obj3d.position.z).normalize();
-						var mul = deltaTime * anim_speed * globalscale;
+						var mul = deltaTime * anim_speed * diff;
                         normvec.multiplyScalar(mul);
-						if(normvec.magnitude > Math.sqrt(Math.abs(diff))){
-							normvec.normalize();
-							normvec.multiplyScalar(Math.sqrt(Math.abs(diff)));
+						if(normvec.length() > Math.abs(diff)){
+							normvec.multiplyScalar( Math.abs(diff) / normvec.length() );
 						}
-						
-                        obj3d.position.x += normvec.x*sign;
-                        obj3d.position.y += normvec.y*sign;
-                        obj3d.position.z += normvec.z*sign;
+					if(false) {
+						console.log("norm: ");
+						console.log(normvec);
+						console.log("pos:");
+						console.log(obj3d.position);
+					}
+                        obj3d.position.x += normvec.x;
+                        obj3d.position.y += normvec.y;
+                        obj3d.position.z += normvec.z;
                         o.update(position);
                     });
                 //animate!
                 } else {
-                    console.log("ANIMATION.GROWING finished");
+                    //console.log("ANIMATION.GROWING finished");
                     this.animation = ANIMATION.NONE;
                 }
                 break;
@@ -173,7 +286,7 @@ var Sphere = function (position) {
                     $.each(this.objects, function (i, o) {
                         obj3d = o.object3d;
                         var normvec = new THREE.Vector3(obj3d.position.x, obj3d.position.y, obj3d.position.z).normalize();
-                        normvec.multiplyScalar(deltaTime * anim_speed * globalscale);
+                        normvec.multiplyScalar(deltaTime * anim_speed);
                         obj3d.position.x -= normvec.x;
                         obj3d.position.y -= normvec.y;
                         obj3d.position.z -= normvec.z;
@@ -186,6 +299,7 @@ var Sphere = function (position) {
                 }
                 break;
             case ANIMATION.CENTER:
+				
                 if (this.center_obj == null) {
                     return; //let's do it only once.
                 }
@@ -216,21 +330,20 @@ var Sphere = function (position) {
 				//rotateAroundWorldAxis(spheres_object3d, yAxis, -0.3 * deltaX * mpi);
 				//rotateAroundWorldAxis(spheres_object3d, xAxis, -0.3 * deltaY * mpi);
 				
-				if (absx > 0.005) {
+				if (absx > 0.005*globalscale) {
                     var sign = vector.x > 0 ? -1 : 1;
                     spheres_object3d.updateMatrixWorld();
                     vector = new THREE.Vector3();
                     vector.setFromMatrixPosition(io.matrixWorld);
-                    
                     if (absx > 1) {
                         stepMultiplier = 1.3;
                     }
-
-                    var step = anim_speed *0.5* deltaTime * absx * stepMultiplier;
-                    //spheres_object3d.rotation.y += step * sign;
+                    var step = stepMultiplier * anim_speed * deltaTime * absx/globalscale;
+                    //console.log(step);
 					rotateAroundWorldAxis(spheres_object3d, yAxis, step * sign);
-                    still = true;
-                } else if (absy > 0.005) {
+                    
+					//console.log("absx: " + step*sign);
+                } else if (absy > 0.005*globalscale) {
                     var sign = vector.y > 0 ? 1 : -1;
                     spheres_object3d.updateMatrixWorld();
                     vector = new THREE.Vector3();
@@ -240,11 +353,13 @@ var Sphere = function (position) {
                         stepMultiplier = 1.3;
                     }
 
-                    var step = anim_speed * 0.5* deltaTime * absy * stepMultiplier;
+                    var step = anim_speed * deltaTime * absy/globalscale * stepMultiplier;
                     //spheres_object3d.rotation.x += step * sign;
 					rotateAroundWorldAxis(spheres_object3d, xAxis, step * sign);
                     still = true;
-                } else {
+					//console.log("absy: " + step*sign);
+                } 
+				else {
                     this.animation = ANIMATION.NONE;
                 }
                 
@@ -299,7 +414,7 @@ var Sphere = function (position) {
         
         var mpi = Math.PI / 180;
         var N = this.nr_of_objects;
-		if(N<50) N = 50;
+		if(N<15*(this.position.value+1)) N = 15*(this.position.value+1);
 		
 		var positions = [];
 		for(var i=0; i<N;i++){

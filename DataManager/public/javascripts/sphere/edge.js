@@ -12,7 +12,7 @@ var Edge = function (verticeA, verticeB, parent) {
     geometry.vertices.push(this.verticeA.position);
     geometry.vertices.push(this.verticeB.position);
 
-    this.line = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0x0000ff }));
+    this.line = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0x0000ff, opacity: 0.2 }));
     parent.add(this.line);
 
     this.update = function () {
